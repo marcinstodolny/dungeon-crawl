@@ -23,27 +23,27 @@ namespace RoguelikeGame
             switch (input.Key)
             {
                 case ConsoleKey.A:
-                    if (Square.X > 0 && dungeon.Board[Square.X - 1, Square.Y].Status != SquareStatus.Wall)
+                    if (Square.X > 0)
                     {
-                        Square = dungeon.Board[Square.X - 1, Square.Y];
+                        Square = CheckForCollision(dungeon.Board[Square.X - 1, Square.Y]);
                     }
                     break;
                 case ConsoleKey.D:
-                    if (Square.X < dungeon.Width - 1 && dungeon.Board[Square.X + 1, Square.Y].Status != SquareStatus.Wall)
+                    if (Square.X < dungeon.Width - 1)
                     {
-                        Square = dungeon.Board[Square.X + 1, Square.Y];
+                        Square = CheckForCollision(dungeon.Board[Square.X + 1, Square.Y]);
                     }
                     break;
                 case ConsoleKey.W:
-                    if (Square.Y > 0 && dungeon.Board[Square.X, Square.Y - 1].Status != SquareStatus.Wall)
+                    if (Square.Y > 0)
                     {
-                        Square = dungeon.Board[Square.X, Square.Y - 1];
+                        Square = CheckForCollision(dungeon.Board[Square.X, Square.Y - 1]);
                     }
                     break;
                 case ConsoleKey.S:
-                    if (Square.Y < dungeon.Height - 1 && dungeon.Board[Square.X, Square.Y + 1].Status != SquareStatus.Wall)
+                    if (Square.Y < dungeon.Height - 1)
                     {
-                        Square = dungeon.Board[Square.X, Square.Y + 1];
+                        Square = CheckForCollision(dungeon.Board[Square.X, Square.Y + 1]);
                     }
                     break;
                 case ConsoleKey.Escape:
@@ -51,6 +51,30 @@ namespace RoguelikeGame
                     break;
             }
             Square.Status = SquareStatus.Player;
+        }
+
+        private Square CheckForCollision(Square newSquare)
+        {
+            switch (newSquare.Status)
+            {
+                case SquareStatus.Wall:
+                    return Square;
+                case SquareStatus.Item:
+                    //pickup item
+                    return newSquare;
+                case SquareStatus.Enemy:
+                    //fight enemy
+                    return newSquare;
+                case SquareStatus.Door:
+                    // go thought door
+                    return newSquare;
+                case SquareStatus.Floor:
+                    return newSquare;
+                case SquareStatus.Empty:
+                    return Square;
+                default:
+                    return newSquare;
+            }
         }
     }
 }

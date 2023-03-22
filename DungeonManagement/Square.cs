@@ -14,7 +14,7 @@
         
         public char GetCharacter()
         {
-            char squareStatusCharacter = '.';
+            char squareStatusCharacter = ' ';
             switch (Status)
             {
                 case SquareStatus.Player:
