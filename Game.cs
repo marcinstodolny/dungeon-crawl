@@ -11,7 +11,7 @@ namespace RoguelikeGame
         public Game() 
         {
             highScores = new List<Score>();
-            dungeon = new(10);
+            dungeon = new Dungeon(10,10);
         }
 
         public static void Menu()

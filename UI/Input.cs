@@ -1,4 +1,6 @@
-﻿namespace RoguelikeGame.UI
+﻿using RoguelikeGame.DungeonManagement;
+
+namespace RoguelikeGame.UI
 {
     internal class Input
     {
@@ -34,6 +36,12 @@
         public static void WaitForInput()
         {
             Console.ReadLine();
+        }
+
+        public static void GetPlayerMovement(Player player, Dungeon dungeon)
+        {
+            ConsoleKeyInfo input = Console.ReadKey(true);
+            player.Move(dungeon, input);
         }
     }
 }
