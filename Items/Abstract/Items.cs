@@ -8,8 +8,8 @@ namespace RoguelikeGame.Items.Abstract
 {
     public abstract class Items
     {
-        public string Name { get; }
-        public char MapSymbol { get; }
+        public string Name { get; set; }
+        public char MapSymbol { get; set; }
         public Square Square;
 
         public Items(Square square, string name, char mapSymbol)
