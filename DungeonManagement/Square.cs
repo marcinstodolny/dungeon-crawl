@@ -2,17 +2,14 @@
 {
     public class Square
     {
-        public int X { get; }
-        public int Y { get; }
         public SquareStatus Status { get; set; }
-
         public Coordinates Position { get; set; }
         public Square(Coordinates position, SquareStatus status)
         {
             Position = position;
             Status = status;
         }
-
+        
         public char GetCharacter()
         {
             char squareStatusCharacter = ' ';
