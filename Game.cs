@@ -24,18 +24,15 @@ namespace RoguelikeGame
                 Display.PrintMainMenu();
                 ushort choice = Input.GetChoice(optionsCount);
 
-                switch (choice)
+                switch ((GameMenu)choice)
                 {
-                    case 1:
-                        // new game
+                    case GameMenu.NewGame:
                         Display.PrintDungeon(game.dungeon);
                         break;
-                    case 2:
-                        // high scores
+                    case GameMenu.HighScores:
                         Display.PrintHighScores(game.highScores);
                         break;
-                    case 3:
-                        // exit
+                    case GameMenu.Exit:
                         Display.PrintExitGame();
                         exit = true;
                         break;
