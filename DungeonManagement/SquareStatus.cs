@@ -1,4 +1,4 @@
-﻿namespace RoguelikeGame
+﻿namespace RoguelikeGame.DungeonManagement
 {
     public enum SquareStatus
     {
