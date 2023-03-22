@@ -5,11 +5,12 @@
         public int X { get; }
         public int Y { get; }
         public SquareStatus Status { get; set; }
-        public Square(int x, int y)
+
+        public Coordinates Position { get; set; }
+        public Square(Coordinates position, SquareStatus status)
         {
-            X = x;
-            Y = y;
-            Status = SquareStatus.Empty;
+            Position = position;
+            Status = status;
         }
 
         public char GetCharacter()

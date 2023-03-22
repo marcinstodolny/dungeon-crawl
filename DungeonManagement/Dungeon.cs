@@ -12,7 +12,7 @@
             {
                 for (var j = 0; j < Size; j++)
                 {
-                    Board[i, j] = new Square(i, j);
+                    Board[i, j] = new Square(new Coordinates(i, j), SquareStatus.Empty);
                 }
             }
         }

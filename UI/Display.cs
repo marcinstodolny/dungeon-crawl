@@ -51,7 +51,7 @@ namespace RoguelikeGame.UI
 
         public static void PrintDungeon(Dungeon dungeon)
         {
-            Console.WriteLine("TEST");
+            Console.WriteLine();
         }
 
         public static void ShowBoard()
