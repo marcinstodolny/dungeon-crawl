@@ -2,11 +2,13 @@
 {
     public class Square
     {
+        public int X { get; }
+        public int Y { get; }
         public SquareStatus Status { get; set; }
-        public Coordinates Position { get; set; }
-        public Square(Coordinates position, SquareStatus status)
+        public Square(int x, int y, SquareStatus status)
         {
-            Position = position;
+            X = x;
+            Y = y;
             Status = status;
         }
         

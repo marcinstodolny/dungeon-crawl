@@ -24,27 +24,27 @@ namespace RoguelikeGame
             switch (input.Key)
             {
                 case ConsoleKey.A:
-                    if (Square.Position.X > 0 && dungeon.Board[Square.Position.Y, Square.Position.X - 1].Status != SquareStatus.Wall)
+                    if (Square.X > 0 && dungeon.Board[Square.Y, Square.X - 1].Status != SquareStatus.Wall)
                     {
-                        Square = dungeon.Board[Square.Position.Y, Square.Position.X - 1];
+                        Square = dungeon.Board[Square.Y, Square.X - 1];
                     }
                     break;
                 case ConsoleKey.D:
-                    if (Square.Position.X < dungeon.Width - 1 && dungeon.Board[Square.Position.Y, Square.Position.X + 1].Status != SquareStatus.Wall)
+                    if (Square.X < dungeon.Width - 1 && dungeon.Board[Square.Y, Square.X + 1].Status != SquareStatus.Wall)
                     {
-                        Square = dungeon.Board[Square.Position.Y, Square.Position.X + 1];
+                        Square = dungeon.Board[Square.Y, Square.X + 1];
                     }
                     break;
                 case ConsoleKey.W:
-                    if (Square.Position.Y > 0 && dungeon.Board[Square.Position.Y - 1, Square.Position.X].Status != SquareStatus.Wall)
+                    if (Square.Y > 0 && dungeon.Board[Square.Y - 1, Square.X].Status != SquareStatus.Wall)
                     {
-                        Square = dungeon.Board[Square.Position.Y - 1, Square.Position.X];
+                        Square = dungeon.Board[Square.Y - 1, Square.X];
                     }
                     break;
                 case ConsoleKey.S:
-                    if (Square.Position.Y < dungeon.Height - 1 && dungeon.Board[Square.Position.Y + 1, Square.Position.X].Status != SquareStatus.Wall)
+                    if (Square.Y < dungeon.Height - 1 && dungeon.Board[Square.Y + 1, Square.X].Status != SquareStatus.Wall)
                     {
-                        Square = dungeon.Board[Square.Position.Y + 1, Square.Position.X];
+                        Square = dungeon.Board[Square.Y + 1, Square.X];
                     }
                     break;
                 case ConsoleKey.Escape:

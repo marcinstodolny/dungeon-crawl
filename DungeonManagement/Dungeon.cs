@@ -14,7 +14,7 @@
             {
                 for (var j = 0; j < height; j++)
                 {
-                    Board[i, j] = new Square(new Coordinates(i, j), SquareStatus.Empty);
+                    Board[i, j] = new Square(i, j, SquareStatus.Empty);
                 }
             }
         }
