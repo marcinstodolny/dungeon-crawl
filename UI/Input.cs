@@ -38,10 +38,9 @@ namespace RoguelikeGame.UI
             Console.ReadLine();
         }
 
-        public static void GetPlayerMovement(Player player, Dungeon dungeon)
+        public static ConsoleKeyInfo GetPlayerMovement()
         {
-            ConsoleKeyInfo input = Console.ReadKey(true);
-            player.Move(dungeon, input);
+            return Console.ReadKey(true);
         }
     }
 }

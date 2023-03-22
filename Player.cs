@@ -5,16 +5,18 @@ namespace RoguelikeGame
     internal class Player
     {
         public Square Square { get; set; }
-        public int Armor { get; set; }
-        public int Health { get; set; }
-        public int Damage { get; set; }
-        public Player(Square square, int health, int armor, int damage)
+        public int Armor = 10;
+        public int Health = 10;
+        public int Damage = 10;
+
+        public Player()
         {
-            square.Status = SquareStatus.Player;
+        }
+
+        public void SetPlayer(Square square)
+        {
             Square = square;
-            Armor = armor;
-            Health = health;
-            Damage = damage;
+            Square.Status = SquareStatus.Player;
         }
 
         public void Move(Dungeon dungeon, ConsoleKeyInfo input)

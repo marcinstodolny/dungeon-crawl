@@ -1,9 +1,12 @@
-﻿namespace RoguelikeGame.DungeonManagement
+﻿using System;
+
+namespace RoguelikeGame.DungeonManagement
 {
     internal class Dungeon
     {
-        public int Height = 40;
-        public int Width = 100;
+        public readonly int Height = 52;
+        public readonly int Width = 52;
+        private readonly Random Rand = new();
         public Square[,] Board { get; }
 
         public Dungeon()
@@ -24,15 +27,13 @@
             int minRoomHeight = 6;
             int maxRoomHeight = Height / 4;
 
-            var random = new Random();
-
             // Define the dimensions of the room
-            int roomWidth = Math.Max(minRoomWidth, random.Next(maxRoomWidth));
-            int roomHeight = Math.Max(minRoomHeight, random.Next(maxRoomHeight));
+            int roomWidth = Math.Max(minRoomWidth, Rand.Next(maxRoomWidth));
+            int roomHeight = Math.Max(minRoomHeight, Rand.Next(maxRoomHeight));
 
             // Choose a random location for the top-left corner of the room
-            int roomCornerX = random.Next(Width - roomWidth);
-            int roomCornerY = random.Next(Height - roomHeight);
+            int roomCornerX = Rand.Next(Width - roomWidth);
+            int roomCornerY = Rand.Next(Height - roomHeight);
 
             // Fill the room with floor squares by default
             for (int x = roomCornerX; x < roomCornerX + roomWidth; x++)
@@ -54,6 +55,25 @@
                 Board[roomCornerX, y].Status = SquareStatus.Wall;
                 Board[roomCornerX + roomWidth - 1, y].Status = SquareStatus.Wall;
             }
+        }
+
+        public void PlayerPlacement(Player player)
+        {
+            (int randX, int randY) = FindRandomPlacement();
+            player.SetPlayer(Board[randX, randY]);
+            Board[randX, randY].Status = SquareStatus.Player;
+        }
+
+        public (int, int) FindRandomPlacement()
+        {
+            int randX = Rand.Next(Width);
+            int randY = Rand.Next(Height);
+            while (Board[randX, randY].Status != SquareStatus.Floor)
+            {
+                randX = Rand.Next(Width);
+                randY = Rand.Next(Height);
+            }
+            return (randX, randY);
         }
     }
 }
