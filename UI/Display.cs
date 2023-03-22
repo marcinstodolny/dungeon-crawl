@@ -49,6 +49,11 @@ namespace RoguelikeGame.UI
             Console.WriteLine("Goodbye!");
         }
 
+        public static void AskForName() 
+        { 
+            Console.WriteLine("Enter your name:"); 
+        }
+
         public static void PrintDungeon(Dungeon dungeon)
         {
             for (int y = 0; y < dungeon.Height; y++)

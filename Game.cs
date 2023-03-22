@@ -12,8 +12,6 @@ namespace RoguelikeGame
         public Game()
         {
             highScores = new List<Score>();
-            dungeon = new Dungeon();
-            player = new Player();
         }
 
         public static void Menu()
@@ -30,7 +28,7 @@ namespace RoguelikeGame
                 {
                     case GameMenu.NewGame:
                         game.dungeon = new Dungeon();
-                        GameLoop(game);
+                        SetGame(game);
                         break;
                     case GameMenu.HighScores:
                         Display.PrintHighScores(game.highScores);
@@ -50,19 +48,26 @@ namespace RoguelikeGame
             }
         }
 
-        private static void GameLoop(Game game)
+        private static void SetGame(Game game)
         {
-            Player player = game.player;
-            Dungeon dungeon = game.dungeon;
-            dungeon.PlayerPlacement(player);
+            Display.Clear();
+            Display.AskForName();
+            string playerName = Input.GetUserInput();
+            game.player = new Player(playerName);
+            game.dungeon.PlayerPlacement(game.player);
             bool gameplay = true;
             while (gameplay)
             {
-                Display.Clear();
-                Display.PrintDungeon(dungeon);
-                ConsoleKeyInfo playerMove = Input.GetPlayerMovement();
-                player.Move(dungeon, playerMove);
+                gameplay = GameLoop(game.dungeon, game.player);
             }
+        }
+
+        private static bool GameLoop(Dungeon dungeon, Player player)
+        {
+            Display.Clear();
+            Display.PrintDungeon(dungeon);
+            ConsoleKeyInfo playerMove = Input.GetPlayerMovement();
+            return player.Move(dungeon, playerMove);
         }
     }
 }
