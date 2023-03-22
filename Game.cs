@@ -7,11 +7,13 @@ namespace RoguelikeGame
     {
         public List<Score> highScores;
         public Dungeon dungeon;
+        public Player player;
 
-        public Game() 
+        public Game()
         {
             highScores = new List<Score>();
-            dungeon = new Dungeon(10,10);
+            dungeon = new Dungeon(10, 10);
+            player = new Player(dungeon.Board[5, 5], 10, 10, 10);
         }
 
         public static void Menu()
@@ -45,7 +47,7 @@ namespace RoguelikeGame
                 Input.WaitForInput();
                 Display.Clear();
             }
-                
+
         }
     }
 }

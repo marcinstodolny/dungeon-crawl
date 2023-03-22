@@ -53,9 +53,9 @@ namespace RoguelikeGame.UI
         {
             for (int y = 0; y < dungeon.Height; y++)
             {
-                for (int x = 1; x < dungeon.Width + 1; x++)
-                { 
-                    Console.Write(new string($"{dungeon.Board[x, y - 1].GetCharacter()}")); 
+                for (int x = 0; x < dungeon.Width; x++)
+                {
+                    Console.Write(new string($"{dungeon.Board[x, y].GetCharacter()}"));
                 }
                 Console.WriteLine();
             }
