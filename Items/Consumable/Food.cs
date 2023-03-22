@@ -1,39 +1,47 @@
-﻿//using System;
-//using System.Collections.Generic;
-//using System.Linq;
-//using System.Text;
-//using System.Threading.Tasks;
-//using RoguelikeGame.Items.Abstract;
+﻿using RoguelikeGame.DungeonManagement;
 
-//namespace RoguelikeGame.Items.Consumable
-//{
-//    public class Food : Consumable
-//    {
-//        protected Food(Square square, string name, char mapSymbol, int hpRestore) : base(square, name, mapSymbol, hpRestore) { }
+namespace RoguelikeGame.Items.Consumable
+{
+    public class Food : Abstract.Consumable
+    {
+        public string Type;
+        public Food(Square square, string name, char mapSymbol, int hpRestore, string foodType) : base(square, name,
+            mapSymbol, hpRestore)
+        {
+            Type = foodType;
+        }
 
-//        public ChickenWings(Square square, string name, char mapSymbol, int hpRestore) : base(square)
-//        {
-//            name = "Dungeon chicken wings";
-//            mapSymbol = '\u10EC';
-//            hpRestore = 150;
-//        }
-//        public MediumRareSteak(Square square, string name, char mapSymbol, int hpRestore) : base(square)
-//        {
-//            name = "Perfectly good steak found on the floor";
-//            mapSymbol = '\u10EC';
-//            hpRestore = 250;
-//        }
-//        public Apple(Square square, string name, char mapSymbol, int hpRestore) : base(square)
-//        {
-//            name = "Apple (an apple a day, keeps the doctor away)";
-//            mapSymbol = '\ud1bc';
-//            hpRestore = 20;
-//        }
-//        public Sushi(Square square, string name, char mapSymbol, int hpRestore) : base(square)
-//        {
-//            name = "Sushi mix set no.23 (I wonder who ordered it)";
-//            mapSymbol = '\u10EC';
-//            hpRestore = 200;
-//        }
-//    }
-//}
+        public void FoodType(string foodType)
+        {
+            switch (foodType)
+            {
+                case "chicken":
+                    this.Name = "Dungeon chicken wings";
+                    this.MapSymbol = '\u10EC';
+                    this.HPrestore = 150;
+                    break;
+                case "steak":
+                    this.Name = "Perfectly good steak found on the floor";
+                    this.MapSymbol = '\u10EC';
+                    this.HPrestore = 250;
+                    break;
+                case "apple":
+                    this.Name = "Apple (an apple a day, keeps the doctor away)";
+                    this.MapSymbol = '\u10EC';
+                    this.HPrestore = 20;
+                    break;
+                case "sushi":
+                    this.Name = "Sushi mix set no.23 (I wonder who ordered it)";
+                    this.MapSymbol = '\u10EC';
+                    this.HPrestore = 150;
+                    break;
+                default:
+                    this.Name = "Cave food (hard to recognize what is it)";
+                    this.MapSymbol = '\u10EC';
+                    this.HPrestore = 15;
+                    break;
+            }
+        }
+
+    }
+}

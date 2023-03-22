@@ -1,6 +1,4 @@
 ﻿using RoguelikeGame.DungeonManagement;
-using RoguelikeGame.UI;
-using System.Numerics;
 
 namespace RoguelikeGame
 {
@@ -12,6 +10,7 @@ namespace RoguelikeGame
         public int Damage { get; set; }
         public Player(Square square, int health, int armor, int damage)
         {
+            square.Status = SquareStatus.Player;
             Square = square;
             Armor = armor;
             Health = health;
@@ -24,27 +23,27 @@ namespace RoguelikeGame
             switch (input.Key)
             {
                 case ConsoleKey.A:
-                    if (Square.X > 0 && dungeon.Board[Square.Y, Square.X - 1].Status != SquareStatus.Wall)
+                    if (Square.X > 0 && dungeon.Board[Square.X - 1, Square.Y].Status != SquareStatus.Wall)
                     {
-                        Square = dungeon.Board[Square.Y, Square.X - 1];
+                        Square = dungeon.Board[Square.X - 1, Square.Y];
                     }
                     break;
                 case ConsoleKey.D:
-                    if (Square.X < dungeon.Width - 1 && dungeon.Board[Square.Y, Square.X + 1].Status != SquareStatus.Wall)
+                    if (Square.X < dungeon.Width - 1 && dungeon.Board[Square.X + 1, Square.Y].Status != SquareStatus.Wall)
                     {
-                        Square = dungeon.Board[Square.Y, Square.X + 1];
+                        Square = dungeon.Board[Square.X + 1, Square.Y];
                     }
                     break;
                 case ConsoleKey.W:
-                    if (Square.Y > 0 && dungeon.Board[Square.Y - 1, Square.X].Status != SquareStatus.Wall)
+                    if (Square.Y > 0 && dungeon.Board[Square.X, Square.Y - 1].Status != SquareStatus.Wall)
                     {
-                        Square = dungeon.Board[Square.Y - 1, Square.X];
+                        Square = dungeon.Board[Square.X, Square.Y - 1];
                     }
                     break;
                 case ConsoleKey.S:
-                    if (Square.Y < dungeon.Height - 1 && dungeon.Board[Square.Y + 1, Square.X].Status != SquareStatus.Wall)
+                    if (Square.Y < dungeon.Height - 1 && dungeon.Board[Square.X, Square.Y + 1].Status != SquareStatus.Wall)
                     {
-                        Square = dungeon.Board[Square.Y + 1, Square.X];
+                        Square = dungeon.Board[Square.X, Square.Y + 1];
                     }
                     break;
                 case ConsoleKey.Escape:
