@@ -5,11 +5,13 @@
         public int X { get; }
         public int Y { get; }
         public SquareStatus Status { get; set; }
+        public bool Visible { get; set; }
         public Square(int x, int y, SquareStatus status)
         {
             X = x;
             Y = y;
             Status = status;
+            Visible = false;
         }
         
         public char GetCharacter()

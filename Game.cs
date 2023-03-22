@@ -11,7 +11,7 @@ namespace RoguelikeGame
         public Game() 
         {
             highScores = new List<Score>();
-            dungeon = new Dungeon(10,10);
+            dungeon = new Dungeon();
         }
 
         public static void Menu()
@@ -27,6 +27,8 @@ namespace RoguelikeGame
                 switch ((GameMenu)choice)
                 {
                     case GameMenu.NewGame:
+                        Display.Clear();
+                        game.dungeon = new Dungeon();
                         Display.PrintDungeon(game.dungeon);
                         break;
                     case GameMenu.HighScores:
