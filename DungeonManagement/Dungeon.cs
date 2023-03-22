@@ -2,15 +2,17 @@
 {
     internal class Dungeon
     {
-        public int Size { get; }
+        public int Height { get; }
+        public int Width { get; }
         public Square[,] Board { get; }
-        public Dungeon(int size)
+        public Dungeon(int height, int width)
         {
-            Size = size;
-            Board = new Square[size, size];
-            for (var i = 0; i < Size; i++)
+            Height = height;
+            Width = width;
+            Board = new Square[width, height];
+            for (var i = 0; i < width; i++)
             {
-                for (var j = 0; j < Size; j++)
+                for (var j = 0; j < height; j++)
                 {
                     Board[i, j] = new Square(i, j);
                 }

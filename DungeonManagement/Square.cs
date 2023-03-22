@@ -1,6 +1,6 @@
 ﻿namespace RoguelikeGame.DungeonManagement
 {
-    internal class Square
+    public class Square
     {
         public int X { get; }
         public int Y { get; }
