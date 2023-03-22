@@ -1,21 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml.Linq;
-using RoguelikeGame.DungeonManagement;
-using RoguelikeGame.Items.Abstract;
+﻿using RoguelikeGame.DungeonManagement;
 
 namespace RoguelikeGame.Items.Consumable
 {
     public class Food : Abstract.Consumable
     {
-
+        public string Type;
         public Food(Square square, string name, char mapSymbol, int hpRestore, string foodType) : base(square, name,
             mapSymbol, hpRestore)
         {
-            FoodType = foodType;
+            Type = foodType;
         }
 
         public void FoodType(string foodType)
