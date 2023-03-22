@@ -1,4 +1,6 @@
-﻿namespace RoguelikeGame.UI
+﻿using RoguelikeGame.DungeonManagement;
+
+namespace RoguelikeGame.UI
 {
     internal class Display
     {
@@ -45,6 +47,16 @@
         {
             Clear();
             Console.WriteLine("Goodbye!");
+        }
+
+        public static void PrintDungeon(Dungeon dungeon)
+        {
+            Console.WriteLine("TEST");
+        }
+
+        public static void ShowBoard()
+        {
+            Console.WriteLine();
         }
     }
 }

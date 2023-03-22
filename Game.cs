@@ -6,10 +6,12 @@ namespace RoguelikeGame
     internal class Game
     {
         public List<Score> highScores;
+        public Dungeon dungeon;
 
         public Game() 
         {
             highScores = new List<Score>();
+            dungeon = new(10);
         }
 
         public static void Menu()
@@ -26,8 +28,7 @@ namespace RoguelikeGame
                 {
                     case 1:
                         // new game
-                        var dungeon = new Dungeon(10);
-                        Console.WriteLine(dungeon.Board[1, 1].Status);
+                        Display.PrintDungeon(game.dungeon);
                         break;
                     case 2:
                         // high scores

@@ -3,10 +3,12 @@
     public enum SquareStatus
     {
         Empty,
+        Floor,
         Player,
         Enemy,
         Item,
         Door,
-        Wall
+        Wall,
+        Corridor
     }
 }
