@@ -70,5 +70,13 @@ namespace RoguelikeGame.UI
         {
             Console.WriteLine();
         }
+
+        public static void ShowItemMessage(Player player)
+        {
+            if (player.Square.Item != null)
+            {
+                Console.WriteLine("Here is an item, press E to pick up");
+            }
+        }
     }
 }

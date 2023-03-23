@@ -2,6 +2,7 @@
 using RoguelikeGame.Items.Abstract;
 using RoguelikeGame.Items.Consumable;
 using RoguelikeGame.Items.Useable;
+using RoguelikeGame.UI;
 
 
 namespace RoguelikeGame
@@ -86,7 +87,7 @@ namespace RoguelikeGame
                     return newSquare;
                 case SquareStatus.Enemy:
                     //fight enemy
-                    return newSquare;
+                    return Square;
                 case SquareStatus.Door:
                     // go thought door
                     return newSquare;
