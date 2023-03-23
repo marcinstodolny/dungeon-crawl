@@ -1,10 +1,11 @@
 ﻿using RoguelikeGame.DungeonManagement;
+using static RoguelikeGame.Items.Consumable.Food;
 
 namespace RoguelikeGame.Items.Consumable
 {
     public class Potions : Abstract.Consumable
     {
-        public Potions(Square square, PotionType foodType) : base(square, "", ' ', 0)
+        public Potions(PotionType foodType) : base("", ' ', 0)
         {
             SetPotionType(foodType);
         }
@@ -47,6 +48,13 @@ namespace RoguelikeGame.Items.Consumable
                     HPrestore = 1;
                     break;
             }
+        }
+        public void PlaceItem(Game game)
+        {
+            var enumLength = Enum.GetNames(typeof(PotionType)).Length;
+            var (randX, randY) = RandomGenerator.FindRandomPlacement(game.dungeon);
+            var item = new Potions((PotionType)RandomGenerator.NextInt(enumLength));
+            game.dungeon.Board[randX, randY].Item = item;
         }
     }
 }

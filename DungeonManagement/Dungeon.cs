@@ -2,7 +2,7 @@
 
 namespace RoguelikeGame.DungeonManagement
 {
-    internal class Dungeon
+    public class Dungeon
     {
         public readonly int Height = 32;
         public readonly int Width = 140;

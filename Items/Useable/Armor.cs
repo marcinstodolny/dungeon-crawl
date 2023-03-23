@@ -1,11 +1,13 @@
 ﻿using RoguelikeGame.DungeonManagement;
+using RoguelikeGame.Items.Consumable;
+using static RoguelikeGame.Items.Consumable.Food;
 
 namespace RoguelikeGame.Items.Useable
 {
 
     public class Armor : Abstract.Useable
     {
-        public Armor(Square square, string armorType) : base(square, "", ' ', 0, 0)
+        public Armor(string armorType) : base("", ' ', 0, 0)
         {
             ArmorType(armorType);
         }
@@ -60,6 +62,13 @@ namespace RoguelikeGame.Items.Useable
                     Armor = 200;
                     break;
             }
+        }
+        public void PlaceItem(Game game) // change type
+        {
+            var enumLength = Enum.GetNames(typeof(FoodType)).Length;
+            var (randX, randY) = RandomGenerator.FindRandomPlacement(game.dungeon);
+            var item = new Food((FoodType)RandomGenerator.NextInt(enumLength));
+            game.dungeon.Board[randX, randY].Item = item;
         }
 
 

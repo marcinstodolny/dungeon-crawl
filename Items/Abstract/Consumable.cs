@@ -6,7 +6,7 @@ namespace RoguelikeGame.Items.Abstract
     {
         public int HPrestore { get; set; }
 
-        protected Consumable(Square square, string name, char mapSymbol, int hpRestore) : base(square, name, mapSymbol)
+        protected Consumable(string name, char mapSymbol, int hpRestore) : base(name, mapSymbol)
         {
             HPrestore = hpRestore;
         }

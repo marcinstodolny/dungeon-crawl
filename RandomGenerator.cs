@@ -16,5 +16,10 @@ namespace RoguelikeGame
             }
             return (randX, randY);
         }
+        public static int NextInt(int max)
+        {
+            return Random.Next(max);
+        }
     }
+   
 }

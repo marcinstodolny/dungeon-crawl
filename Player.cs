@@ -7,7 +7,7 @@ using RoguelikeGame.UI;
 
 namespace RoguelikeGame
 {
-    internal class Player
+    public class Player
     {
         public Square Square { get; set; }
         public string Name { get; set; }

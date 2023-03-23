@@ -5,7 +5,7 @@ namespace RoguelikeGame.Items.Abstract
     {
         public int Attack { get; set; }
         public int Armor { get; set; }
-        protected Useable(Square square, string name, char mapSymbol, int attack, int armor) : base(square, name, mapSymbol)
+        protected Useable(string name, char mapSymbol, int attack, int armor) : base( name, mapSymbol)
         {
             Attack = attack;
             Armor = armor;

@@ -6,12 +6,9 @@ namespace RoguelikeGame.Items.Abstract
     {
         public string Name { get; set; }
         public char MapSymbol { get; set; }
-        public Square Square;
 
-        protected Items(Square square, string name, char mapSymbol)
+        protected Items(string name, char mapSymbol)
         {
-            Square = square;
-            square.Status = SquareStatus.Item;
             Name = name;
             MapSymbol = mapSymbol;
         }

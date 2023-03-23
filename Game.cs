@@ -1,15 +1,19 @@
 ﻿using RoguelikeGame.DungeonManagement;
 using RoguelikeGame.UI;
 using System.Xml.Linq;
+using RoguelikeGame.Items.Consumable;
 using RoguelikeGame.Items.Useable;
+using System;
+using static RoguelikeGame.Items.Consumable.Food;
 
 namespace RoguelikeGame
 {
-    internal class Game
+    public class Game
     {
         public List<Score> highScores;
         public Dungeon dungeon;
         public Player player;
+        public static int NumberOfItems = 3;
 
         public Game()
         {
@@ -54,9 +58,7 @@ namespace RoguelikeGame
             Display.Clear();
             Display.AskForName();
             game.player = game.dungeon.PlayerPlacement(Input.GetUserInput());
-            (int randX, int randY) = RandomGenerator.FindRandomPlacement(game.dungeon); 
-            var item = new Armor(game.dungeon.Board[randX, randY], "Gambeson");
-            game.dungeon.Board[randX, randY].Item = item;
+            SetupItem(game);
             bool gamePlay = true;
             while (gamePlay)
             {
@@ -72,5 +74,14 @@ namespace RoguelikeGame
             ConsoleKeyInfo playerMove = Input.GetPlayerMovement();
             return player.Move(dungeon, playerMove);
         }
+
+        private static void SetupItem(Game game)
+        {
+            for (var i = 0; i < NumberOfItems; i++)
+            {
+                
+            }
+        }
     }
+
 }
