@@ -38,7 +38,6 @@ namespace RoguelikeGame
                         exit = true;
                         break;
                     default:
-                        // invalid input
                         Display.PrintInvalidInputError();
                         break;
                 }

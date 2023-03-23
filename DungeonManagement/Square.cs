@@ -43,15 +43,5 @@
             }
             return squareStatusCharacter;
         }
-
-        public bool Walkable()
-        {
-            return Status switch
-            {
-                SquareStatus.Wall => false,
-                SquareStatus.Empty => false,
-                _ => true,
-            };
-        }
     }
 }
