@@ -19,7 +19,7 @@ namespace RoguelikeGame
 
         public void Move(Dungeon dungeon, ConsoleKeyInfo input)
         {
-            Square.Status = SquareStatus.Empty;
+            Square.Status = SquareStatus.Floor;
             switch (input.Key)
             {
                 case ConsoleKey.A:
@@ -57,8 +57,8 @@ namespace RoguelikeGame
         {
             switch (newSquare.Status)
             {
-                case SquareStatus.Wall:
-                    return Square;
+                case SquareStatus.Corridor:
+                    return newSquare;
                 case SquareStatus.Item:
                     //pickup item
                     return newSquare;
@@ -70,10 +70,8 @@ namespace RoguelikeGame
                     return newSquare;
                 case SquareStatus.Floor:
                     return newSquare;
-                case SquareStatus.Empty:
-                    return Square;
                 default:
-                    return newSquare;
+                    return Square;
             }
         }
     }
