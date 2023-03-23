@@ -1,77 +1,74 @@
-﻿//using System;
-//using System.Collections.Generic;
-//using System.Linq;
-//using System.Text;
-//using System.Threading.Tasks;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using RoguelikeGame.DungeonManagement;
 
-//namespace RoguelikeGame.Items.Useable
-//{
-//    public class Armor : Useable
-//    {
-//        protected Armor(Square square, string name, char mapSymbol, int attack, int armor) : base(square, name, mapSymbol, attack, armor) { }
+namespace RoguelikeGame.Items.Useable
+{
+    
+    public class Armor : Abstract.Useable
+    {
+        public string Type;
+        protected Armor(Square square, string name, char mapSymbol, int attack, int armor, string armorType) : base(
+            square, name, mapSymbol, attack, armor)
+        {
+            Type = armorType;
+        }
 
-//        public Gambeson(Square square, string name, char mapSymbol, int armor) : base(square)
-//        {
-//            name = "Gambeson";
-//            mapSymbol = '\u2720';
-//            armor = 10;
-//        }
+        public void ArmorType(string armorType)
+        {
+            switch (armorType)
+            {
+                case "Gambeson":
+                    this.Name = "Gambeson";
+                    this.MapSymbol = '\u104E';
+                    this.Armor = 10;
+                    break;
+                case "BoiledLeather":
+                    this.Name = "Boiled leather";
+                    this.MapSymbol = '\u104E';
+                    this.Armor = 20;
+                    break;
+                case "ShellArmor":
+                    this.Name = "Shell armor";
+                    this.MapSymbol = '\u104E';
+                    this.Armor = 50;
+                    break;
+                case "ScaleArmor":
+                    this.Name = "Scale armor";
+                    this.MapSymbol = '\u104E';
+                    this.Armor = 70;
+                    break;
+                case "LaminarArmor":
+                    this.Name = "Laminar armor";
+                    this.MapSymbol = '\u104E';
+                    this.Armor = 90;
+                    break;
+                case "PlatedMailArmor":
+                    this.Name = "Plated mail armor";
+                    this.MapSymbol = '\u104E';
+                    this.Armor = 160;
+                    break;
+                case "MailArmor":
+                    this.Name = "Mail armor";
+                    this.MapSymbol = '\u104E';
+                    this.Armor = 170;
+                    break;
+                case "BrigandineArmor":
+                    this.Name = "Brigandine armor";
+                    this.MapSymbol = '\u104E';
+                    this.Armor = 180;
+                    break;
+                case "PlateArmor":
+                    this.Name = "Plate armor";
+                    this.MapSymbol = '\u104E';
+                    this.Armor = 200;
+                    break;
+            }
+        }
 
-//        public BoiledLeather(Square square, string name, char mapSymbol, int armor) : base(square)
-//        {
-//            name = "Boiled leather";
-//            mapSymbol = '\u2720';
-//            armor = 20;
-//        }
 
-//        public ShellArmor(Square square, string name, char mapSymbol, int armor) : base(square)
-//        {
-//            name = "Shell armor";
-//            mapSymbol = '\u2720';
-//            armor = 50;
-//        }
-
-//        public ScaleArmor(Square square, string name, char mapSymbol, int armor) : base(square)
-//        {
-//            name = "Scale armor";
-//            mapSymbol = '\u2720';
-//            armor = 70;
-//        }
-
-//        public LaminarArmor(Square square, string name, char mapSymbol, int armor) : base(square)
-//        {
-//            name = "Laminar armor";
-//            mapSymbol = '\u2720';
-//            armor = 90;
-//        }
-
-//        public PlatedMailArmor(Square square, string name, char mapSymbol, int armor) : base(square)
-//        {
-//            name = "Plated mail armor";
-//            mapSymbol = '\u2720';
-//            armor = 160;
-//        }
-
-//        public MailArmor(Square square, string name, char mapSymbol, int armor) : base(square)
-//        {
-//            name = "Mail armor";
-//            mapSymbol = '\u2720';
-//            armor = 170;
-//        }
-
-//        public BrigandineArmor(Square square, string name, char mapSymbol, int armor) : base(square)
-//        {
-//            name = "Brigandine armor";
-//            mapSymbol = '\u2720';
-//            armor = 180;
-//        }
-
-//        public PlateArmor(Square square, string name, char mapSymbol, int armor) : base(square)
-//        {
-//            name = "Plate armor";
-//            mapSymbol = '\u2720';
-//            armor = 200;
-//        }
-
-//    }
-//}
+    }
+}

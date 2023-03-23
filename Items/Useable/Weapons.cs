@@ -1,80 +1,75 @@
-﻿//using System;
-//using System.Collections.Generic;
-//using System.Linq;
-//using System.Text;
-//using System.Threading.Tasks;
-//using RoguelikeGame.Items.Abstract;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using RoguelikeGame.Items.Abstract;
+using RoguelikeGame.DungeonManagement;
 
-//namespace RoguelikeGame.Items.Useable
-//{
-//    public class Weapons : Useable
-//    {
-//        protected Weapons(Square square, string name, char mapSymbol, int attack, int armor) : base(square, name, mapSymbol, attack, armor) { }
+namespace RoguelikeGame.Items.Useable
+{
+    
+    public class Weapons : Abstract.Useable
+    {
+        public string Type;
+        protected Weapons(Square square, string name, char mapSymbol, int attack, int armor, string weaponType) : base(
+            square, name, mapSymbol, attack, armor)
+        {
+            Type = weaponType;
+        }
 
-//        public PooStick(Square square, string name, char mapSymbol, int attack) : base(square)
-//        {
-//            name = "Ultimate weapon - stick with a poo at the end";
-//            mapSymbol = '\u2694';
-//            attack = 500;
-//        }
+        public void WeaponType(string weaponType)
+        {
+            switch (weaponType)
+            {
+                case "PooStick":
+                    this.Name = "Ultimate weapon - stick with a poo at the en";
+                    this.MapSymbol = '\u2694';
+                    this.Attack = 500;
+                    break;
+                case "RustyPan":
+                    this.Name = "Slightly rusted pan";
+                    this.MapSymbol = '\u2694';
+                    this.Attack = 15;
+                    break;
+                case "Club":
+                    this.Name = "Club (Welcome to the club)";
+                    this.MapSymbol = '\u2694';
+                    this.Attack = 20;
+                    break;
+                case "ShortSword":
+                    this.Name = "Short sword (looks big in small hands)";
+                    this.MapSymbol = '\u2694';
+                    this.Attack = 30;
+                    break;
+                case "ShortSAxe":
+                    this.Name = "Short axe";
+                    this.MapSymbol = '\u2694';
+                    this.Attack = 40;
+                    break;
+                case "LongSword":
+                    this.Name = "Loooong sword";
+                    this.MapSymbol = '\u2694';
+                    this.Attack = 50;
+                    break;
+                case "LongAxe":
+                    this.Name = "Long axe";
+                    this.MapSymbol = '\u2694';
+                    this.Attack = 60;
+                    break;
+                case "Hammer":
+                    this.Name = "Hammer time";
+                    this.MapSymbol = '\u2694';
+                    this.Attack = 65;
+                    break;
+                case "Claymore":
+                    this.Name = "Claymore";
+                    this.MapSymbol = '\u2694';
+                    this.Attack = 70;
+                    break;
+            }
+        }
+        
 
-//        public RustyPan(Square square, string name, char mapSymbol, int attack) : base(square)
-//        {
-//            name = "Slightly rusted pan";
-//            mapSymbol = '\u2694';
-//            attack = 15;
-//        }
-
-//        public Club(Square square, string name, char mapSymbol, int attack) : base(square)
-//        {
-//            name = "Club (Welcome to the club)";
-//            mapSymbol = '\u2694';
-//            attack = 20;
-//        }
-
-//        public ShortSword(Square square, string name, char mapSymbol, int attack) : base(square)
-//        {
-//            name = "Short sword (looks big in small hands)";
-//            mapSymbol = '\u2694';
-//            attack = 30;
-//        }
-
-//        public ShortSAxe(Square square, string name, char mapSymbol, int attack) : base(square)
-//        {
-//            name = "Short axe";
-//            mapSymbol = '\u2694';
-//            attack = 40;
-//        }
-
-//        public LongSword(Square square, string name, char mapSymbol, int attack) : base(square)
-//        {
-//            name = "Loooong sword";
-//            mapSymbol = '\u2694';
-//            attack = 50;
-//        }
-
-//        public LongAxe(Square square, string name, char mapSymbol, int attack) : base(square)
-//        {
-//            name = "Long axe";
-//            mapSymbol = '\u2694';
-//            attack = 60;
-//        }
-
-//        public Hammer(Square square, string name, char mapSymbol, int attack) : base(square)
-//        {
-//            name = "Hammer time";
-//            mapSymbol = '\u2694';
-//            attack = 65;
-//        }
-
-//        public Claymore(Square square, string name, char mapSymbol, int attack) : base(square)
-//        {
-//            name = "Claymore";
-//            mapSymbol = '\u2694';
-//            attack = 70;
-//        }
-
-
-
-//    }
-//}
+    }
+}
