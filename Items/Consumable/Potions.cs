@@ -49,12 +49,13 @@ namespace RoguelikeGame.Items.Consumable
                     break;
             }
         }
-        public void PlaceItem(Game game)
+        public static void PlaceItem(Game game)
         {
             var enumLength = Enum.GetNames(typeof(PotionType)).Length;
             var (randX, randY) = RandomGenerator.FindRandomPlacement(game.dungeon);
             var item = new Potions((PotionType)RandomGenerator.NextInt(enumLength));
             game.dungeon.Board[randX, randY].Item = item;
+            game.dungeon.Board[randX, randY].Status = SquareStatus.Item;
         }
     }
 }

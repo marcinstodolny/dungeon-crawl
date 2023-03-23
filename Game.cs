@@ -1,10 +1,7 @@
 ﻿using RoguelikeGame.DungeonManagement;
 using RoguelikeGame.UI;
-using System.Xml.Linq;
 using RoguelikeGame.Items.Consumable;
 using RoguelikeGame.Items.Useable;
-using System;
-using static RoguelikeGame.Items.Consumable.Food;
 
 namespace RoguelikeGame
 {
@@ -13,7 +10,7 @@ namespace RoguelikeGame
         public List<Score> highScores;
         public Dungeon dungeon;
         public Player player;
-        public static int NumberOfItems = 3;
+        public int NumberOfItems = 3;
 
         public Game()
         {
@@ -34,7 +31,7 @@ namespace RoguelikeGame
                 {
                     case GameMenu.NewGame:
                         game.dungeon = new Dungeon();
-                        SetupGame(game);
+                        game.SetupGame();
                         break;
                     case GameMenu.HighScores:
                         Display.PrintHighScores(game.highScores);
@@ -53,20 +50,20 @@ namespace RoguelikeGame
             }
         }
 
-        private static void SetupGame(Game game)
+        private void SetupGame()
         {
             Display.Clear();
             Display.AskForName();
-            game.player = game.dungeon.PlayerPlacement(Input.GetUserInput());
-            SetupItem(game);
+            player = dungeon.PlayerPlacement(Input.GetUserInput());
+            SetupItem();
             bool gamePlay = true;
             while (gamePlay)
             {
-                gamePlay = GameLoop(game.dungeon, game.player);
+                gamePlay = GameLoop();
             }
         }
 
-        private static bool GameLoop(Dungeon dungeon, Player player)
+        private bool GameLoop()
         {
             Display.Clear();
             Display.PrintDungeon(dungeon);
@@ -75,11 +72,15 @@ namespace RoguelikeGame
             return player.Move(dungeon, playerMove);
         }
 
-        private static void SetupItem(Game game)
+        private void SetupItem()
         {
             for (var i = 0; i < NumberOfItems; i++)
             {
-                
+                Armor.PlaceItem(this);
+                Key.PlaceItem(this);
+                Weapons.PlaceItem(this);
+                Food.PlaceItem(this);
+                Potions.PlaceItem(this);
             }
         }
     }

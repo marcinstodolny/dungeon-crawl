@@ -68,7 +68,7 @@ namespace RoguelikeGame.UI
         {
             if (player.Square.Item != null)
             {
-                Console.WriteLine("Here is an item, press E to pick up");
+                Console.WriteLine($"Here is an {player.Square.Item.Name}, press E to pick up");
             }
         }
     }

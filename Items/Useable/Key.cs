@@ -7,9 +7,9 @@ namespace RoguelikeGame.Items.Useable
 
     public class Key : Abstract.Useable
     {
-        public Key(string keyType) : base("", ' ', 0, 0)
+        public Key(keyType keyType) : base("", ' ', 0, 0)
         {
-            KeyType(keyType);
+            SetKeyType(keyType);
         }
         public enum keyType
         {
@@ -37,12 +37,13 @@ namespace RoguelikeGame.Items.Useable
 
             }
         }
-        public void PlaceItem(Game game) // change type
+        public static void PlaceItem(Game game)
         {
-            var enumLength = Enum.GetNames(typeof(FoodType)).Length;
+            var enumLength = Enum.GetNames(typeof(keyType)).Length;
             var (randX, randY) = RandomGenerator.FindRandomPlacement(game.dungeon);
-            var item = new Food((FoodType)RandomGenerator.NextInt(enumLength));
+            var item = new Key((keyType)RandomGenerator.NextInt(enumLength));
             game.dungeon.Board[randX, randY].Item = item;
+            game.dungeon.Board[randX, randY].Status = SquareStatus.Item;
         }
 
 

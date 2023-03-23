@@ -7,9 +7,9 @@ namespace RoguelikeGame.Items.Useable
 
     public class Weapons : Abstract.Useable
     {
-        public Weapons(string weaponType) : base("", ' ', 0, 0)
+        public Weapons(weaponType weaponType) : base("", ' ', 0, 0)
         {
-            WeaponType(weaponType);
+            SetWeaponType(weaponType);
         }
         public enum weaponType
         {
@@ -75,12 +75,13 @@ namespace RoguelikeGame.Items.Useable
                     break;
             }
         }
-        public void PlaceItem(Game game) // change type
+        public static void PlaceItem(Game game)
         {
-            var enumLength = Enum.GetNames(typeof(FoodType)).Length;
+            var enumLength = Enum.GetNames(typeof(weaponType)).Length;
             var (randX, randY) = RandomGenerator.FindRandomPlacement(game.dungeon);
-            var item = new Food((FoodType)RandomGenerator.NextInt(enumLength));
+            var item = new Weapons((weaponType)RandomGenerator.NextInt(enumLength));
             game.dungeon.Board[randX, randY].Item = item;
+            game.dungeon.Board[randX, randY].Status = SquareStatus.Item;
         }
 
 

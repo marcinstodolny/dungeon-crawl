@@ -7,9 +7,9 @@ namespace RoguelikeGame.Items.Useable
 
     public class Armor : Abstract.Useable
     {
-        public Armor(string armorType) : base("", ' ', 0, 0)
+        public Armor(armorType armorType) : base("", ' ', 0, 0)
         {
-            ArmorType(armorType);
+            SetArmorType(armorType);
         }
         public enum armorType
         {
@@ -74,12 +74,13 @@ namespace RoguelikeGame.Items.Useable
                     break;
             }
         }
-        public void PlaceItem(Game game) // change type
+        public static void PlaceItem(Game game)
         {
-            var enumLength = Enum.GetNames(typeof(FoodType)).Length;
+            var enumLength = Enum.GetNames(typeof(armorType)).Length;
             var (randX, randY) = RandomGenerator.FindRandomPlacement(game.dungeon);
-            var item = new Food((FoodType)RandomGenerator.NextInt(enumLength));
+            var item = new Armor((armorType)RandomGenerator.NextInt(enumLength));
             game.dungeon.Board[randX, randY].Item = item;
+            game.dungeon.Board[randX, randY].Status = SquareStatus.Item;
         }
 
 
