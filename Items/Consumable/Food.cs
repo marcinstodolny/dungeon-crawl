@@ -11,32 +11,32 @@ namespace RoguelikeGame.Items.Consumable
 
         public enum FoodType
         {
-            chicken,
-            steak,
-            apple,
-            sushi,
+            Chicken,
+            Steak,
+            Apple,
+            Sushi,
         }
 
         public void SetFoodType(FoodType foodType)
         {
             switch (foodType)
             {
-                case FoodType.chicken:
+                case FoodType.Chicken:
                     Name = "Dungeon chicken wings";
                     MapSymbol = '\u10EC';
                     HPrestore = 150;
                     break;
-                case FoodType.steak:
+                case FoodType.Steak:
                     Name = "Perfectly good steak found on the floor";
                     MapSymbol = '\u10EC';
                     HPrestore = 250;
                     break;
-                case FoodType.apple:
+                case FoodType.Apple:
                     Name = "Apple (an apple a day, keeps the doctor away)";
                     MapSymbol = '\u10EC';
                     HPrestore = 20;
                     break;
-                case FoodType.sushi:
+                case FoodType.Sushi:
                     Name = "Sushi mix set no.23 (I wonder who ordered it)";
                     MapSymbol = '\u10EC';
                     HPrestore = 150;
