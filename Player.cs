@@ -62,6 +62,7 @@ namespace RoguelikeGame
                     {
                         PickupItem(Square);
                         Square.Status = SquareStatus.Floor;
+                        Square.Item = null;
                     }
                     break;
                 case ConsoleKey.Escape:
