@@ -9,6 +9,7 @@
         Item,
         Door,
         Wall,
-        Corridor
+        Corridor,
+        ClosedDoor
     }
 }

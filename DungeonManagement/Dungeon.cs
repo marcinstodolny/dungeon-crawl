@@ -1,4 +1,4 @@
-﻿using System.Numerics;
+﻿using System.Text;
 
 namespace RoguelikeGame.DungeonManagement
 {
@@ -21,78 +21,89 @@ namespace RoguelikeGame.DungeonManagement
                     Board[x, y] = new Square(x, y);
                 }
             }
-
-            int minRoomWidth = 6;
-            int maxRoomWidth = Width / 4;
-            int minRoomHeight = 6;
-            int maxRoomHeight = Height / 4;
-
-            // Define the dimensions of the room
-            int roomWidth = Math.Max(minRoomWidth, Rand.Next(maxRoomWidth));
-            int roomHeight = Math.Max(minRoomHeight, Rand.Next(maxRoomHeight));
-
             // Choose a random location for the top-left corner of the room
-            int roomCornerX = Rand.Next(Width - roomWidth);
-            int roomCornerY = Rand.Next(Height - roomHeight);
+            int roomCornerX = Rand.Next(Width - Width);
+            int roomCornerY = Rand.Next(Height - Height);
 
-            // Fill the room with floor squares by default
-            for (int x = roomCornerX; x < roomCornerX + roomWidth; x++)
+            if (CheckRoomPlacement(roomCornerX, roomCornerY, Width, Height))
             {
-                for (int y = roomCornerY; y < roomCornerY + roomHeight; y++)
+                // Fill the room with floor squares by default
+                for (int x = roomCornerX; x < roomCornerX + Width; x++)
                 {
-                    Board[x, y].Status = SquareStatus.Floor;
-                }
-            }
-
-            // Set the edges of the rectangle to be walls
-            bool topDoor = Rand.Next(2) == 0;
-            bool bottomDoor = Rand.Next(2) == 0;
-            for (int x = roomCornerX; x < roomCornerX + roomWidth; x++)
-            {
-                Board[x, roomCornerY].Status = SquareStatus.Wall;
-                Board[x, roomCornerY + roomHeight - 1].Status = SquareStatus.Wall;
-
-                // Add a door randomly along the top and bottom walls
-                if (x > roomCornerX && x < roomCornerX + roomWidth - 1)
-                {
-                    if (Rand.Next(2) == 0 && topDoor)
+                    for (int y = roomCornerY; y < roomCornerY + Height; y++)
                     {
-                        Board[x, roomCornerY].Status = SquareStatus.Door;
-                        Board[x, roomCornerY - 1].Status = SquareStatus.Corridor;
-                        topDoor = false;
-                    }
-                    if (Rand.Next(2) == 0 && bottomDoor)
-                    {
-                        Board[x, roomCornerY + roomHeight - 1].Status = SquareStatus.Door;
-                        Board[x, roomCornerY + roomHeight].Status = SquareStatus.Corridor;
-                        bottomDoor = false;
+                        Board[x, y].Status = SquareStatus.Floor;
                     }
                 }
-            }
-            bool leftDoor = Rand.Next(2) == 0;
-            bool rightDoor = Rand.Next(2) == 0;
-            for (int y = roomCornerY; y < roomCornerY + roomHeight; y++)
-            {
-                Board[roomCornerX, y].Status = SquareStatus.Wall;
-                Board[roomCornerX + roomWidth - 1, y].Status = SquareStatus.Wall;
 
-                // Add a door randomly along the left and right walls
-                if (y > roomCornerY && y < roomCornerY + roomHeight - 1)
+                bool topDoor = false;
+                bool bottomDoor = false;
+                bool leftDoor = false;
+                bool rightDoor = false;
+                // Set the edges of the rectangle to be walls
+                while (!topDoor && !bottomDoor && !leftDoor && !rightDoor)
                 {
-                    if (Rand.Next(2) == 0 && leftDoor)
+                    topDoor = Rand.Next(2) == 1;
+                    bottomDoor = Rand.Next(2) == 1;
+                    leftDoor = Rand.Next(2) == 1;
+                    rightDoor = Rand.Next(2) == 1;
+                    for (int x = roomCornerX; x < Width; x++)
                     {
-                        Board[roomCornerX, y].Status = SquareStatus.Door;
-                        Board[roomCornerX - 1, y].Status = SquareStatus.Corridor;
-                        leftDoor = false;
+                        Board[x, roomCornerY].Status = SquareStatus.Wall;
+                        Board[x, roomCornerY + Height - 1].Status = SquareStatus.Wall;
+
+                        // Add a door randomly along the top and bottom walls
+                        if (x > roomCornerX && x < Width - 1)
+                        {
+                            if (Rand.Next(2) == 1 && !topDoor && roomCornerY > Height * 0.5)
+                            {
+                                Board[x, roomCornerY].Status = SquareStatus.ClosedDoor;
+                                topDoor = true;
+                            }
+                            if (Rand.Next(2) == 1 && !bottomDoor && roomCornerY < Height * 0.5)
+                            {
+                                Board[x, roomCornerY + Height - 1].Status = SquareStatus.ClosedDoor;
+                                bottomDoor = true;
+                            }
+                        }
                     }
-                    if (Rand.Next(2) == 0 && rightDoor)
+                    for (int y = roomCornerY; y < roomCornerY + Height; y++)
                     {
-                        Board[roomCornerX + roomWidth - 1, y].Status = SquareStatus.Door;
-                        Board[roomCornerX + roomWidth, y].Status = SquareStatus.Corridor;
-                        rightDoor = false;
+                        Board[roomCornerX, y].Status = SquareStatus.Wall;
+                        Board[roomCornerX + Width - 1, y].Status = SquareStatus.Wall;
+
+                        // Add a door randomly along the left and right walls
+                        if (y > roomCornerY && y <  Height - 1)
+                        {
+                            if (Rand.Next(2) == 1 && !leftDoor && roomCornerX > Width * 0.5)
+                            {
+                                Board[roomCornerX, y].Status = SquareStatus.ClosedDoor;
+                                leftDoor = true;
+                            }
+                            if (Rand.Next(2) == 1 && !rightDoor && roomCornerX < Width * 0.5)
+                            {
+                                Board[roomCornerX + Width - 1, y].Status = SquareStatus.ClosedDoor;
+                                rightDoor = true;
+                            }
+                        }
                     }
                 }
             }
+        }
+
+        private bool CheckRoomPlacement(int roomCornerX, int roomCornerY, int roomWidth, int roomHeight)
+        {
+            for (int x = roomCornerX; x <  roomWidth; x++)
+            {
+                for (int y = roomCornerY; y <  roomHeight; y++)
+                {
+                    if (Board[x, y].Status != SquareStatus.Empty)
+                    {
+                        return false;
+                    }
+                }
+            }
+            return true;
         }
 
         public Player PlayerPlacement(string name)
@@ -101,5 +112,20 @@ namespace RoguelikeGame.DungeonManagement
             return new Player(name, Board[randX, randY]);
         }
 
+        public string DungeonToString()
+        {
+            StringBuilder sbReturn = new();
+
+            for (int y = 0; y < Height; y++)
+            {
+                for (int x = 0; x < Width; x++)
+                {
+                    sbReturn.Append(new string($"{Board[x, y].GetCharacter()}"));
+                }
+                sbReturn.Append('\n');
+            }
+            return sbReturn.ToString();
+        }
     }
+
 }

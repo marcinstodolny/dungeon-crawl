@@ -56,14 +56,7 @@ namespace RoguelikeGame.UI
 
         public static void PrintDungeon(Dungeon dungeon)
         {
-            for (int y = 0; y < dungeon.Height; y++)
-            {
-                for (int x = 0; x < dungeon.Width; x++)
-                {
-                    Console.Write(new string($"{dungeon.Board[x, y].GetCharacter()}"));
-                }
-                Console.WriteLine();
-            }
+            Console.WriteLine(dungeon.DungeonToString());
         }
 
         public static void ShowBoard()

@@ -67,8 +67,8 @@ namespace RoguelikeGame
         private static bool GameLoop(Dungeon dungeon, Player player)
         {
             Display.Clear();
-            Display.ShowItemMessage(player);
             Display.PrintDungeon(dungeon);
+            Display.ShowItemMessage(player);
             ConsoleKeyInfo playerMove = Input.GetPlayerMovement();
             return player.Move(dungeon, playerMove);
         }
