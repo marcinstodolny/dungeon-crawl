@@ -8,7 +8,7 @@ namespace RoguelikeGame.Items.Abstract
         public char MapSymbol { get; set; }
         public Square Square;
 
-        public Items(Square square, string name, char mapSymbol)
+        protected Items(Square square, string name, char mapSymbol)
         {
             Square = square;
             square.Status = SquareStatus.Item;

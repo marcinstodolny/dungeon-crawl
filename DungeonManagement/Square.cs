@@ -6,6 +6,8 @@
         public int Y { get; }
         public SquareStatus Status { get; set; }
         public bool Visible { get; set; }
+        public Items.Abstract.Items? Item { get; set; } = null;
+        //enemy
         public Square(int x, int y)
         {
             X = x;

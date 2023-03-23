@@ -1,21 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using RoguelikeGame.Items.Abstract;
-using RoguelikeGame.DungeonManagement;
+﻿using RoguelikeGame.DungeonManagement;
 
 namespace RoguelikeGame.Items.Useable
 {
-    
+
     public class Weapons : Abstract.Useable
     {
-        public string Type;
-        protected Weapons(Square square, string name, char mapSymbol, int attack, int armor, string weaponType) : base(
-            square, name, mapSymbol, attack, armor)
+        public Weapons(Square square, string weaponType) : base(square, "", ' ', 0, 0)
         {
-            Type = weaponType;
+            WeaponType(weaponType);
         }
 
         public void WeaponType(string weaponType)
@@ -23,49 +15,49 @@ namespace RoguelikeGame.Items.Useable
             switch (weaponType)
             {
                 case "PooStick":
-                    this.Name = "Ultimate weapon - stick with a poo at the en";
-                    this.MapSymbol = '\u2694';
-                    this.Attack = 500;
+                    Name = "Ultimate weapon - stick with a poo at the en";
+                    MapSymbol = '\u2694';
+                    Attack = 500;
                     break;
                 case "RustyPan":
-                    this.Name = "Slightly rusted pan";
-                    this.MapSymbol = '\u2694';
-                    this.Attack = 15;
+                    Name = "Slightly rusted pan";
+                    MapSymbol = '\u2694';
+                    Attack = 15;
                     break;
                 case "Club":
-                    this.Name = "Club (Welcome to the club)";
-                    this.MapSymbol = '\u2694';
-                    this.Attack = 20;
+                    Name = "Club (Welcome to the club)";
+                    MapSymbol = '\u2694';
+                    Attack = 20;
                     break;
                 case "ShortSword":
-                    this.Name = "Short sword (looks big in small hands)";
-                    this.MapSymbol = '\u2694';
-                    this.Attack = 30;
+                    Name = "Short sword (looks big in small hands)";
+                    MapSymbol = '\u2694';
+                    Attack = 30;
                     break;
                 case "ShortSAxe":
-                    this.Name = "Short axe";
-                    this.MapSymbol = '\u2694';
-                    this.Attack = 40;
+                    Name = "Short axe";
+                    MapSymbol = '\u2694';
+                    Attack = 40;
                     break;
                 case "LongSword":
-                    this.Name = "Loooong sword";
-                    this.MapSymbol = '\u2694';
-                    this.Attack = 50;
+                    Name = "Loooong sword";
+                    MapSymbol = '\u2694';
+                    Attack = 50;
                     break;
                 case "LongAxe":
-                    this.Name = "Long axe";
-                    this.MapSymbol = '\u2694';
-                    this.Attack = 60;
+                    Name = "Long axe";
+                    MapSymbol = '\u2694';
+                    Attack = 60;
                     break;
                 case "Hammer":
-                    this.Name = "Hammer time";
-                    this.MapSymbol = '\u2694';
-                    this.Attack = 65;
+                    Name = "Hammer time";
+                    MapSymbol = '\u2694';
+                    Attack = 65;
                     break;
                 case "Claymore":
-                    this.Name = "Claymore";
-                    this.MapSymbol = '\u2694';
-                    this.Attack = 70;
+                    Name = "Claymore";
+                    MapSymbol = '\u2694';
+                    Attack = 70;
                     break;
             }
         }

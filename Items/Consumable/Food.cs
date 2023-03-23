@@ -4,11 +4,9 @@ namespace RoguelikeGame.Items.Consumable
 {
     public class Food : Abstract.Consumable
     {
-        public string Type;
-        public Food(Square square, string name, char mapSymbol, int hpRestore, string foodType) : base(square, name,
-            mapSymbol, hpRestore)
+        public Food(Square square,string foodType) : base(square, "", ' ', 0)
         {
-            Type = foodType;
+            FoodType(foodType);
         }
 
         public void FoodType(string foodType)
@@ -16,29 +14,29 @@ namespace RoguelikeGame.Items.Consumable
             switch (foodType)
             {
                 case "chicken":
-                    this.Name = "Dungeon chicken wings";
-                    this.MapSymbol = '\u10EC';
-                    this.HPrestore = 150;
+                    Name = "Dungeon chicken wings";
+                    MapSymbol = '\u10EC';
+                    HPrestore = 150;
                     break;
                 case "steak":
-                    this.Name = "Perfectly good steak found on the floor";
-                    this.MapSymbol = '\u10EC';
-                    this.HPrestore = 250;
+                    Name = "Perfectly good steak found on the floor";
+                    MapSymbol = '\u10EC';
+                    HPrestore = 250;
                     break;
                 case "apple":
-                    this.Name = "Apple (an apple a day, keeps the doctor away)";
-                    this.MapSymbol = '\u10EC';
-                    this.HPrestore = 20;
+                    Name = "Apple (an apple a day, keeps the doctor away)";
+                    MapSymbol = '\u10EC';
+                    HPrestore = 20;
                     break;
                 case "sushi":
-                    this.Name = "Sushi mix set no.23 (I wonder who ordered it)";
-                    this.MapSymbol = '\u10EC';
-                    this.HPrestore = 150;
+                    Name = "Sushi mix set no.23 (I wonder who ordered it)";
+                    MapSymbol = '\u10EC';
+                    HPrestore = 150;
                     break;
                 default:
-                    this.Name = "Cave food (hard to recognize what is it)";
-                    this.MapSymbol = '\u10EC';
-                    this.HPrestore = 15;
+                    Name = "Cave food (hard to recognize what is it)";
+                    MapSymbol = '\u10EC';
+                    HPrestore = 15;
                     break;
             }
         }

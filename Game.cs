@@ -1,5 +1,7 @@
 ﻿using RoguelikeGame.DungeonManagement;
 using RoguelikeGame.UI;
+using System.Xml.Linq;
+using RoguelikeGame.Items.Useable;
 
 namespace RoguelikeGame
 {
@@ -52,6 +54,9 @@ namespace RoguelikeGame
             Display.Clear();
             Display.AskForName();
             game.player = game.dungeon.PlayerPlacement(Input.GetUserInput());
+            (int randX, int randY) = RandomGenerator.FindRandomPlacement(game.dungeon); 
+            var item = new Armor(game.dungeon.Board[randX, randY], "Gambeson");
+            game.dungeon.Board[randX, randY].Item = item;
             bool gamePlay = true;
             while (gamePlay)
             {

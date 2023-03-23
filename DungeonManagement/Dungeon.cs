@@ -97,20 +97,9 @@ namespace RoguelikeGame.DungeonManagement
 
         public Player PlayerPlacement(string name)
         {
-            (int randX, int randY) = FindRandomPlacement();
+            (int randX, int randY) = RandomGenerator.FindRandomPlacement(this);
             return new Player(name, Board[randX, randY]);
         }
 
-        public (int, int) FindRandomPlacement()
-        {
-            int randX = Rand.Next(Width);
-            int randY = Rand.Next(Height);
-            while (Board[randX, randY].Status != SquareStatus.Floor)
-            {
-                randX = Rand.Next(Width);
-                randY = Rand.Next(Height);
-            }
-            return (randX, randY);
-        }
     }
 }
