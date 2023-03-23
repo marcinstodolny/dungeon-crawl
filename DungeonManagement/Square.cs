@@ -38,7 +38,7 @@
                     squareStatusCharacter = '+';
                     break;
                 case SquareStatus.Corridor:
-                    squareStatusCharacter = '\u00b2';
+                    squareStatusCharacter = '\x2588';
                     break;
             }
             return squareStatusCharacter;

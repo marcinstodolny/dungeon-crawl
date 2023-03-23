@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace RoguelikeGame.DungeonManagement
+﻿namespace RoguelikeGame.DungeonManagement
 {
     internal class Dungeon
     {
@@ -58,11 +56,13 @@ namespace RoguelikeGame.DungeonManagement
                     if (Rand.Next(2) == 0 && topDoor)
                     {
                         Board[x, roomCornerY].Status = SquareStatus.Door;
+                        Board[x, roomCornerY - 1].Status = SquareStatus.Corridor;
                         topDoor = false;
                     }
                     if (Rand.Next(2) == 0 && bottomDoor)
                     {
                         Board[x, roomCornerY + roomHeight - 1].Status = SquareStatus.Door;
+                        Board[x, roomCornerY + roomHeight].Status = SquareStatus.Corridor;
                         bottomDoor = false;
                     }
                 }
@@ -80,11 +80,13 @@ namespace RoguelikeGame.DungeonManagement
                     if (Rand.Next(2) == 0 && leftDoor)
                     {
                         Board[roomCornerX, y].Status = SquareStatus.Door;
+                        Board[roomCornerX - 1, y].Status = SquareStatus.Corridor;
                         leftDoor = false;
                     }
                     if (Rand.Next(2) == 0 && rightDoor)
                     {
                         Board[roomCornerX + roomWidth - 1, y].Status = SquareStatus.Door;
+                        Board[roomCornerX + roomWidth, y].Status = SquareStatus.Corridor;
                         rightDoor = false;
                     }
                 }

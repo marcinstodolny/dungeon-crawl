@@ -28,7 +28,7 @@ namespace RoguelikeGame
                 {
                     case GameMenu.NewGame:
                         game.dungeon = new Dungeon();
-                        SetGame(game);
+                        SetupGame(game);
                         break;
                     case GameMenu.HighScores:
                         Display.PrintHighScores(game.highScores);
@@ -48,7 +48,7 @@ namespace RoguelikeGame
             }
         }
 
-        private static void SetGame(Game game)
+        private static void SetupGame(Game game)
         {
             Display.Clear();
             Display.AskForName();
