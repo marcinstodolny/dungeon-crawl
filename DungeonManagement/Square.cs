@@ -6,11 +6,11 @@
         public int Y { get; }
         public SquareStatus Status { get; set; }
         public bool Visible { get; set; }
-        public Square(int x, int y, SquareStatus status)
+        public Square(int x, int y)
         {
             X = x;
             Y = y;
-            Status = status;
+            Status = SquareStatus.Empty;
             Visible = false;
         }
         

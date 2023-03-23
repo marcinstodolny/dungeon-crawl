@@ -1,4 +1,6 @@
-﻿namespace RoguelikeGame.DungeonManagement
+﻿using System.Numerics;
+
+namespace RoguelikeGame.DungeonManagement
 {
     internal class Dungeon
     {
@@ -16,7 +18,7 @@
             {
                 for (int y = 0; y < Height; y++)
                 {
-                    Board[x, y] = new Square(x, y, SquareStatus.Empty);
+                    Board[x, y] = new Square(x, y);
                 }
             }
 
@@ -93,11 +95,10 @@
             }
         }
 
-        public void PlayerPlacement(Player player)
+        public Player PlayerPlacement(string name)
         {
             (int randX, int randY) = FindRandomPlacement();
-            player.SetPlayer(Board[randX, randY]);
-            Board[randX, randY].Status = SquareStatus.Player;
+            return new Player(name, Board[randX, randY]);
         }
 
         public (int, int) FindRandomPlacement()

@@ -51,13 +51,11 @@ namespace RoguelikeGame
         {
             Display.Clear();
             Display.AskForName();
-            string playerName = Input.GetUserInput();
-            game.player = new Player(playerName);
-            game.dungeon.PlayerPlacement(game.player);
-            bool gameplay = true;
-            while (gameplay)
+            game.player = game.dungeon.PlayerPlacement(Input.GetUserInput());
+            bool gamePlay = true;
+            while (gamePlay)
             {
-                gameplay = GameLoop(game.dungeon, game.player);
+                gamePlay = GameLoop(game.dungeon, game.player);
             }
         }
 
