@@ -11,52 +11,63 @@ namespace RoguelikeGame.Items.Useable
         {
             ArmorType(armorType);
         }
-
-        public void ArmorType(string armorType)
+        public enum armorType
+        {
+            Gambeson,
+            BoiledLeather,
+            ShellArmor,
+            ScaleArmor,
+            LaminarArmor,
+            PlatedMailArmor,
+            MailArmor,
+            BrigandineArmor, 
+            PlateArmor
+        }
+        public void SetArmorType(armorType armorType)
         {
             switch (armorType)
             {
-                case "Gambeson":
+                case armorType.Gambeson:
                     Name = "Gambeson";
                     MapSymbol = '\u104E';
                     Armor = 10;
                     break;
-                case "BoiledLeather":
+                case armorType.BoiledLeather:
                     Name = "Boiled leather";
                     MapSymbol = '\u104E';
                     Armor = 20;
                     break;
-                case "ShellArmor":
+                case armorType.ShellArmor:
                     Name = "Shell armor";
                     MapSymbol = '\u104E';
                     Armor = 50;
                     break;
-                case "ScaleArmor":
+                case armorType.ScaleArmor:
                     Name = "Scale armor";
                     MapSymbol = '\u104E';
                     Armor = 70;
                     break;
-                case "LaminarArmor":
+                case armorType.LaminarArmor:
                     Name = "Laminar armor";
                     MapSymbol = '\u104E';
                     Armor = 90;
                     break;
-                case "PlatedMailArmor":
+                case armorType.PlatedMailArmor:
                     Name = "Plated mail armor";
                     MapSymbol = '\u104E';
                     Armor = 160;
                     break;
-                case "MailArmor":
+                case armorType.MailArmor:
                     Name = "Mail armor";
                     MapSymbol = '\u104E';
                     Armor = 170;
                     break;
-                case "BrigandineArmor":
+                case armorType.BrigandineArmor:
                     Name = "Brigandine armor";
                     MapSymbol = '\u104E';
                     Armor = 180;
                     break;
-                case "PlateArmor":
+                case armorType.PlateArmor:
                     Name = "Plate armor";
                     MapSymbol = '\u104E';
                     Armor = 200;

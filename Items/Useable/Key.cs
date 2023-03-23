@@ -11,20 +11,26 @@ namespace RoguelikeGame.Items.Useable
         {
             KeyType(keyType);
         }
-
-        public void KeyType(string keyType)
+        public enum keyType
+        {
+            Key,
+            DiamondKey,
+            GoldenKey
+         
+        }
+        public void SetKeyType(keyType keyType)
         {
             switch (keyType)
             {
-                case "key":
+                case keyType.Key:
                     Name = "Key";
                     MapSymbol = '\u26BF';
                     break;
-                case "DiamondKey":
+                case keyType.DiamondKey:
                     Name = "Diamond key";
                     MapSymbol = '\u26BF';
                     break;
-                case "GoldenKey":
+                case keyType.GoldenKey:
                     Name = "Golden key";
                     MapSymbol = '\u26BF';
                     break;
