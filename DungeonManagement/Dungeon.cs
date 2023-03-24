@@ -6,7 +6,6 @@ namespace RoguelikeGame.DungeonManagement
     {
         public readonly int Height = 32;
         public readonly int Width = 140;
-        private readonly int RoomsToPlace = 9;
         private readonly Random Rand = new();
         public Square[,] Board { get; }
 
@@ -26,9 +25,9 @@ namespace RoguelikeGame.DungeonManagement
             int maxRoomWidth = Width/4;
             int minRoomHeight = 6;
             int maxRoomHeight = Height/4;
-            int placementTries = 22;
+            int placementTries = 40;
 
-            while (RoomsToPlace > 0 && placementTries > 0)
+            while (placementTries > 0)
             {
                 // Define the dimensions of the room
                 int roomWidth = Math.Max(minRoomWidth, Rand.Next(maxRoomWidth));
@@ -42,9 +41,8 @@ namespace RoguelikeGame.DungeonManagement
                 {
                     PlaceFloor(roomCornerX, roomCornerY, roomWidth, roomHeight);
                     PlaceWalls(roomCornerX, roomCornerY, roomWidth, roomHeight);
-                    RoomsToPlace--;
+                    placementTries = 40;
                 }
-
                 placementTries--;
             }
         }
@@ -111,9 +109,9 @@ namespace RoguelikeGame.DungeonManagement
 
         private bool CheckRoomPlacement(int roomCornerX, int roomCornerY, int roomWidth, int roomHeight)
         {
-            for (int x = roomCornerX - 1; x <= roomCornerX + roomWidth + 1; x++)
+            for (int x = roomCornerX; x <= roomCornerX + roomWidth + 1; x++)
             {
-                for (int y = roomCornerY - 1; y <= roomCornerY + roomHeight + 1; y++)
+                for (int y = roomCornerY; y <= roomCornerY + roomHeight + 1; y++)
                 {
                     if (x < Width && y < Height && x >= 0 && y >= 0) 
                     { 
