@@ -6,8 +6,8 @@ namespace RoguelikeGame.Creatures
 
     public class Ally : Creature
     {
-        public int BonusDamage { get; set; } = 0;
-        public int BonusHealth { get; set; } = 0;
+        public int BonusDamage { get; set; }
+        public int BonusHealth { get; set; }
         public string Message { get; set; }
         public Ally(AllyType allyType) : base("", ' ')
         {

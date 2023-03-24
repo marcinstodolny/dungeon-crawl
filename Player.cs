@@ -16,6 +16,7 @@ namespace RoguelikeGame
         public int Health { get; set; }
         public int Damage { get; set; }
         public bool Alive => Health > 0;
+        public bool DMT = false;
         public SquareStatus PreviousSquareStatus { get; set; }
         public Dictionary<Useable, int> Inventory { get; set; }
 
@@ -36,6 +37,30 @@ namespace RoguelikeGame
             Square.Status = PreviousSquareStatus;
             switch (input.Key)
             {
+                case ConsoleKey.A when DMT:
+                    if (Square.X > 0)
+                    {
+                        Square = CheckForCollision(dungeon.Board[Square.X + 1, Square.Y]);
+                    }
+                    break;
+                case ConsoleKey.D when DMT:
+                    if (Square.X < dungeon.Width - 1)
+                    {
+                        Square = CheckForCollision(dungeon.Board[Square.X - 1, Square.Y]);
+                    }
+                    break;
+                case ConsoleKey.W when DMT:
+                    if (Square.Y > 0)
+                    {
+                        Square = CheckForCollision(dungeon.Board[Square.X, Square.Y + 1]);
+                    }
+                    break;
+                case ConsoleKey.S when DMT:
+                    if (Square.Y < dungeon.Height - 1)
+                    {
+                        Square = CheckForCollision(dungeon.Board[Square.X, Square.Y - 1]);
+                    }
+                    break;
                 case ConsoleKey.A:
                     if (Square.X > 0)
                     {

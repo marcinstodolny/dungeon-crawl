@@ -1,4 +1,6 @@
-﻿using RoguelikeGame.DungeonManagement;
+﻿using System.Runtime.CompilerServices;
+using RoguelikeGame.DungeonManagement;
+using RoguelikeGame.UI;
 using static RoguelikeGame.Items.Consumable.Food;
 
 namespace RoguelikeGame.Items.Consumable
@@ -54,6 +56,11 @@ namespace RoguelikeGame.Items.Consumable
             var enumLength = Enum.GetNames(typeof(PotionType)).Length;
             var (randX, randY) = RandomGenerator.FindRandomPlacement(game.Dungeon);
             var item = new Potions((PotionType)RandomGenerator.NextInt(enumLength));
+            if (item.Name == "Dimetylotryptamina")
+            {
+                Display.DisplayDMT();
+                game.Player.DMT = true;
+            }
             game.Dungeon.Board[randX, randY].Item = item;
             game.Dungeon.Board[randX, randY].Status = SquareStatus.Item;
         }

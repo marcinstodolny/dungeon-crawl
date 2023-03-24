@@ -158,5 +158,10 @@ namespace RoguelikeGame.UI
             Console.WriteLine("Map Legend:\n" + "@: Player" + "$: Item\n" + "M: Monster (Enemy)\n"
                               + "A: Ally\n" + "#: Wall\n" + "+: Door\n" + "\x2588: Corridor\n");
         }
+
+        public static void DisplayDMT()
+        {
+            Console.WriteLine("You just took DMT, enjoy the ride!");
+        }
     }
 }
