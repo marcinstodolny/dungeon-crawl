@@ -76,6 +76,10 @@ namespace RoguelikeGame
                     Display.DisplayHelp();
                     WaitMessage();
                     break;
+                case ConsoleKey.M:
+                    Display.DisplayMapLegend();
+                    WaitMessage();
+                    break;
                 case ConsoleKey.Escape:
                     return false;
             }
@@ -115,7 +119,7 @@ namespace RoguelikeGame
             {
                 var food = (Consumable) square.Item;
                 Health += food.HPrestore;
-                Display.DisplayItemPickup(square);
+                Display.DisplayFoodEat(square);
                 WaitMessage();
             }
             else if (square.Item.GetType() == typeof(Armor) || square.Item.GetType() == typeof(Weapons) || square.Item.GetType() == typeof(Key))

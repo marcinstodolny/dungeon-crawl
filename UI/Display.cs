@@ -61,16 +61,25 @@ namespace RoguelikeGame.UI
             Console.WriteLine(dungeon.DungeonToString());
         }
 
-        public static void ShowBoard()
+        public static void ShowBoardWithColors(Dungeon dungeon)
         {
-            Console.WriteLine();
+            for (int y = 0; y < dungeon.Height; y++)
+            {
+                for (int x = 0; x < dungeon.Width; x++)
+                {
+
+                    Console.Write($"{dungeon.Board[x, y].GetCharacter()}");
+                    Console.ForegroundColor = ConsoleColor.Gray;
+                }
+                Console.WriteLine();
+            }
         }
 
         public static void ShowItemMessage(Player player)
         {
             if (player.Square.Item != null)
             {
-                Console.WriteLine($"Here is an {player.Square.Item.Name}, press E to pick up");
+                Console.WriteLine($"Here is an {player.Square.Item.Name}, press E to pick up\n");
             }
         }
 
@@ -119,8 +128,13 @@ namespace RoguelikeGame.UI
         }
         public static void DisplayItemPickup(Square square)
         {
-            Console.WriteLine($"\nYou have picked up {square.Item!.Name}");
+            Console.WriteLine($"You have picked up {square.Item!.Name}");
             
+        }
+        public static void DisplayFoodEat(Square square)
+        {
+            Console.WriteLine($"You have ate {square.Item!.Name}");
+
         }
 
         public static void DisplayUserStats(Player player)
@@ -136,7 +150,13 @@ namespace RoguelikeGame.UI
         public static void DisplayHelp()
         {
             Console.WriteLine("Available keys:\n" + "W,A,S,D: Player Move\n" + "I: Show inventory\n" 
-                              + "E: Pickup item while standing on it\n" + "ESC: Quit to menu");
+                              + "E: Pickup item while standing on it\n" + "M: Map Legend\n" + "ESC: Quit to menu");
+        }
+
+        public static void DisplayMapLegend()
+        {
+            Console.WriteLine("Map Legend:\n" + "@: Player" + "$: Item\n" + "M: Monster (Enemy)\n"
+                              + "A: Ally\n" + "#: Wall\n" + "+: Door\n" + "\x2588: Corridor\n");
         }
     }
 }
