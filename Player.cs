@@ -144,8 +144,13 @@ namespace RoguelikeGame
         {
             if (square.Item!.GetType() == typeof(Food) || square.Item.GetType() == typeof(Potions))
             {
-                var food = (Consumable) square.Item;
-                Health += food.HPrestore;
+                var consumable = (Consumable) square.Item;
+                if (consumable.Name == "Dimetylotryptamina")
+                {
+                    Display.DisplayDMT();
+                    DMT = true;
+                }
+                Health += consumable.HPrestore;
                 Display.DisplayFoodEat(square);
                 WaitMessage();
             }

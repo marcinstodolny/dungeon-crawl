@@ -133,7 +133,7 @@ namespace RoguelikeGame.UI
         }
         public static void DisplayFoodEat(Square square)
         {
-            Console.WriteLine($"You have ate {square.Item!.Name}");
+            Console.WriteLine($"You have consumed {square.Item!.Name}");
 
         }
 
@@ -161,7 +161,7 @@ namespace RoguelikeGame.UI
 
         public static void DisplayDMT()
         {
-            Console.WriteLine("You just took DMT, enjoy the ride!");
+            Console.WriteLine("enjoy the ride!");
         }
     }
 }

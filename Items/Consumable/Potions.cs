@@ -26,27 +26,27 @@ namespace RoguelikeGame.Items.Consumable
             {
                 case PotionType.EnemiesTears:
                     Name = "Tears of your enemies";
-                    MapSymbol = '\u104E';
+                    MapSymbol = '$';
                     HPrestore = 10;
                     break;
                 case PotionType.EnemiesBlood:
                     Name = "Blood of your enemies";
-                    MapSymbol = '\u104E';
+                    MapSymbol = '$';
                     HPrestore = 15;
                     break;
                 case PotionType.GinAndTonic:
                     Name = "Gin & Tonic";
-                    MapSymbol = '\u104E';
+                    MapSymbol = '$';
                     HPrestore = 5;
                     break;
                 case PotionType.DMT:
                     Name = "Dimetylotryptamina";
-                    MapSymbol = '\u104E';
+                    MapSymbol = 'D';
                     HPrestore = 100;
                     break;
                 default:
                     Name = "Dungeon water";
-                    MapSymbol = '\u104E';
+                    MapSymbol = '$';
                     HPrestore = 1;
                     break;
             }
@@ -56,11 +56,6 @@ namespace RoguelikeGame.Items.Consumable
             var enumLength = Enum.GetNames(typeof(PotionType)).Length;
             var (randX, randY) = RandomGenerator.FindRandomPlacement(game.Dungeon);
             var item = new Potions((PotionType)RandomGenerator.NextInt(enumLength));
-            if (item.Name == "Dimetylotryptamina")
-            {
-                Display.DisplayDMT();
-                game.Player.DMT = true;
-            }
             game.Dungeon.Board[randX, randY].Item = item;
             game.Dungeon.Board[randX, randY].Status = SquareStatus.Item;
         }

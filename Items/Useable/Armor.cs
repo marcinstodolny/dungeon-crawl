@@ -29,47 +29,47 @@ namespace RoguelikeGame.Items.Useable
             {
                 case armorType.Gambeson:
                     Name = "Gambeson";
-                    MapSymbol = '\u104E';
+                    MapSymbol = '$';
                     Armor = 2;
                     break;
                 case armorType.BoiledLeather:
                     Name = "Boiled leather";
-                    MapSymbol = '\u104E';
+                    MapSymbol = '$';
                     Armor = 4;
                     break;
                 case armorType.ShellArmor:
                     Name = "Shell armor";
-                    MapSymbol = '\u104E';
+                    MapSymbol = '$';
                     Armor = 6;
                     break;
                 case armorType.ScaleArmor:
                     Name = "Scale armor";
-                    MapSymbol = '\u104E';
+                    MapSymbol = '$';
                     Armor = 8;
                     break;
                 case armorType.LaminarArmor:
                     Name = "Laminar armor";
-                    MapSymbol = '\u104E';
+                    MapSymbol = '$';
                     Armor = 9;
                     break;
                 case armorType.PlatedMailArmor:
                     Name = "Plated mail armor";
-                    MapSymbol = '\u104E';
+                    MapSymbol = '$';
                     Armor = 10;
                     break;
                 case armorType.MailArmor:
                     Name = "Mail armor";
-                    MapSymbol = '\u104E';
+                    MapSymbol = '$';
                     Armor = 12;
                     break;
                 case armorType.BrigandineArmor:
                     Name = "Brigandine armor";
-                    MapSymbol = '\u104E';
+                    MapSymbol = '$';
                     Armor = 14;
                     break;
                 case armorType.PlateArmor:
                     Name = "Plate armor";
-                    MapSymbol = '\u104E';
+                    MapSymbol = '$';
                     Armor = 16;
                     break;
             }

@@ -24,15 +24,15 @@ namespace RoguelikeGame.Items.Useable
             {
                 case keyType.Key:
                     Name = "Key";
-                    MapSymbol = '\u26BF';
+                    MapSymbol = '$';
                     break;
                 case keyType.DiamondKey:
                     Name = "Diamond key";
-                    MapSymbol = '\u26BF';
+                    MapSymbol = '$';
                     break;
                 case keyType.GoldenKey:
                     Name = "Golden key";
-                    MapSymbol = '\u26BF';
+                    MapSymbol = '$';
                     break;
 
             }

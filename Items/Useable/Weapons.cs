@@ -30,47 +30,47 @@ namespace RoguelikeGame.Items.Useable
             {
                 case weaponType.PooStick:
                     Name = "Ultimate weapon - stick with a poo at the en";
-                    MapSymbol = '\u2694';
+                    MapSymbol = '$';
                     Attack = 500;
                     break;
                 case weaponType.RustyPan:
                     Name = "Slightly rusted pan";
-                    MapSymbol = '\u2694';
+                    MapSymbol = '$';
                     Attack = 2;
                     break;
                 case weaponType.Club:
                     Name = "Club (Welcome to the club)";
-                    MapSymbol = '\u2694';
+                    MapSymbol = '$';
                     Attack = 3;
                     break;
                 case weaponType.ShortSword:
                     Name = "Short sword (looks big in small hands)";
-                    MapSymbol = '\u2694';
+                    MapSymbol = '$';
                     Attack = 4;
                     break;
                 case weaponType.ShortSAxe:
                     Name = "Short axe";
-                    MapSymbol = '\u2694';
+                    MapSymbol = '$';
                     Attack = 5;
                     break;
                 case weaponType.LongSword:
                     Name = "Loooong sword";
-                    MapSymbol = '\u2694';
+                    MapSymbol = '$';
                     Attack = 6;
                     break;
                 case weaponType.LongAxe:
                     Name = "Long axe";
-                    MapSymbol = '\u2694';
+                    MapSymbol = '$';
                     Attack = 7;
                     break;
                 case weaponType.Hammer:
                     Name = "Hammer time";
-                    MapSymbol = '\u2694';
+                    MapSymbol = '$';
                     Attack = 8;
                     break;
                 case weaponType.Claymore:
                     Name = "Claymore";
-                    MapSymbol = '\u2694';
+                    MapSymbol = '$';
                     Attack = 9;
                     break;
             }
