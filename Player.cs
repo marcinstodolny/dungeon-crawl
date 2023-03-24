@@ -83,7 +83,7 @@ namespace RoguelikeGame
                 case ConsoleKey.Escape:
                     return false;
             }
-            PreviousSquareStatus = Square.Status is SquareStatus.Corridor or SquareStatus.Door or SquareStatus.Item
+            PreviousSquareStatus = Square.Status is SquareStatus.Corridor or SquareStatus.Door or SquareStatus.Empty or SquareStatus.Item
                 ? Square.Status
                 : SquareStatus.Floor;
             Square.Status = SquareStatus.Player;
@@ -107,6 +107,8 @@ namespace RoguelikeGame
                     // go thought door
                     return newSquare;
                 case SquareStatus.Floor:
+                    return newSquare;
+                case SquareStatus.Empty:
                     return newSquare;
                 default:
                     return Square;

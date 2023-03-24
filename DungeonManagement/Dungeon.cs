@@ -6,7 +6,7 @@ namespace RoguelikeGame.DungeonManagement
     {
         public readonly int Height = 32;
         public readonly int Width = 140;
-        private readonly int RoomsToPlace = 6;
+        private readonly int RoomsToPlace = 9;
         private readonly Random Rand = new();
         public Square[,] Board { get; }
 
@@ -22,12 +22,13 @@ namespace RoguelikeGame.DungeonManagement
                 }
             }
 
-            int minRoomWidth = 6;
-            int maxRoomWidth = Width / 4;
+            int minRoomWidth = 8;
+            int maxRoomWidth = Width/4;
             int minRoomHeight = 6;
-            int maxRoomHeight = Height / 4;
+            int maxRoomHeight = Height/4;
+            int placementTries = 22;
 
-            while (RoomsToPlace > 0)
+            while (RoomsToPlace > 0 && placementTries > 0)
             {
                 // Define the dimensions of the room
                 int roomWidth = Math.Max(minRoomWidth, Rand.Next(maxRoomWidth));
@@ -43,6 +44,8 @@ namespace RoguelikeGame.DungeonManagement
                     PlaceWalls(roomCornerX, roomCornerY, roomWidth, roomHeight);
                     RoomsToPlace--;
                 }
+
+                placementTries--;
             }
         }
 
@@ -72,16 +75,14 @@ namespace RoguelikeGame.DungeonManagement
 
                     if (x > roomCornerX && x < roomCornerX + roomWidth - 1)
                     {
-                        if (Rand.Next(2) == 1 && !topDoor && roomCornerY > Height * 0.5)
+                        if (Rand.Next(2) == 0 && !topDoor)
                         {
                             Board[x, roomCornerY].Status = SquareStatus.Door;
-                            Board[x, roomCornerY - 1].Status = SquareStatus.Corridor;
                             topDoor = true;
                         }
-                        if (Rand.Next(2) == 1 && !bottomDoor && roomCornerY < Height * 0.5)
+                        if (Rand.Next(2) == 0 && !bottomDoor)
                         {
                             Board[x, roomCornerY + roomHeight - 1].Status = SquareStatus.Door;
-                            Board[x, roomCornerY + roomHeight].Status = SquareStatus.Corridor;
                             bottomDoor = true;
                         }
                     }
@@ -93,16 +94,14 @@ namespace RoguelikeGame.DungeonManagement
 
                     if (y > roomCornerY && y < roomCornerY + roomHeight - 1)
                     {
-                        if (Rand.Next(2) == 1 && !leftDoor && roomCornerX > Width * 0.5)
+                        if (Rand.Next(2) == 0 && !leftDoor)
                         {
                             Board[roomCornerX, y].Status = SquareStatus.Door;
-                            Board[roomCornerX - 1, y].Status = SquareStatus.Corridor;
                             leftDoor = true;
                         }
-                        if (Rand.Next(2) == 1 && !rightDoor && roomCornerX < Width * 0.5)
+                        if (Rand.Next(2) == 0 && !rightDoor)
                         {
                             Board[roomCornerX + roomWidth - 1, y].Status = SquareStatus.Door;
-                            Board[roomCornerX + roomWidth, y].Status = SquareStatus.Corridor;
                             rightDoor = true;
                         }
                     }
@@ -112,13 +111,16 @@ namespace RoguelikeGame.DungeonManagement
 
         private bool CheckRoomPlacement(int roomCornerX, int roomCornerY, int roomWidth, int roomHeight)
         {
-            for (int x = roomCornerX; x <  roomWidth; x++)
+            for (int x = roomCornerX - 1; x <= roomCornerX + roomWidth + 1; x++)
             {
-                for (int y = roomCornerY; y <  roomHeight; y++)
+                for (int y = roomCornerY - 1; y <= roomCornerY + roomHeight + 1; y++)
                 {
-                    if (Board[x, y].Status != SquareStatus.Empty)
-                    {
-                        return false;
+                    if (x < Width && y < Height && x >= 0 && y >= 0) 
+                    { 
+                        if (Board[x, y].Status != SquareStatus.Empty)
+                        {
+                            return false;
+                        }
                     }
                 }
             }
