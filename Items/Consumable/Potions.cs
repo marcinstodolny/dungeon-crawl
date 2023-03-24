@@ -1,7 +1,4 @@
-﻿using System.Runtime.CompilerServices;
-using RoguelikeGame.DungeonManagement;
-using RoguelikeGame.UI;
-using static RoguelikeGame.Items.Consumable.Food;
+﻿using RoguelikeGame.DungeonManagement;
 
 namespace RoguelikeGame.Items.Consumable
 {

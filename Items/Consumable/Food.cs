@@ -1,5 +1,4 @@
 ﻿using RoguelikeGame.DungeonManagement;
-using static RoguelikeGame.Items.Consumable.Potions;
 
 namespace RoguelikeGame.Items.Consumable
 {
