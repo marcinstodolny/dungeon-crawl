@@ -1,4 +1,6 @@
-﻿namespace RoguelikeGame.DungeonManagement
+﻿using RoguelikeGame.Creatures;
+
+namespace RoguelikeGame.DungeonManagement
 {
     public class Square
     {
@@ -7,7 +9,7 @@
         public SquareStatus Status { get; set; }
         public bool Visible { get; set; }
         public Items.Abstract.Items? Item { get; set; } = null;
-        //enemy
+        public Creature? Creature { get; set; } = null;
         public Square(int x, int y)
         {
             X = x;
@@ -32,6 +34,9 @@
                     break;
                 case SquareStatus.Enemy:
                     squareStatusCharacter = 'M';
+                    break;
+                case SquareStatus.Ally:
+                    squareStatusCharacter = 'A';
                     break;
                 case SquareStatus.Item:
                     squareStatusCharacter = '$';

@@ -74,13 +74,13 @@ namespace RoguelikeGame.DungeonManagement
                     {
                         if (Rand.Next(2) == 1 && !topDoor && roomCornerY > Height * 0.5)
                         {
-                            Board[x, roomCornerY].Status = SquareStatus.ClosedDoor;
+                            Board[x, roomCornerY].Status = SquareStatus.Door;
                             Board[x, roomCornerY - 1].Status = SquareStatus.Corridor;
                             topDoor = true;
                         }
                         if (Rand.Next(2) == 1 && !bottomDoor && roomCornerY < Height * 0.5)
                         {
-                            Board[x, roomCornerY + roomHeight - 1].Status = SquareStatus.ClosedDoor;
+                            Board[x, roomCornerY + roomHeight - 1].Status = SquareStatus.Door;
                             Board[x, roomCornerY + roomHeight].Status = SquareStatus.Corridor;
                             bottomDoor = true;
                         }
@@ -95,13 +95,13 @@ namespace RoguelikeGame.DungeonManagement
                     {
                         if (Rand.Next(2) == 1 && !leftDoor && roomCornerX > Width * 0.5)
                         {
-                            Board[roomCornerX, y].Status = SquareStatus.ClosedDoor;
+                            Board[roomCornerX, y].Status = SquareStatus.Door;
                             Board[roomCornerX - 1, y].Status = SquareStatus.Corridor;
                             leftDoor = true;
                         }
                         if (Rand.Next(2) == 1 && !rightDoor && roomCornerX < Width * 0.5)
                         {
-                            Board[roomCornerX + roomWidth - 1, y].Status = SquareStatus.ClosedDoor;
+                            Board[roomCornerX + roomWidth - 1, y].Status = SquareStatus.Door;
                             Board[roomCornerX + roomWidth, y].Status = SquareStatus.Corridor;
                             rightDoor = true;
                         }
@@ -139,15 +139,9 @@ namespace RoguelikeGame.DungeonManagement
             {
                 for (int x = 0; x < Width; x++)
                 {
-                    if (Board[x, y].Item != null)
-                    {
-                        sbReturn.Append(new string($"{Board[x, y].Item!.MapSymbol}"));
-                    }
-                    else
-                    {
-                        sbReturn.Append(new string($"{Board[x, y].GetCharacter()}"));
-                    }
                     
+                        sbReturn.Append(new string($"{Board[x, y].GetCharacter()}"));
+
                 }
                 sbReturn.Append('\n');
             }

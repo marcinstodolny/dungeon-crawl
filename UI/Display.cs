@@ -1,4 +1,6 @@
-﻿using RoguelikeGame.DungeonManagement;
+﻿using RoguelikeGame.Creatures;
+using RoguelikeGame.DungeonManagement;
+using System;
 
 namespace RoguelikeGame.UI
 {
@@ -70,6 +72,71 @@ namespace RoguelikeGame.UI
             {
                 Console.WriteLine($"Here is an {player.Square.Item.Name}, press E to pick up");
             }
+        }
+
+        public static void DisplayAllyMessage(Ally ally)
+        {
+            Console.WriteLine(ally.Message);
+        }
+
+        public static void DisplayEnemyInfo(Enemy enemy)
+        {
+            Console.WriteLine($"You encountered {enemy.Name} with {enemy.Health} health left\n");
+        }
+
+        public static void DisplayFight(Player player, Enemy enemy, bool miss=false)
+        {
+            if (!miss)
+            {
+                Console.WriteLine($"You have dealt {player.Damage} to enemy\n" +
+                                  $"Enemy have dealt {enemy.Damage - player.Armor} to you");
+            }
+            else
+            {
+                Console.WriteLine($"You have dealt {player.Damage} to enemy\n" +
+                                  $"Enemy have missed");
+            }
+        }
+
+        public static void DisplayFightVictory(Enemy enemy)
+        {
+            Console.WriteLine($"You successfully defeated {enemy.Name}");
+        }
+
+        public static void DeadMessage()
+        {
+            Console.WriteLine($"Game Over\n" +
+                              $"You have been slain");
+        }
+
+        public static void ShowYourInventory(Player player)
+        {
+            Console.WriteLine("Your inventory:");
+            foreach (var item in player.Inventory)
+            {
+                Console.WriteLine($"{item.Key.Name}: {item.Value}");
+            }
+        }
+        public static void DisplayItemPickup(Square square)
+        {
+            Console.WriteLine($"\nYou have picked up {square.Item!.Name}");
+            
+        }
+
+        public static void DisplayUserStats(Player player)
+        {
+            Console.WriteLine($"Health: {player.Health}\n" + $"Damage: {player.Damage}\n" + $"Armor: {player.Armor}");
+        }
+
+        public static void PressHForHelp()
+        {
+            Console.WriteLine("Press H for help\n");
+        }
+
+        public static void DisplayHelp()
+        {
+            Console.WriteLine("Available keys:\n" + "W,A,S,D: Player Move\n" + "I: Show inventory\n" 
+                              + "E: Pickup item while standing on it\n" + "ESC: Quit to menu");
         }
     }
 }

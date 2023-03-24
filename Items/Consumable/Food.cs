@@ -25,27 +25,27 @@ namespace RoguelikeGame.Items.Consumable
                 case FoodType.Chicken:
                     Name = "Dungeon chicken wings";
                     MapSymbol = '\u10EC';
-                    HPrestore = 150;
+                    HPrestore = 10;
                     break;
                 case FoodType.Steak:
                     Name = "Perfectly good steak found on the floor";
                     MapSymbol = '\u10EC';
-                    HPrestore = 250;
+                    HPrestore = 20;
                     break;
                 case FoodType.Apple:
                     Name = "Apple (an apple a day, keeps the doctor away)";
                     MapSymbol = '\u10EC';
-                    HPrestore = 20;
+                    HPrestore = 2;
                     break;
                 case FoodType.Sushi:
                     Name = "Sushi mix set no.23 (I wonder who ordered it)";
                     MapSymbol = '\u10EC';
-                    HPrestore = 150;
+                    HPrestore = 25;
                     break;
                 default:
                     Name = "Cave food (hard to recognize what is it)";
                     MapSymbol = '\u10EC';
-                    HPrestore = 15;
+                    HPrestore = 30;
                     break;
             }
         }
@@ -53,10 +53,10 @@ namespace RoguelikeGame.Items.Consumable
         public static void PlaceItem(Game game)
         {
             var enumLength = Enum.GetNames(typeof(FoodType)).Length;
-            var (randX, randY) = RandomGenerator.FindRandomPlacement(game.dungeon);
+            var (randX, randY) = RandomGenerator.FindRandomPlacement(game.Dungeon);
             var item = new Food((FoodType)RandomGenerator.NextInt(enumLength));
-            game.dungeon.Board[randX, randY].Item = item;
-            game.dungeon.Board[randX, randY].Status = SquareStatus.Item;
+            game.Dungeon.Board[randX, randY].Item = item;
+            game.Dungeon.Board[randX, randY].Status = SquareStatus.Item;
         }
 
     }

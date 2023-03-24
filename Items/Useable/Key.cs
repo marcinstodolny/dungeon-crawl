@@ -40,10 +40,10 @@ namespace RoguelikeGame.Items.Useable
         public static void PlaceItem(Game game)
         {
             var enumLength = Enum.GetNames(typeof(keyType)).Length;
-            var (randX, randY) = RandomGenerator.FindRandomPlacement(game.dungeon);
+            var (randX, randY) = RandomGenerator.FindRandomPlacement(game.Dungeon);
             var item = new Key((keyType)RandomGenerator.NextInt(enumLength));
-            game.dungeon.Board[randX, randY].Item = item;
-            game.dungeon.Board[randX, randY].Status = SquareStatus.Item;
+            game.Dungeon.Board[randX, randY].Item = item;
+            game.Dungeon.Board[randX, randY].Status = SquareStatus.Item;
         }
 
 

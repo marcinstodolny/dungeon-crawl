@@ -6,10 +6,10 @@
         Floor,
         Player,
         Enemy,
+        Ally,
         Item,
         Door,
         Wall,
         Corridor,
-        ClosedDoor
     }
 }

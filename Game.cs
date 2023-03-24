@@ -1,4 +1,5 @@
-﻿using RoguelikeGame.DungeonManagement;
+﻿using RoguelikeGame.Creatures;
+using RoguelikeGame.DungeonManagement;
 using RoguelikeGame.UI;
 using RoguelikeGame.Items.Consumable;
 using RoguelikeGame.Items.Useable;
@@ -7,14 +8,15 @@ namespace RoguelikeGame
 {
     public class Game
     {
-        public List<Score> highScores;
-        public Dungeon dungeon;
-        public Player player;
+        public List<Score> HighScores;
+        public Dungeon Dungeon;
+        public Player Player;
         public int NumberOfItems = 3;
+        public int NumberOfCreatures = 5;
 
         public Game()
         {
-            highScores = new List<Score>();
+            HighScores = new List<Score>();
         }
 
         public static void Menu()
@@ -24,17 +26,16 @@ namespace RoguelikeGame
             bool exit = false;
             while (!exit)
             {
-                Display.PrintMainMenu();
                 ushort choice = Input.GetChoice(optionsCount);
 
                 switch ((GameMenu)choice)
                 {
                     case GameMenu.NewGame:
-                        game.dungeon = new Dungeon();
+                        game.Dungeon = new Dungeon();
                         game.SetupGame();
                         break;
                     case GameMenu.HighScores:
-                        Display.PrintHighScores(game.highScores);
+                        Display.PrintHighScores(game.HighScores);
                         break;
                     case GameMenu.Exit:
                         Display.PrintExitGame();
@@ -45,7 +46,7 @@ namespace RoguelikeGame
                         break;
                 }
                 Display.PressAnyKey();
-                Input.WaitForInput();
+                Input.WaitForKeyPress();
                 Display.Clear();
             }
         }
@@ -54,10 +55,11 @@ namespace RoguelikeGame
         {
             Display.Clear();
             Display.AskForName();
-            player = dungeon.PlayerPlacement(Input.GetUserInput());
+            Player = Dungeon.PlayerPlacement(Input.GetUserInput());
             SetupItem();
+            SetupEnemiesAndAlly();
             bool gamePlay = true;
-            while (gamePlay)
+            while (gamePlay && Player.Alive)
             {
                 gamePlay = GameLoop();
             }
@@ -66,10 +68,12 @@ namespace RoguelikeGame
         private bool GameLoop()
         {
             Display.Clear();
-            Display.PrintDungeon(dungeon);
-            Display.ShowItemMessage(player);
-            ConsoleKeyInfo playerMove = Input.GetPlayerMovement();
-            return player.Move(dungeon, playerMove);
+            Display.PrintDungeon(Dungeon);
+            Display.DisplayUserStats(Player);
+            Display.PressHForHelp();
+            Display.ShowItemMessage(Player);
+            ConsoleKeyInfo playerMove = Input.WaitForKeyPress();
+            return Player.Control(Dungeon, playerMove);
         }
 
         private void SetupItem()
@@ -81,6 +85,14 @@ namespace RoguelikeGame
                 Weapons.PlaceItem(this);
                 Food.PlaceItem(this);
                 Potions.PlaceItem(this);
+            }
+        }
+        private void SetupEnemiesAndAlly()
+        {
+            for (var i = 0; i < NumberOfCreatures; i++)
+            {
+                Enemy.PlaceCreature(this);
+                Ally.PlaceCreature(this);
             }
         }
     }

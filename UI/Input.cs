@@ -1,6 +1,4 @@
-﻿using RoguelikeGame.DungeonManagement;
-
-namespace RoguelikeGame.UI
+﻿namespace RoguelikeGame.UI
 {
     internal class Input
     {
@@ -20,6 +18,7 @@ namespace RoguelikeGame.UI
             bool validInput = false;
             while (!validInput)
             {
+                Display.PrintMainMenu();
                 string inputString = GetUserInput();
                 if (ushort.TryParse(inputString, out choice) && choice >= 1 && choice <= optionsCount)
                 {
@@ -28,7 +27,11 @@ namespace RoguelikeGame.UI
                 else
                 {
                     Display.PrintInvalidInputError();
+                    Display.PressAnyKey();
+                    WaitForKeyPress();
+                    Display.Clear();
                 }
+                
             }
             return choice;
         }
@@ -38,9 +41,10 @@ namespace RoguelikeGame.UI
             Console.ReadLine();
         }
 
-        public static ConsoleKeyInfo GetPlayerMovement()
+        public static ConsoleKeyInfo WaitForKeyPress()
         {
             return Console.ReadKey(true);
         }
+
     }
 }
