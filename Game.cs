@@ -3,11 +3,14 @@ using RoguelikeGame.DungeonManagement;
 using RoguelikeGame.UI;
 using RoguelikeGame.Items.Consumable;
 using RoguelikeGame.Items.Useable;
+using Microsoft.Data.SqlClient;
+using System.Configuration;
 
 namespace RoguelikeGame
 {
     public class Game
     {
+        public string ConnectionString => ConfigurationManager.AppSettings["connectionString"]!;
         public List<Score> HighScores;
         public Dungeon Dungeon;
         public Player Player;
@@ -22,6 +25,7 @@ namespace RoguelikeGame
         public static void Menu()
         {
             Game game = new();
+            var testConnection = game.TestConnection();
             ushort optionsCount = 3;
             bool exit = false;
             while (!exit)
@@ -93,6 +97,20 @@ namespace RoguelikeGame
             {
                 Enemy.PlaceCreature(this);
                 Ally.PlaceCreature(this);
+            }
+        }
+
+        public bool TestConnection()
+        {
+            using var connection = new SqlConnection(ConnectionString);
+            try
+            {
+                connection.Open();
+                return true;
+            }
+            catch (Exception e)
+            {
+                return false;
             }
         }
     }
