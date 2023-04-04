@@ -77,7 +77,7 @@ namespace RoguelikeGame.UI
             }
         }
 
-        public static void ShowItemMessage(Player player)
+        public static void ShowItemMessage(Player player) //TODO remove when enemy fight ready
         {
             if (player.Square.Entity != null &&(
                     player.Square.Entity.GetType() == typeof(Weapons) || 
