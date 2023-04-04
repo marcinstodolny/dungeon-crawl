@@ -1,6 +1,4 @@
-﻿using RoguelikeGame.Creatures;
-
-namespace RoguelikeGame.DungeonManagement
+﻿namespace RoguelikeGame.DungeonManagement
 {
     public class Square
     {
@@ -8,8 +6,7 @@ namespace RoguelikeGame.DungeonManagement
         public int Y { get; }
         public SquareStatus Status { get; set; }
         public bool Visible { get; set; }
-        public Items.Abstract.Items? Item { get; set; } = null;
-        public Creature? Creature { get; set; } = null;
+        public Entity.Abstract.Entity? Entity { get; set; } = null;
         public Square(int x, int y)
         {
             X = x;
@@ -30,16 +27,7 @@ namespace RoguelikeGame.DungeonManagement
                     squareStatusCharacter = '#';
                     break;
                 case SquareStatus.Floor:
-                    squareStatusCharacter = '.';
-                    break;
-                case SquareStatus.Enemy:
-                    squareStatusCharacter = 'M';
-                    break;
-                case SquareStatus.Ally:
-                    squareStatusCharacter = 'A';
-                    break;
-                case SquareStatus.Item:
-                    squareStatusCharacter = '$';
+                    squareStatusCharacter = Entity?.MapSymbol ?? '.';
                     break;
                 case SquareStatus.Door:
                     squareStatusCharacter = '+';

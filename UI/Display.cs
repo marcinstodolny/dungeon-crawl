@@ -1,6 +1,8 @@
-﻿using RoguelikeGame.Creatures;
-using RoguelikeGame.DungeonManagement;
+﻿using RoguelikeGame.DungeonManagement;
 using System;
+using RoguelikeGame.Entity.Consumable;
+using RoguelikeGame.Entity.Creatures;
+using RoguelikeGame.Entity.Useable;
 
 namespace RoguelikeGame.UI
 {
@@ -77,10 +79,15 @@ namespace RoguelikeGame.UI
 
         public static void ShowItemMessage(Player player)
         {
-            if (player.Square.Item != null)
-            {
-                Console.WriteLine($"Here is an {player.Square.Item.Name}, press E to pick up\n");
-            }
+            if (player.Square.Entity != null &&(
+                    player.Square.Entity.GetType() == typeof(Weapons) || 
+                    player.Square.Entity.GetType() == typeof(Armor) || 
+                    player.Square.Entity.GetType() == typeof(Food) || 
+                    player.Square.Entity.GetType() == typeof(Potions) || 
+                    player.Square.Entity.GetType() == typeof(Key)))
+                {
+                    Console.WriteLine($"Here is an {player.Square.Entity.Name}, press E to pick up\n");
+                }
         }
 
         public static void DisplayAllyMessage(Ally ally)
@@ -128,12 +135,12 @@ namespace RoguelikeGame.UI
         }
         public static void DisplayItemPickup(Square square)
         {
-            Console.WriteLine($"You have picked up {square.Item!.Name}");
+            Console.WriteLine($"You have picked up {square.Entity!.Name}");
             
         }
         public static void DisplayFoodEat(Square square)
         {
-            Console.WriteLine($"You have consumed {square.Item!.Name}");
+            Console.WriteLine($"You have consumed {square.Entity!.Name}");
 
         }
 

@@ -1,8 +1,9 @@
-﻿using RoguelikeGame.Creatures;
+﻿using System.Diagnostics;
 using RoguelikeGame.DungeonManagement;
-using RoguelikeGame.Items.Abstract;
-using RoguelikeGame.Items.Consumable;
-using RoguelikeGame.Items.Useable;
+using RoguelikeGame.Entity.Abstract;
+using RoguelikeGame.Entity.Consumable;
+using RoguelikeGame.Entity.Creatures;
+using RoguelikeGame.Entity.Useable;
 using RoguelikeGame.UI;
 
 
@@ -86,11 +87,10 @@ namespace RoguelikeGame
                     }
                     break;
                 case ConsoleKey.E:
-                    if (Square.Item != null)
+                    if (Square.Entity != null)
                     {
                         PickupItem(Square);
-                        Square.Status = SquareStatus.Floor;
-                        Square.Item = null;
+                        Square.Entity = null;
                     }
                     break;
                 case ConsoleKey.I:
@@ -142,9 +142,9 @@ namespace RoguelikeGame
 
         private void PickupItem(Square square)
         {
-            if (square.Item!.GetType() == typeof(Food) || square.Item.GetType() == typeof(Potions))
+            if (square.Entity!.GetType().BaseType == typeof(Consumable))
             {
-                var consumable = (Consumable) square.Item;
+                var consumable = (Consumable) square.Entity;
                 if (consumable.Name == "Dimetylotryptamina")
                 {
                     Display.DisplayDMT();
@@ -154,9 +154,9 @@ namespace RoguelikeGame
                 Display.DisplayFoodEat(square);
                 WaitMessage();
             }
-            else if (square.Item.GetType() == typeof(Armor) || square.Item.GetType() == typeof(Weapons) || square.Item.GetType() == typeof(Key))
+            else if (square.Entity!.GetType().BaseType == typeof(Useable))
             {
-                var item = (Useable)square.Item;
+                var item = (Useable)square.Entity;
                 if (Inventory.ContainsKey(item))
                 {
                     Inventory[item]++;
@@ -167,11 +167,11 @@ namespace RoguelikeGame
                 }
                 if (item.GetType() == typeof(Armor))
                 {
-                    Armor += item.Armor;
+                    Armor += ((Armor)item).Protection;
                 }
                 else if (item.GetType() == typeof(Weapons))
                 {
-                    Damage += item.Attack;
+                    Damage += ((Weapons)item).Attack;
                 }
                 Display.DisplayItemPickup(square);
                 WaitMessage();
@@ -180,11 +180,11 @@ namespace RoguelikeGame
 
         private Square ApproachEnemy(Square newSquare)
         {
-            if (newSquare.Creature!.GetType() != typeof(Enemy))
+            if (newSquare.Entity!.GetType() != typeof(Enemy))
             {
                 return Square;
             }
-            var enemy = (Enemy)newSquare.Creature;
+            var enemy = (Enemy)newSquare.Entity;
             Display.DisplayEnemyInfo(enemy);
             enemy.Health -= Damage;
             if (enemy.Health > 0)
@@ -208,22 +208,22 @@ namespace RoguelikeGame
             }
             Display.DisplayFightVictory(enemy);
             WaitMessage();
-            newSquare.Creature = null;
+            newSquare.Entity = null;
             return newSquare;
 
         }
         private Square ApproachAlly(Square newSquare)
         {
-            if (newSquare.Creature!.GetType() != typeof(Ally))
+            if (newSquare.Entity!.GetType() != typeof(Ally))
             {
                 return newSquare;
             }
-            var ally = (Ally)newSquare.Creature;
+            var ally = (Ally)newSquare.Entity;
             Display.DisplayAllyMessage(ally);
             WaitMessage();
             Health += ally.BonusHealth;
             Damage += ally.BonusDamage;
-            newSquare.Creature = null;
+            newSquare.Entity = null;
 
             return newSquare;
         }

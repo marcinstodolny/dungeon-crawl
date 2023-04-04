@@ -1,10 +1,10 @@
-﻿using RoguelikeGame.Creatures;
-using RoguelikeGame.DungeonManagement;
+﻿using RoguelikeGame.DungeonManagement;
 using RoguelikeGame.UI;
-using RoguelikeGame.Items.Consumable;
-using RoguelikeGame.Items.Useable;
 using Microsoft.Data.SqlClient;
 using System.Configuration;
+using RoguelikeGame.Entity.Consumable;
+using RoguelikeGame.Entity.Creatures;
+using RoguelikeGame.Entity.Useable;
 
 namespace RoguelikeGame
 {

@@ -139,9 +139,9 @@ namespace RoguelikeGame.DungeonManagement
             {
                 for (int x = 0; x < Width; x++)
                 {
-                    if (Board[x, y].Item != null)
+                    if (Board[x, y].Entity != null)
                     {
-                        sbReturn.Append(Board[x, y].Item.MapSymbol);
+                        sbReturn.Append(Board[x, y].Entity.MapSymbol);
                     }
                     else
                     {
