@@ -154,23 +154,23 @@ public class DbManager
 
         try
         {
-        using (var connection = new SqlConnection(ConnectionString))
-        {
-            var cmdGet = new SqlCommand(getIdCommand, connection);
-            if (connection.State == ConnectionState.Closed)
-                connection.Open();
-            var data = cmdGet.ExecuteReader();
-            var itemId = data.GetInt32("Id");
-            connection.Close();
+            using (var connection = new SqlConnection(ConnectionString))
+            {
+                var cmdGet = new SqlCommand(getIdCommand, connection);
+                if (connection.State == ConnectionState.Closed)
+                    connection.Open();
+                var data = cmdGet.ExecuteReader();
+                var itemId = data.GetInt32("Id");
+                connection.Close();
 
-            var cmdInsert = new SqlCommand(insertItemCommand, connection);
-            if (connection.State == ConnectionState.Closed)
-                connection.Open();
-            cmdInsert.Parameters.AddWithValue("@Item_Type", item.GetType().Name);
-            cmdInsert.Parameters.AddWithValue("@Item_Id", itemId);
-            connection.Close();
+                var cmdInsert = new SqlCommand(insertItemCommand, connection);
+                if (connection.State == ConnectionState.Closed)
+                    connection.Open();
+                cmdInsert.Parameters.AddWithValue("@Item_Type", item.GetType().Name);
+                cmdInsert.Parameters.AddWithValue("@Item_Id", itemId);
+                connection.Close();
+            }
         }
-        
         catch (SqlException e)
         {
             throw new RuntimeWrappedException(e);
