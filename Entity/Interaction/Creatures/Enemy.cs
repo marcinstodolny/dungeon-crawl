@@ -23,6 +23,23 @@ namespace RoguelikeGame.Entity.Interaction.Creatures
             game.Dungeon.Board[randX, randY].Interactive = enemy;
         }
 
-
+        public override string ApproachCharacter(Player player)
+        {
+            Health -= player.Damage;
+            if (Health > 0)
+            {
+                if (Damage - player.Armor <= 0)
+                {
+                    return $"You have dealt {player.Damage} to enemy\n" +
+                           $"Enemy have missed";
+                }
+                Health -= Damage - player.Armor;
+                return Health < 0 ? "Game Over\nYou have been slain"
+                    : $"You have dealt {player.Damage} to enemy\n" +
+                      $"Enemy have dealt {Damage - player.Armor} to you";
+            }
+            RemoveFromBoard();
+            return $"You successfully defeated {Name}";
+        }
     }
 }

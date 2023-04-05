@@ -170,7 +170,7 @@ namespace RoguelikeGame.Entity
                 }
                 else if (item.GetType() == typeof(Weapons))
                 {
-                    Damage += ((Weapons)item).Attack;
+                    Damage += ((Weapons)item).Damage;
                 }
                 Display.DisplayItemPickup(square);
                 WaitMessage();

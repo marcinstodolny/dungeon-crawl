@@ -14,5 +14,6 @@ public abstract class Character : Interactive
         Square = newSquare;
         Square.Interactive = this;
     }
+    public abstract string ApproachCharacter(Player player);
 }
 

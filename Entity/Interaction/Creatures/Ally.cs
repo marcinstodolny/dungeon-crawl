@@ -36,6 +36,13 @@ namespace RoguelikeGame.Entity.Interaction.Creatures
             game.Dungeon.Board[randX, randY].Interactive = ally;
         }
 
+        public override string ApproachCharacter(Player player)
+        {
+            player.Health += BonusHealth;
+            player.Damage += BonusDamage;
+            RemoveFromBoard();
+            return Message;
+        }
 
     }
 }
