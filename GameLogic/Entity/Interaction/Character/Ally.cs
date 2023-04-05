@@ -12,7 +12,7 @@ namespace GameLogic.Entity.Interaction.Character
         public int BonusHealth { get; set; }
         public int BonusArmor { get; set; }
         public string Message { get; set; }
-        public Ally(Square square) : base(square, "", ' ')
+        public Ally(Square square) : base(square)
         {
             var randomAlly = DbManager.GetAlly();
             Name = randomAlly["Name"];

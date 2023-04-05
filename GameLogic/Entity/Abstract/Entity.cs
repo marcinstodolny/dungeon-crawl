@@ -8,11 +8,9 @@ namespace GameLogic.Entity.Abstract
         public char MapSymbol { get; set; }
         public Square Square { get; set; }
 
-        protected Entity(string name, char mapSymbol, Square square)
+        protected Entity(Square square)
         {
             Square = square;
-            Name = name;
-            MapSymbol = mapSymbol;
         }
     }
 }

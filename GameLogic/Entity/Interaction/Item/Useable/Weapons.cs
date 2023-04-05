@@ -1,19 +1,19 @@
 ﻿using GameLogic.DungeonManagement;
 using GameLogic.DungeonManagement.RoomCreator;
 using GameLogic.DungeonManagement.SquareCreator;
-using RoguelikeGame;
 
 namespace GameLogic.Entity.Interaction.Item.Useable
 {
     public class Weapons : Abstract.Useable
     {
-        public int Attack;
-        public Weapons(Square square) : base("", ' ', square)
+        public int Damage;
+        public Weapons(Square square) : base(square)
         {
             var randomWeapon = DbManager.GetItem("Attack", "Weapons");
             Name = randomWeapon["Name"];
             MapSymbol = randomWeapon["Symbol"].ToCharArray()[0];
-            Attack = int.Parse(randomWeapon["Stat"]);
+            Damage = int.Parse(randomWeapon["Stat"]);
+            Id = int.Parse(randomWeapon["Id"]);
         }
 
         public static void PlaceItem(Dungeon dungeon, Room room)
@@ -21,6 +21,19 @@ namespace GameLogic.Entity.Interaction.Item.Useable
             Coordinates coordinates = RandomGenerator.FindRandomPlacement(dungeon, room);
             var item = new Weapons(dungeon.Grid[coordinates.X, coordinates.Y]);
             dungeon.Grid[coordinates.X, coordinates.Y].Interactive = item;
+        }
+        public override string PickUp(Player player)
+        {
+            if (player.Inventory.ContainsKey(this))
+            {
+                player.Inventory[this]++;
+            }
+            else
+            {
+                player.Inventory[this] = 1;
+            }
+            player.Damage += Damage;
+            return $"You have picked up {Name}";
         }
     }
 }

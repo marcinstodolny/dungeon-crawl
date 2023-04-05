@@ -1,14 +1,12 @@
-﻿using System.Runtime.CompilerServices;
-using GameLogic.DungeonManagement;
+﻿using GameLogic.DungeonManagement;
 using GameLogic.DungeonManagement.RoomCreator;
 using GameLogic.DungeonManagement.SquareCreator;
-using RoguelikeGame;
 
 namespace GameLogic.Entity.Interaction.Item.Consumable
 {
     public class Food : Abstract.Consumable
     {
-        public Food(Square square) : base("", ' ', 0, square)
+        public Food(Square square) : base(square)
         {
             var randomFood = DbManager.GetItem("HPRestore", "Foods");
             Name = randomFood["Name"];
@@ -23,7 +21,7 @@ namespace GameLogic.Entity.Interaction.Item.Consumable
             dungeon.Grid[coordinates.X, coordinates.Y].Interactive = item;
         }
 
-        public string PickupItem(Player player)
+        public override string EatConsumable(Player player)
         {
             player.Health += HPrestore;
             return $"You have eat {Name}";

@@ -1,17 +1,17 @@
 ﻿using GameLogic.DungeonManagement;
 using GameLogic.DungeonManagement.RoomCreator;
 using GameLogic.DungeonManagement.SquareCreator;
-using RoguelikeGame;
 
 namespace GameLogic.Entity.Interaction.Item.Useable
 {
     public class Key : Abstract.Useable
     {
-        public Key(Square square) : base("", ' ', square)
+        public Key(Square square) : base(square)
         {
             var randomKey = DbManager.GetItem("", "Keys");
             Name = randomKey["Name"];
             MapSymbol = randomKey["Symbol"].ToCharArray()[0];
+            Id = int.Parse(randomKey["Id"]);
         }
 
         public static void PlaceItem(Dungeon dungeon, Room room)
@@ -19,6 +19,18 @@ namespace GameLogic.Entity.Interaction.Item.Useable
             Coordinates coordinates = RandomGenerator.FindRandomPlacement(dungeon, room);
             var item = new Key(dungeon.Grid[coordinates.X, coordinates.Y]);
             dungeon.Grid[coordinates.X, coordinates.Y].Interactive = item;
+        }
+        public override string PickUp(Player player)
+        {
+            if (player.Inventory.ContainsKey(this))
+            {
+                player.Inventory[this]++;
+            }
+            else
+            {
+                player.Inventory[this] = 1;
+            }
+            return $"You have picked up {Name}";
         }
     }
 }

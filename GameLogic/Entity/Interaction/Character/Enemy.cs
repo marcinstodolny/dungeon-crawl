@@ -10,7 +10,7 @@ namespace GameLogic.Entity.Interaction.Character
     {
         public int Damage { get; set; }
         public int Health { get; set; }
-        public Enemy(Square square) : base(square, "", ' ')
+        public Enemy(Square square) : base(square)
         {
             var randomEnemy = DbManager.GetEnemy();
             Name = randomEnemy["Name"];

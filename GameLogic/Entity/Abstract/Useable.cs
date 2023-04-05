@@ -4,8 +4,11 @@ namespace GameLogic.Entity.Abstract
 {
     public abstract class Useable : Item
     {
-        protected Useable(string name, char mapSymbol, Square square) : base(name, mapSymbol, square)
+        public int Id;
+        protected Useable(Square square) : base(square)
         {
         }
+
+        public abstract string PickUp(Player player);
     }
 }

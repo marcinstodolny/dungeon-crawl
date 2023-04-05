@@ -6,9 +6,10 @@ namespace GameLogic.Entity.Abstract
     {
         public int HPrestore { get; set; }
 
-        protected Consumable(string name, char mapSymbol, int hpRestore, Square square) : base(name, mapSymbol, square)
+        protected Consumable(Square square) : base(square)
         {
-            HPrestore = hpRestore;
         }
+        public abstract string EatConsumable(Player player);
+
     }
 }
