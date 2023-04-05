@@ -1,0 +1,6 @@
+C:\Codecool\inne\DungeonCrawler\obj\Debug\net6.0\DungeonCrawler.csproj.AssemblyReference.cache
+C:\Codecool\inne\DungeonCrawler\obj\Debug\net6.0\DungeonCrawler.GeneratedMSBuildEditorConfig.editorconfig
+C:\Codecool\inne\DungeonCrawler\obj\Debug\net6.0\DungeonCrawler.AssemblyInfoInputs.cache
+C:\Codecool\inne\DungeonCrawler\obj\Debug\net6.0\DungeonCrawler.AssemblyInfo.cs
+C:\Codecool\inne\DungeonCrawler\obj\Debug\net6.0\DungeonCrawler.csproj.CoreCompileInputs.cache
+C:\Codecool\inne\DungeonCrawler\obj\Debug\net6.0\DungeonCrawler.MvcApplicationPartsAssemblyInfo.cache
