@@ -101,6 +101,7 @@ public class DbManager
             {
                 return new Dictionary<string, string>();
             }
+
             var itemName = data.GetString("Name").Split(';')[0];
             var itemSymbol = data.GetString("Symbol");
             var message = data.GetString("Message").Split(';')[0];
@@ -109,21 +110,23 @@ public class DbManager
             connection.Close();
             return new Dictionary<string, string>()
             {
-                {"Name", itemName},
-                {"Symbol", itemSymbol},
-                {"Message", message},
-                {"Bonus", bonus},
-                {"Type", type}
+                { "Name", itemName },
+                { "Symbol", itemSymbol },
+                { "Message", message },
+                { "Bonus", bonus },
+                { "Type", type }
             };
         }
         catch (SqlException e)
         {
             throw new RuntimeWrappedException(e);
         }
+    }
 
-        public static void ResetSavedProgress()
-        {
-            const string deleteCommand = "TRUNCATE TABLE SAVE_Doors, SAVE_Inventory, SAVE_MapItems, SAVE_Monsters, SAVE_Player, SAVE_Room, SAVE_RoomCorners";
+    public static void ResetSavedProgress()
+    {
+            const string deleteCommand =
+                "TRUNCATE TABLE SAVE_Doors, SAVE_Inventory, SAVE_MapItems, SAVE_Monsters, SAVE_Player, SAVE_Room, SAVE_RoomCorners";
             try
             {
                 using (var connection = new SqlConnection(ConnectionString))
@@ -139,48 +142,49 @@ public class DbManager
             {
                 throw new RuntimeWrappedException(e);
             }
-        }
+    }
+    
 
-        public static void AddItemToDatabase<T>(T item)
-        {
-            const string getIdCommand = $"SELECT id FROM {item.GetType().Name} WHERE Name = {item.Name};";
+    public static void AddItemToDatabase<T>(T item)
+    {
+        const string getIdCommand = $"SELECT id FROM {item.GetType().Name} WHERE Name = {item.Name};";
 
-            const string insertItemCommand = @"INSERT INTO SAVE_Inventory (Item_Type, Item_Id)
+        const string insertItemCommand = @"INSERT INTO SAVE_Inventory (Item_Type, Item_Id)
                             VALUES (@Item_Type, @Item_Id);";
-            
-            try
-            {
-                using (var connection = new SqlConnection(ConnectionString))
-                {
-                    var cmdGet = new SqlCommand(getIdCommand, connection);
-                    if (connection.State == ConnectionState.Closed)
-                        connection.Open();
-                    var data = cmdGet.ExecuteReader();
-                    var itemId = data.GetInt32("Id");
-                    connection.Close();
 
-                    var cmdInsert = new SqlCommand(insertItemCommand, connection);
-                    if (connection.State == ConnectionState.Closed)
-                        connection.Open();
-                    cmdInsert.Parameters.AddWithValue("@Item_Type", item.GetType().Name);
-                    cmdInsert.Parameters.AddWithValue("@Item_Id", itemId);
-                    connection.Close();
-                }
-            }
-            catch (SqlException e)
-            {
-                throw new RuntimeWrappedException(e);
-            }
-        }
-
-        public static void RemoveItemFromDatabase()
+        try
         {
-            throw new NotImplementedException();
-        }
-
-        public static void LoadItemsFromSave()
+        using (var connection = new SqlConnection(ConnectionString))
         {
-            throw new NotImplementedException();
+            var cmdGet = new SqlCommand(getIdCommand, connection);
+            if (connection.State == ConnectionState.Closed)
+                connection.Open();
+            var data = cmdGet.ExecuteReader();
+            var itemId = data.GetInt32("Id");
+            connection.Close();
+
+            var cmdInsert = new SqlCommand(insertItemCommand, connection);
+            if (connection.State == ConnectionState.Closed)
+                connection.Open();
+            cmdInsert.Parameters.AddWithValue("@Item_Type", item.GetType().Name);
+            cmdInsert.Parameters.AddWithValue("@Item_Id", itemId);
+            connection.Close();
+        }
+        
+        catch (SqlException e)
+        {
+            throw new RuntimeWrappedException(e);
         }
     }
+
+    public static void RemoveItemFromDatabase()
+    {
+        throw new NotImplementedException();
+    }
+
+    public static void LoadItemsFromSave()
+    {
+        throw new NotImplementedException();
+    }
+    
 }
