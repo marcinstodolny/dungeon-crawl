@@ -1,4 +1,5 @@
 ﻿using System.Text;
+using RoguelikeGame.Entity;
 
 namespace RoguelikeGame.DungeonManagement
 {
@@ -139,9 +140,9 @@ namespace RoguelikeGame.DungeonManagement
             {
                 for (int x = 0; x < Width; x++)
                 {
-                    if (Board[x, y].Entity != null)
+                    if (Board[x, y].Interactive != null)
                     {
-                        sbReturn.Append(Board[x, y].Entity.MapSymbol);
+                        sbReturn.Append(Board[x, y].Interactive.MapSymbol);
                     }
                     else
                     {

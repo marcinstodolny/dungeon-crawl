@@ -2,9 +2,10 @@
 using RoguelikeGame.UI;
 using Microsoft.Data.SqlClient;
 using System.Configuration;
-using RoguelikeGame.Entity.Consumable;
-using RoguelikeGame.Entity.Creatures;
-using RoguelikeGame.Entity.Useable;
+using RoguelikeGame.Entity;
+using RoguelikeGame.Entity.Interaction.Creatures;
+using RoguelikeGame.Entity.Interaction.Item.Consumable;
+using RoguelikeGame.Entity.Interaction.Item.Useable;
 
 namespace RoguelikeGame
 {

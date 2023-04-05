@@ -35,7 +35,7 @@ public class ItemsDbManager
                 "Potions" or "Foods" => data.GetInt32("HPRestore").ToString(),
                 _ => ""
             };
-            var itemName = data.GetString("Name");
+            var itemName = data.GetString("Name").Split(';')[0];
             var itemSymbol = data.GetString("Symbol");
             connection.Close();
             return new Dictionary<string, string>()
@@ -65,7 +65,7 @@ public class ItemsDbManager
             {
                 return new Dictionary<string, string>();
             }
-            var itemName = data.GetString("Name");
+            var itemName = data.GetString("Name").Split(';')[0];
             var itemSymbol = data.GetString("Symbol");
             var health = data.GetInt32("Health").ToString();
             var damage = data.GetInt32("Damage").ToString();
@@ -98,7 +98,7 @@ public class ItemsDbManager
             {
                 return new Dictionary<string, string>();
             }
-            var itemName = data.GetString("Name");
+            var itemName = data.GetString("Name").Split(';')[0];
             var itemSymbol = data.GetString("Symbol");
             var bonus = data.GetInt32("Bonus").ToString();
             var type = data.GetString("Type");
