@@ -1,4 +1,5 @@
-﻿using GameLogic.DungeonManagement;
+﻿using System.Runtime.CompilerServices;
+using GameLogic.DungeonManagement;
 using GameLogic.DungeonManagement.RoomCreator;
 using GameLogic.DungeonManagement.SquareCreator;
 using RoguelikeGame;
@@ -20,6 +21,12 @@ namespace GameLogic.Entity.Interaction.Item.Consumable
             Coordinates coordinates = RandomGenerator.FindRandomPlacement(dungeon, room);
             var item = new Food(dungeon.Grid[coordinates.X, coordinates.Y]);
             dungeon.Grid[coordinates.X, coordinates.Y].Interactive = item;
+        }
+
+        public string PickupItem(Player player)
+        {
+            player.Health += HPrestore;
+            return $"You have eat {Name}";
         }
     }
 }

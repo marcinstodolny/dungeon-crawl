@@ -1,6 +1,7 @@
 ﻿using GameLogic.DungeonManagement;
 using GameLogic.DungeonManagement.RoomCreator;
 using GameLogic.DungeonManagement.SquareCreator;
+using GameLogic.Entity.Abstract;
 using RoguelikeGame;
 
 namespace GameLogic.Entity.Interaction.Item.Useable
@@ -22,6 +23,20 @@ namespace GameLogic.Entity.Interaction.Item.Useable
             Coordinates coordinates = RandomGenerator.FindRandomPlacement(dungeon, room);
             var item = new Armor(dungeon.Grid[coordinates.X, coordinates.Y]);
             dungeon.Grid[coordinates.X, coordinates.Y].Interactive = item;
+        }
+
+        public string PickUp(Player player)
+        {
+            if (player.Inventory.ContainsKey(this))
+            {
+                player.Inventory[this]++;
+            }
+            else
+            {
+                player.Inventory[this] = 1;
+            }
+            player.Armor += Protection;
+            return $"You have picked up {Name}";
         }
     }
 }

@@ -36,6 +36,7 @@ namespace GameLogic.Entity
         {
             if (newCoordinates.X == Square.Position.X && newCoordinates.Y == Square.Position.Y)
             {
+                //pickup item
 
             }
             else if (dungeon.Grid[newCoordinates.X, newCoordinates.Y].Walkable)
