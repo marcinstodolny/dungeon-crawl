@@ -5,13 +5,13 @@ namespace RoguelikeGame.Entity.Interaction.Item.Useable
 
     public class Weapons : Abstract.Useable
     {
-        public int Attack;
+        public int Damage;
         public Weapons(Square square) : base(square)
         {
             var randomWeapon = DbManager.GetItem("Attack", "Weapons");
             Name = randomWeapon["Name"];
             MapSymbol = randomWeapon["Symbol"].ToCharArray()[0];
-            Attack = int.Parse(randomWeapon["Stat"]);
+            Damage = int.Parse(randomWeapon["Stat"]);
             Id = int.Parse(randomWeapon["Id"]);
         }
 
@@ -20,6 +20,19 @@ namespace RoguelikeGame.Entity.Interaction.Item.Useable
             var (randX, randY) = RandomGenerator.FindRandomPlacement(game.Dungeon);
             var item = new Weapons(game.Dungeon.Board[randX, randY]);
             game.Dungeon.Board[randX, randY].Interactive = item;
+        }
+        public override string PickUp(Player player)
+        {
+            if (player.Inventory.ContainsKey(this))
+            {
+                player.Inventory[this]++;
+            }
+            else
+            {
+                player.Inventory[this] = 1;
+            }
+            player.Damage += Damage;
+            return $"You have picked up {Name}";
         }
     }
 }

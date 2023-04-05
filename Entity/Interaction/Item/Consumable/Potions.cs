@@ -17,5 +17,10 @@ namespace RoguelikeGame.Entity.Interaction.Item.Consumable
             var item = new Potions(game.Dungeon.Board[randX, randY]);
             game.Dungeon.Board[randX, randY].Interactive = item;
         }
+        public override string EatConsumable(Player player)
+        {
+            player.Health += HPrestore;
+            return $"You have eat {Name}";
+        }
     }
 }

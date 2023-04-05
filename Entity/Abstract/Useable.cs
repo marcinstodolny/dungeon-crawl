@@ -8,5 +8,6 @@ namespace RoguelikeGame.Entity.Abstract
         protected Useable(Square square) : base(square)
         {
         }
+        public abstract string PickUp(Player player);
     }
 }

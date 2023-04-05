@@ -11,6 +11,7 @@ namespace RoguelikeGame.Entity.Abstract
         public void RemoveFromBoard()
         {
             Square.Interactive = null;
+            Square.Status = SquareStatus.Floor;
         }
     }
 }

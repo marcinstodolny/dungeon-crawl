@@ -19,5 +19,17 @@ namespace RoguelikeGame.Entity.Interaction.Item.Useable
             var item = new Key(game.Dungeon.Board[randX, randY]);
             game.Dungeon.Board[randX, randY].Interactive = item;
         }
+        public override string PickUp(Player player)
+        {
+            if (player.Inventory.ContainsKey(this))
+            {
+                player.Inventory[this]++;
+            }
+            else
+            {
+                player.Inventory[this] = 1;
+            }
+            return $"You have picked up {Name}";
+        }
     }
 }
