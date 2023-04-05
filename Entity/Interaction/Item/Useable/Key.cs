@@ -10,6 +10,7 @@ namespace RoguelikeGame.Entity.Interaction.Item.Useable
             var randomKey = DbManager.GetItem("", "Keys");
             Name = randomKey["Name"];
             MapSymbol = randomKey["Symbol"].ToCharArray()[0];
+            Id = int.Parse(randomKey["Id"]);
         }
 
         public static void PlaceItem(Game game)

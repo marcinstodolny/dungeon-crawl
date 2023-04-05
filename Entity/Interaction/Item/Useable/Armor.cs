@@ -12,6 +12,7 @@ namespace RoguelikeGame.Entity.Interaction.Item.Useable
             Name = randomArmor["Name"];
             MapSymbol = randomArmor["Symbol"].ToCharArray()[0];
             Protection = int.Parse(randomArmor["Stat"]);
+            Id = int.Parse(randomArmor["Id"]);
         }
 
         public static void PlaceItem(Game game)
