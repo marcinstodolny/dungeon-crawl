@@ -5,6 +5,7 @@ using System.Configuration;
 using System.Data;
 using System.Runtime.CompilerServices;
 using Microsoft.Identity.Client;
+using RoguelikeGame.Entity.Abstract;
 
 namespace RoguelikeGame;
 
@@ -145,9 +146,9 @@ public class DbManager
     }
     
 
-    public static void AddItemToDatabase<T>(T item)
+    public static void AddItemToDatabase(Item item, string table)
     {
-        const string getIdCommand = $"SELECT id FROM {item.GetType().Name} WHERE Name = {item.Name};";
+        string getIdCommand = $"SELECT id FROM {table} WHERE Name LIKE {item.Name}%;";
 
         const string insertItemCommand = @"INSERT INTO SAVE_Inventory (Item_Type, Item_Id)
                             VALUES (@Item_Type, @Item_Id);";
@@ -156,18 +157,12 @@ public class DbManager
         {
             using (var connection = new SqlConnection(ConnectionString))
             {
-                var cmdGet = new SqlCommand(getIdCommand, connection);
-                if (connection.State == ConnectionState.Closed)
-                    connection.Open();
-                var data = cmdGet.ExecuteReader();
-                var itemId = data.GetInt32("Id");
-                connection.Close();
 
                 var cmdInsert = new SqlCommand(insertItemCommand, connection);
                 if (connection.State == ConnectionState.Closed)
                     connection.Open();
-                cmdInsert.Parameters.AddWithValue("@Item_Type", item.GetType().Name);
-                cmdInsert.Parameters.AddWithValue("@Item_Id", itemId);
+                cmdInsert.Parameters.AddWithValue("@Item_Type", table);
+                cmdInsert.Parameters.AddWithValue("@Item_Id", item.Id);
                 connection.Close();
             }
         }
