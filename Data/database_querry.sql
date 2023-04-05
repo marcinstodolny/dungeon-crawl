@@ -114,6 +114,7 @@ CREATE TABLE [dbo].[SAVE_Monsters] (
 
 CREATE TABLE [dbo].[SAVE_Inventory] (
     [Id] INT NOT NULL PRIMARY KEY IDENTITY, 
+    [Item_Type] NCHAR(10) NULL,
     [Item_Id] INT NULL,
 );
 
