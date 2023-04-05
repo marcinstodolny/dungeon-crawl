@@ -102,7 +102,7 @@ public class DbManager
             var itemSymbol = data.GetString("Symbol");
             var message = data.GetString("Message").Split(';')[0];
             var bonus = data.GetInt32("Bonus").ToString();
-            var type = data.GetString("Type");
+            var type = data.GetString("Type").Split(';')[0];
             connection.Close();
             return new Dictionary<string, string>()
             {
@@ -118,19 +118,19 @@ public class DbManager
             throw new RuntimeWrappedException(e);
         }
 
-        public static Dictionary<string, string> AddItemToDatabase()
-        {
-            throw new NotImplementedException();
-        }
+        //public static Dictionary<string, string> AddItemToDatabase()
+        //{
+        //    throw new NotImplementedException();
+        //}
 
-        public static Dictionary<string, string> RemoveItemFromDatabase()
-        {
-            throw new NotImplementedException();
-        }
+        //public static Dictionary<string, string> RemoveItemFromDatabase()
+        //{
+        //    throw new NotImplementedException();
+        //}
 
-        public static Dictionary<string, string> LoadItemsFromSave()
-        {
-            throw new NotImplementedException();
-        }
+        //public static Dictionary<string, string> LoadItemsFromSave()
+        //{
+        //    throw new NotImplementedException();
+        //}
     }
 }

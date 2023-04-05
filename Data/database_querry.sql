@@ -165,5 +165,7 @@ VALUES ('Demon;', 'E', 7, 20),
 ('Wolf;', 'E', 8, 10)
 
 INSERT INTO dbo.Allies (Name, Symbol, Message, Bonus, Type)
-VALUES ('Merlin', 'W', 'Welcome to my house, I am merlin the wizard that will boost your health \nYou gained 20 bonus health;', 20, 'Health'),
-('David', 'W', 'Welcome to my house, I am David long time ago I was a warrior and now I can show you how to deal more damage to enemies \nYou gained 2 bonus damage;', 2, 'Damage')
+VALUES ('Merlin', 'W', 'Welcome to my house, I am merlin the wizard that will boost your health
+You gained 20 bonus health;', 20, 'Health;'),
+('David', 'W', 'Welcome to my house, I am David long time ago I was a warrior and now I can show you how to deal more damage to enemies
+You gained 2 bonus damage;', 2, 'Damage;')

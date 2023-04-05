@@ -207,10 +207,10 @@ namespace RoguelikeGame.Entity
             }
             var ally = (Ally)newSquare.Interactive;
             Display.DisplayAllyMessage(ally);
-            Console.WriteLine(ally.BonusHealth);
             WaitMessage();
             Health += ally.BonusHealth;
             Damage += ally.BonusDamage;
+            Armor += ally.BonusArmor;
             newSquare.Interactive = null;
 
             return newSquare;
