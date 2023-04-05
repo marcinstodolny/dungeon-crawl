@@ -5,7 +5,7 @@ namespace RoguelikeGame.Entity.Abstract;
 public abstract class Character : Interactive
 {
 
-    protected Character(Square square, string name, char mapSymbol) : base(name, mapSymbol, square)
+    protected Character(Square square) : base(square)
     {
     }
     public void ChangeSquare(Square newSquare)

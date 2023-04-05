@@ -6,7 +6,7 @@ namespace RoguelikeGame.Entity.Interaction.Item.Useable
     public class Weapons : Abstract.Useable
     {
         public int Attack;
-        public Weapons(Square square) : base("", ' ', square)
+        public Weapons(Square square) : base(square)
         {
             var randomWeapon = DbManager.GetItem("Attack", "Weapons");
             Name = randomWeapon["Name"];

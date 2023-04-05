@@ -7,7 +7,7 @@ namespace RoguelikeGame.Entity.Interaction.Creatures
     {
         public int Damage { get; set; }
         public int Health { get; set; }
-        public Enemy(Square square) : base(square, "", ' ')
+        public Enemy(Square square) : base(square)
         {
             var randomEnemy = DbManager.GetEnemy();
             Name = randomEnemy["Name"];

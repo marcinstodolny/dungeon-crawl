@@ -8,8 +8,8 @@ namespace RoguelikeGame.Entity.Interaction.Creatures
         public int BonusDamage { get; set; }
         public int BonusHealth { get; set; }
         public int BonusArmor { get; set; }
-        public string Message { get; set; }
-        public Ally(Square square) : base(square, "", ' ')
+        public string Message { get; set; } = "";
+        public Ally(Square square) : base(square)
         {
             var randomAlly = DbManager.GetAlly();
             Name = randomAlly["Name"];

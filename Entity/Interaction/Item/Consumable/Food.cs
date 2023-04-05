@@ -4,7 +4,7 @@ namespace RoguelikeGame.Entity.Interaction.Item.Consumable
 {
     public class Food : Abstract.Consumable
     {
-        public Food(Square square) : base("", ' ', 0, square)
+        public Food(Square square) : base(square)
         {
             var randomFood = DbManager.GetItem("HPRestore", "Foods");
             Name = randomFood["Name"];

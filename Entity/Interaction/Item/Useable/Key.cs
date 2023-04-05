@@ -5,7 +5,7 @@ namespace RoguelikeGame.Entity.Interaction.Item.Useable
 
     public class Key : Abstract.Useable
     {
-        public Key(Square square) : base("", ' ', square)
+        public Key(Square square) : base(square)
         {
             var randomKey = DbManager.GetItem("", "Keys");
             Name = randomKey["Name"];

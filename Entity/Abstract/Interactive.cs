@@ -4,7 +4,7 @@ namespace RoguelikeGame.Entity.Abstract
 {
     public abstract class Interactive : Entity
     {
-        protected Interactive(string name, char mapSymbol, Square square) : base(name, mapSymbol, square)
+        protected Interactive(Square square) : base(square)
         {
 
         }

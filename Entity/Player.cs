@@ -17,9 +17,10 @@ namespace RoguelikeGame.Entity
         public Square PreviousSquare { get; set; }
         public Dictionary<Useable, int> Inventory { get; set; }
 
-        public Player(string name, Square square, int health = 20, int armor = 5, int damage = 5) : base(name, '@', square)
+        public Player(string name, Square square, int health = 20, int armor = 5, int damage = 5) : base(square)
         {
             square.Player = this;
+            Name = name;
             Armor = armor;
             Health = health;
             Damage = damage;

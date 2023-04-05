@@ -6,7 +6,7 @@ namespace RoguelikeGame.Entity.Interaction.Item.Useable
     public class Armor : Abstract.Useable
     {
         public int Protection;
-        public Armor(Square square) : base("", ' ', square)
+        public Armor(Square square) : base(square)
         {
             var randomArmor = DbManager.GetItem("Armor", "Armors");
             Name = randomArmor["Name"];
