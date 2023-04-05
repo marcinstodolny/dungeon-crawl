@@ -23,18 +23,10 @@ namespace RoguelikeGame.Entity.Interaction.Item.Useable
         }
         public override string PickUp(Player player)
         {
-            if (player.Inventory.ContainsKey(this))
-            {
-                player.Inventory[this]++;
-            }
-            else
-            {
-                player.Inventory[this] = 1;
-            }
+            AddToInventory(player);
             player.Armor += Protection;
+            RemoveFromBoard();
             return $"You have picked up {Name}";
         }
-
-
     }
 }

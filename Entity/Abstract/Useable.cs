@@ -9,5 +9,17 @@ namespace RoguelikeGame.Entity.Abstract
         {
         }
         public abstract string PickUp(Player player);
+
+        protected void AddToInventory(Player player)
+        {
+            if (player.Inventory.ContainsKey(this))
+            {
+                player.Inventory[this]++;
+            }
+            else
+            {
+                player.Inventory[this] = 1;
+            }
+        }
     }
 }
