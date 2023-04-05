@@ -40,6 +40,7 @@ namespace RoguelikeGame.Entity.Interaction.Creatures
         {
             player.Health += BonusHealth;
             player.Damage += BonusDamage;
+            player.Armor += BonusArmor;
             RemoveFromBoard();
             return Message;
         }
