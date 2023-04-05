@@ -16,7 +16,9 @@ namespace GameLogic
             {
                 for (int x = 0; x < dungeon.Dimensions.X; x++)
                 {
-                    sbReturn.Append(new string($"{(char)dungeon.Grid[x, y].Status}"));
+                    sbReturn.Append(dungeon.Grid[x, y].Interactive != null
+                        ? new string($"{dungeon.Grid[x, y].Interactive!.MapSymbol}")
+                        : new string($"{(char)dungeon.Grid[x, y].Status}"));
                 }
                 sbReturn.Append('\n');
             }

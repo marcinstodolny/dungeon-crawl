@@ -55,8 +55,8 @@ namespace GameLogic.DungeonManagement
                 {
                     newRoom.Draw(Grid);
                     Rooms.Add(newRoom);
-                    //PlaceCreaturesInRoom(numberOfCreatures, newRoom);
-                    //PlaceItemsInRoom(numberOfItems, newRoom);
+                    PlaceCreaturesInRoom(numberOfCreatures, newRoom);
+                    PlaceItemsInRoom(numberOfItems, newRoom);
                 }
                 else
                 {
