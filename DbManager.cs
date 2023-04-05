@@ -148,7 +148,7 @@ public class DbManager
     }
     
 
-    public static void AddItemToDatabase(Item item, string table)
+    public static void AddItemToDatabase(Useable item, string table)
     {
         string getIdCommand = $"SELECT id FROM {table} WHERE Name LIKE {item.Name}%;";
 
