@@ -72,3 +72,5 @@ crashlytics-build.properties
 
 
 *.config
+*.mdf
+*.ldf
