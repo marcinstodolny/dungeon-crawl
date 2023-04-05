@@ -1,6 +1,6 @@
 ﻿using RoguelikeGame.DungeonManagement;
 
-namespace RoguelikeGame.Entity.Interaction.Creatures
+namespace RoguelikeGame.Entity.Interaction.Character
 {
 
     public class Enemy : Abstract.Character

@@ -86,7 +86,7 @@ public class ItemsDbManager
 
     public static Dictionary<string, string> GetAlly()
     {
-        const string getCommand = $"SELECT TOP 1 Name, Symbol, Bonus, Type FROM Allies ORDER BY NEWID()";
+        const string getCommand = $"SELECT TOP 1 Name, Symbol, Message, Bonus, Type FROM Allies ORDER BY NEWID()";
         try
         {
             using var connection = new SqlConnection(ConnectionString);
@@ -100,6 +100,7 @@ public class ItemsDbManager
             }
             var itemName = data.GetString("Name").Split(';')[0];
             var itemSymbol = data.GetString("Symbol");
+            var message = data.GetString("Message").Split(';')[0];
             var bonus = data.GetInt32("Bonus").ToString();
             var type = data.GetString("Type");
             connection.Close();
@@ -107,6 +108,7 @@ public class ItemsDbManager
             {
                 {"Name", itemName},
                 {"Symbol", itemSymbol},
+                {"Message", message},
                 {"Bonus", bonus},
                 {"Type", type}
             };

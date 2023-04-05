@@ -1,7 +1,7 @@
 ﻿using RoguelikeGame.DungeonManagement;
 using RoguelikeGame.Entity;
 using RoguelikeGame.Entity.Abstract;
-using RoguelikeGame.Entity.Interaction.Creatures;
+using RoguelikeGame.Entity.Interaction.Character;
 
 namespace RoguelikeGame.UI
 {

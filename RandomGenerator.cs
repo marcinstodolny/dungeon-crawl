@@ -9,7 +9,7 @@ namespace RoguelikeGame
         {
             int randX = Random.Next(dungeon.Width);
             int randY = Random.Next(dungeon.Height);
-            while (dungeon.Board[randX, randY].Status != SquareStatus.Floor)
+            while (dungeon.Board[randX, randY].Status != SquareStatus.Floor || dungeon.Board[randX, randY].Interactive != null)
             {
                 randX = Random.Next(dungeon.Width);
                 randY = Random.Next(dungeon.Height);

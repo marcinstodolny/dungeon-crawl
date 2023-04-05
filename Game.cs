@@ -3,7 +3,7 @@ using RoguelikeGame.UI;
 using Microsoft.Data.SqlClient;
 using System.Configuration;
 using RoguelikeGame.Entity;
-using RoguelikeGame.Entity.Interaction.Creatures;
+using RoguelikeGame.Entity.Interaction.Character;
 using RoguelikeGame.Entity.Interaction.Item.Consumable;
 using RoguelikeGame.Entity.Interaction.Item.Useable;
 

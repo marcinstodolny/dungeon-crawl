@@ -1,6 +1,6 @@
 ﻿using RoguelikeGame.DungeonManagement;
 using RoguelikeGame.Entity.Abstract;
-using RoguelikeGame.Entity.Interaction.Creatures;
+using RoguelikeGame.Entity.Interaction.Character;
 using RoguelikeGame.Entity.Interaction.Item.Useable;
 using RoguelikeGame.UI;
 
@@ -115,27 +115,16 @@ namespace RoguelikeGame.Entity
 
         private Square CheckForCollision(Square newSquare)
         {
-            switch (newSquare.Status)
+            if (newSquare.Interactive != null && newSquare.Interactive.GetType().BaseType == typeof(Character))
             {
-                case SquareStatus.Corridor:
-
-                    return newSquare;
-                case SquareStatus.Item:
-                    return newSquare;
-                case SquareStatus.Ally:
-                    return ApproachAlly(newSquare);
-                case SquareStatus.Enemy:
-                    return ApproachEnemy(newSquare);
-                case SquareStatus.Door:
-                    // go thought door
-                    return newSquare;
-                case SquareStatus.Floor:
-                    return newSquare;
-                case SquareStatus.Empty:
-                    return newSquare;
-                default:
-                    return Square;
+                return newSquare.Interactive.GetType() == typeof(Ally) ? ApproachAlly(newSquare) : ApproachEnemy(newSquare);
             }
+
+            return newSquare.Status switch
+            {
+                SquareStatus.Wall => Square,
+                _ => newSquare
+            };
         }
 
         private void PickupItem(Square square)
@@ -218,6 +207,7 @@ namespace RoguelikeGame.Entity
             }
             var ally = (Ally)newSquare.Interactive;
             Display.DisplayAllyMessage(ally);
+            Console.WriteLine(ally.BonusHealth);
             WaitMessage();
             Health += ally.BonusHealth;
             Damage += ally.BonusDamage;

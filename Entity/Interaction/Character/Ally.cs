@@ -1,6 +1,6 @@
 ﻿using RoguelikeGame.DungeonManagement;
 
-namespace RoguelikeGame.Entity.Interaction.Creatures
+namespace RoguelikeGame.Entity.Interaction.Character
 {
 
     public class Ally : Abstract.Character
@@ -14,6 +14,7 @@ namespace RoguelikeGame.Entity.Interaction.Creatures
             var randomAlly = ItemsDbManager.GetAlly();
             Name = randomAlly["Name"];
             MapSymbol = randomAlly["Symbol"].ToCharArray()[0];
+            Message = randomAlly["Message"];
             switch (randomAlly["Type"])
             {
                 case "Health":
