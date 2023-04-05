@@ -4,6 +4,7 @@ using Microsoft.VisualBasic;
 using System.Configuration;
 using System.Data;
 using System.Runtime.CompilerServices;
+using Microsoft.Identity.Client;
 
 namespace RoguelikeGame;
 
@@ -118,6 +119,26 @@ public class DbManager
             throw new RuntimeWrappedException(e);
         }
 
+        public static void ResetSavedProgress()
+        {
+            const string deleteCommand = "TRUNCATE TABLE SAVE_Doors, SAVE_Inventory, SAVE_MapItems, SAVE_Monsters, SAVE_Player, SAVE_Room, SAVE_RoomCorners";
+            try
+            {
+                using (var connection = new SqlConnection(ConnectionString))
+                {
+                    var cmd = new SqlCommand(deleteCommand, connection);
+                    if (connection.State == ConnectionState.Closed)
+                        connection.Open();
+                    cmd.ExecuteNonQuery();
+                    connection.Close();
+                }
+            }
+            catch (SqlException e)
+            {
+                throw new RuntimeWrappedException(e);
+            }
+        }
+
         public static void AddItemToDatabase<T>(T item)
         {
             const string getIdCommand = $"SELECT id FROM {item.GetType().Name} WHERE Name = {item.Name};";
@@ -150,12 +171,12 @@ public class DbManager
             }
         }
 
-        public static Dictionary<string, string> RemoveItemFromDatabase()
+        public static void RemoveItemFromDatabase()
         {
             throw new NotImplementedException();
         }
 
-        public static Dictionary<string, string> LoadItemsFromSave()
+        public static void LoadItemsFromSave()
         {
             throw new NotImplementedException();
         }
