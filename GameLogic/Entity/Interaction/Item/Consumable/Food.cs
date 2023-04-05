@@ -21,9 +21,10 @@ namespace GameLogic.Entity.Interaction.Item.Consumable
             dungeon.Grid[coordinates.X, coordinates.Y].Interactive = item;
         }
 
-        public override string EatConsumable(Player player)
+        public override string Interact(Player player)
         {
             player.Health += HPrestore;
+            RemoveFromBoard();
             return $"You have eat {Name}";
         }
     }

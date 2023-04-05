@@ -8,8 +8,6 @@ namespace GameLogic.Entity.Abstract
         protected Useable(Square square) : base(square)
         {
         }
-
-        public abstract string PickUp(Player player);
         protected void AddToInventory(Player player)
         {
             if (player.Inventory.ContainsKey(this))

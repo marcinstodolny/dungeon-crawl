@@ -23,7 +23,7 @@ namespace GameLogic.Entity.Interaction.Item.Useable
             dungeon.Grid[coordinates.X, coordinates.Y].Interactive = item;
         }
 
-        public override string PickUp(Player player)
+        public override string Interact(Player player)
         {
             AddToInventory(player);
             player.Damage += Damage;

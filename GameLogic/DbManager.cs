@@ -3,7 +3,7 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Runtime.CompilerServices;
 
-namespace RoguelikeGame;
+namespace GameLogic;
 
 public class DbManager
 {
@@ -12,10 +12,10 @@ public class DbManager
     {
         var getCommand = table == "Keys"
             ?
-            $"SELECT TOP 1 Name, Symbol " +
+            $"SELECT TOP 1 id, Name, Symbol " +
             $"FROM {table} ORDER BY NEWID()"
             :
-            $"SELECT TOP 1 Name, Symbol, {statistic} " +
+            $"SELECT TOP 1 id, Name, Symbol, {statistic} " +
             $"FROM {table} ORDER BY NEWID()";
         try
         {
@@ -35,11 +35,13 @@ public class DbManager
                 "Potions" or "Foods" => data.GetInt32("HPRestore").ToString(),
                 _ => ""
             };
+            var id = data.GetInt32("id").ToString();
             var itemName = data.GetString("Name").Split(';')[0];
             var itemSymbol = data.GetString("Symbol");
             connection.Close();
             return new Dictionary<string, string>()
             {
+                {"Id", id},
                 {"Name", itemName},
                 {"Symbol", itemSymbol},
                 {"Stat", itemStatistic}

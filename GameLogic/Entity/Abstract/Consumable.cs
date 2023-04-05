@@ -9,7 +9,6 @@ namespace GameLogic.Entity.Abstract
         protected Consumable(Square square) : base(square)
         {
         }
-        public abstract string EatConsumable(Player player);
 
     }
 }
