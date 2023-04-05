@@ -8,4 +8,5 @@ public abstract class Item : Interactive
     {
 
     }
+    public abstract string Interact(Player player);
 }

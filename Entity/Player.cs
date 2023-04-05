@@ -1,7 +1,5 @@
 ﻿using RoguelikeGame.DungeonManagement;
 using RoguelikeGame.Entity.Abstract;
-using RoguelikeGame.Entity.Interaction.Creatures;
-using RoguelikeGame.Entity.Interaction.Item.Useable;
 using RoguelikeGame.UI;
 
 
@@ -86,8 +84,8 @@ namespace RoguelikeGame.Entity
                 case ConsoleKey.E:
                     if (Square.Interactive != null)
                     {
-                        PickupItem(Square);
-                        Square.Interactive = null;
+                        Console.WriteLine(((Item)Square.Interactive).Interact(this));
+                        WaitMessage();
                     }
                     break;
                 case ConsoleKey.I:
@@ -116,6 +114,16 @@ namespace RoguelikeGame.Entity
 
         private Square CheckForCollision(Square newSquare)
         {
+            if (newSquare.Interactive != null)
+            {
+                if (newSquare.Interactive.GetType().BaseType == typeof(Character))
+                {
+                    Console.WriteLine(((Character)newSquare.Interactive).ApproachCharacter(this));
+                    WaitMessage();
+                    return Square;
+                }
+            }
+
             switch (newSquare.Status)
             {
                 case SquareStatus.Corridor:
@@ -123,10 +131,6 @@ namespace RoguelikeGame.Entity
                     return newSquare;
                 case SquareStatus.Item:
                     return newSquare;
-                case SquareStatus.Ally:
-                    return ApproachAlly(newSquare);
-                case SquareStatus.Enemy:
-                    return ApproachEnemy(newSquare);
                 case SquareStatus.Door:
                     // go thought door
                     return newSquare;
@@ -137,94 +141,6 @@ namespace RoguelikeGame.Entity
                 default:
                     return Square;
             }
-        }
-
-        private void PickupItem(Square square)
-        {
-            if (square.Interactive!.GetType().BaseType == typeof(Consumable))
-            {
-                var consumable = (Consumable)square.Interactive;
-                if (consumable.Name == "Dimetylotryptamina")
-                {
-                    Display.DisplayDMT();
-                    DMT = true;
-                }
-                Health += consumable.HPrestore;
-                Display.DisplayFoodEat(square);
-                WaitMessage();
-            }
-            else if (square.Interactive!.GetType().BaseType == typeof(Useable))
-            {
-                var item = (Useable)square.Interactive;
-                if (Inventory.ContainsKey(item))
-                {
-                    Inventory[item]++;
-                }
-                else
-                {
-                    Inventory[item] = 1;
-                }
-                if (item.GetType() == typeof(Armor))
-                {
-                    Armor += ((Armor)item).Protection;
-                }
-                else if (item.GetType() == typeof(Weapons))
-                {
-                    Damage += ((Weapons)item).Damage;
-                }
-                Display.DisplayItemPickup(square);
-                WaitMessage();
-            }
-        }
-
-        private Square ApproachEnemy(Square newSquare)
-        {
-            if (newSquare.Interactive!.GetType() != typeof(Enemy))
-            {
-                return Square;
-            }
-            var enemy = (Enemy)newSquare.Interactive;
-            Display.DisplayEnemyInfo(enemy);
-            enemy.Health -= Damage;
-            if (enemy.Health > 0)
-            {
-                if (enemy.Damage - Armor <= 0)
-                {
-                    Display.DisplayFight(this, enemy, true);
-                    WaitMessage();
-                    return Square;
-                }
-                Health -= enemy.Damage - Armor;
-                if (Health < 0)
-                {
-                    Display.DeadMessage();
-                    WaitMessage();
-                    return Square;
-                }
-                Display.DisplayFight(this, enemy);
-                WaitMessage();
-                return Square;
-            }
-            Display.DisplayFightVictory(enemy);
-            WaitMessage();
-            newSquare.Interactive = null;
-            return newSquare;
-
-        }
-        private Square ApproachAlly(Square newSquare)
-        {
-            if (newSquare.Interactive!.GetType() != typeof(Ally))
-            {
-                return newSquare;
-            }
-            var ally = (Ally)newSquare.Interactive;
-            Display.DisplayAllyMessage(ally);
-            WaitMessage();
-            Health += ally.BonusHealth;
-            Damage += ally.BonusDamage;
-            newSquare.Interactive = null;
-
-            return newSquare;
         }
 
         private static void WaitMessage()

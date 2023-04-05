@@ -33,8 +33,8 @@ namespace RoguelikeGame.Entity.Interaction.Creatures
                     return $"You have dealt {player.Damage} to enemy\n" +
                            $"Enemy have missed";
                 }
-                Health -= Damage - player.Armor;
-                return Health < 0 ? "Game Over\nYou have been slain"
+                player.Health -= Damage - player.Armor;
+                return player.Health <= 0 ? "Game Over\nYou have been slain"
                     : $"You have dealt {player.Damage} to enemy\n" +
                       $"Enemy have dealt {Damage - player.Armor} to you";
             }
