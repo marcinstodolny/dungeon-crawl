@@ -14,6 +14,7 @@ namespace GameLogic.Entity.Abstract
             Square = newSquare;
             Square.Interactive = this;
         }
+        public abstract string ApproachCharacter(Player player);
     }
 }
 

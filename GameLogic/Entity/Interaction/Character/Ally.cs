@@ -1,7 +1,6 @@
 ﻿using GameLogic.DungeonManagement;
 using GameLogic.DungeonManagement.RoomCreator;
 using GameLogic.DungeonManagement.SquareCreator;
-using RoguelikeGame;
 
 namespace GameLogic.Entity.Interaction.Character
 {
@@ -39,6 +38,12 @@ namespace GameLogic.Entity.Interaction.Character
             dungeon.Grid[coordinates.X, coordinates.Y].Interactive = ally;
         }
 
-
+        public override string ApproachCharacter(Player player)
+        {
+            player.Health += BonusHealth;
+            player.Damage += BonusDamage;
+            RemoveFromBoard();
+            return Message;
+        }
     }
 }

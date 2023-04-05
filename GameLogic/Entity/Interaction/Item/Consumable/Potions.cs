@@ -13,12 +13,14 @@ namespace GameLogic.Entity.Interaction.Item.Consumable
             MapSymbol = randomPotion["Symbol"].ToCharArray()[0];
             HPrestore = int.Parse(randomPotion["Stat"]);
         }
+
         public static void PlaceItem(Dungeon dungeon, Room room)
         {
             Coordinates coordinates = RandomGenerator.FindRandomPlacement(dungeon, room);
             var item = new Potions(dungeon.Grid[coordinates.X, coordinates.Y]);
             dungeon.Grid[coordinates.X, coordinates.Y].Interactive = item;
         }
+
         public override string EatConsumable(Player player)
         {
             player.Health += HPrestore;

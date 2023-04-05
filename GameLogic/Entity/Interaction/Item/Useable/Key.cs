@@ -20,6 +20,7 @@ namespace GameLogic.Entity.Interaction.Item.Useable
             var item = new Key(dungeon.Grid[coordinates.X, coordinates.Y]);
             dungeon.Grid[coordinates.X, coordinates.Y].Interactive = item;
         }
+
         public override string PickUp(Player player)
         {
             AddToInventory(player);

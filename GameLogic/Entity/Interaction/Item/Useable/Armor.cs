@@ -4,7 +4,6 @@ using GameLogic.DungeonManagement.SquareCreator;
 
 namespace GameLogic.Entity.Interaction.Item.Useable
 {
-
     public class Armor : Abstract.Useable
     {
         public int Protection;

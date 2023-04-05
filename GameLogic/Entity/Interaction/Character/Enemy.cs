@@ -1,7 +1,6 @@
 ﻿using GameLogic.DungeonManagement;
 using GameLogic.DungeonManagement.RoomCreator;
 using GameLogic.DungeonManagement.SquareCreator;
-using RoguelikeGame;
 
 namespace GameLogic.Entity.Interaction.Character
 {
@@ -24,6 +23,25 @@ namespace GameLogic.Entity.Interaction.Character
             Coordinates coordinates = RandomGenerator.FindRandomPlacement(dungeon, room);
             var enemy = new Enemy(dungeon.Grid[coordinates.X, coordinates.Y]);
             dungeon.Grid[coordinates.X, coordinates.Y].Interactive = enemy;
+        }
+
+        public override string ApproachCharacter(Player player)
+        {
+            Health -= player.Damage;
+            if (Health > 0)
+            {
+                if (Damage - player.Armor <= 0)
+                {
+                    return $"You have dealt {player.Damage} to enemy\n" +
+                           $"Enemy have missed";
+                }
+                Health -= Damage - player.Armor;
+                return Health < 0 ? "Game Over\nYou have been slain" 
+                    : $"You have dealt {player.Damage} to enemy\n" +
+                      $"Enemy have dealt {Damage - player.Armor} to you";
+            }
+            RemoveFromBoard();
+            return $"You successfully defeated {Name}";
         }
     }
 }
