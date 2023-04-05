@@ -22,14 +22,8 @@ namespace GameLogic.Entity.Interaction.Item.Useable
         }
         public override string PickUp(Player player)
         {
-            if (player.Inventory.ContainsKey(this))
-            {
-                player.Inventory[this]++;
-            }
-            else
-            {
-                player.Inventory[this] = 1;
-            }
+            AddToInventory(player);
+            RemoveFromBoard();
             return $"You have picked up {Name}";
         }
     }
