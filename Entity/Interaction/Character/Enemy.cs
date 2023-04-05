@@ -9,7 +9,7 @@ namespace RoguelikeGame.Entity.Interaction.Character
         public int Health { get; set; }
         public Enemy(Square square) : base(square, "", ' ')
         {
-            var randomEnemy = ItemsDbManager.GetEnemy();
+            var randomEnemy = DbManager.GetEnemy();
             Name = randomEnemy["Name"];
             MapSymbol = randomEnemy["Symbol"].ToCharArray()[0];
             Damage = int.Parse(randomEnemy["Damage"]);

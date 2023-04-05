@@ -8,7 +8,7 @@ namespace RoguelikeGame.Entity.Interaction.Item.Useable
         public int Attack;
         public Weapons(Square square) : base("", ' ', square)
         {
-            var randomWeapon = ItemsDbManager.GetItem("Attack", "Weapons");
+            var randomWeapon = DbManager.GetItem("Attack", "Weapons");
             Name = randomWeapon["Name"];
             MapSymbol = randomWeapon["Symbol"].ToCharArray()[0];
             Attack = int.Parse(randomWeapon["Stat"]);

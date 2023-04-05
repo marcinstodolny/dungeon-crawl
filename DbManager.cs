@@ -5,7 +5,7 @@ using System.Runtime.CompilerServices;
 
 namespace RoguelikeGame;
 
-public class ItemsDbManager
+public class DbManager
 {
     public static string ConnectionString => ConfigurationManager.AppSettings["connectionString"]!;
     public static Dictionary<string, string> GetItem(string statistic, string table)
@@ -116,6 +116,21 @@ public class ItemsDbManager
         catch (SqlException e)
         {
             throw new RuntimeWrappedException(e);
+        }
+
+        public static Dictionary<string, string> AddItemToDatabase()
+        {
+            throw new NotImplementedException();
+        }
+
+        public static Dictionary<string, string> RemoveItemFromDatabase()
+        {
+            throw new NotImplementedException();
+        }
+
+        public static Dictionary<string, string> LoadItemsFromSave()
+        {
+            throw new NotImplementedException();
         }
     }
 }

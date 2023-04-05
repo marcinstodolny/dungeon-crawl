@@ -8,7 +8,7 @@ namespace RoguelikeGame.Entity.Interaction.Item.Useable
         public int Protection;
         public Armor(Square square) : base("", ' ', square)
         {
-            var randomArmor = ItemsDbManager.GetItem("Armor", "Armors");
+            var randomArmor = DbManager.GetItem("Armor", "Armors");
             Name = randomArmor["Name"];
             MapSymbol = randomArmor["Symbol"].ToCharArray()[0];
             Protection = int.Parse(randomArmor["Stat"]);

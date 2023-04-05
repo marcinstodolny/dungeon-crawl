@@ -6,7 +6,7 @@ namespace RoguelikeGame.Entity.Interaction.Item.Consumable
     {
         public Food(Square square) : base("", ' ', 0, square)
         {
-            var randomFood = ItemsDbManager.GetItem("HPRestore", "Foods");
+            var randomFood = DbManager.GetItem("HPRestore", "Foods");
             Name = randomFood["Name"];
             MapSymbol = randomFood["Symbol"].ToCharArray()[0];
             HPrestore = int.Parse(randomFood["Stat"]);
