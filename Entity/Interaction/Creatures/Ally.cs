@@ -11,7 +11,7 @@ namespace RoguelikeGame.Entity.Interaction.Creatures
         public string Message { get; set; }
         public Ally(Square square) : base(square, "", ' ')
         {
-            var randomAlly = ItemsDbManager.GetAlly();
+            var randomAlly = DbManager.GetAlly();
             Name = randomAlly["Name"];
             MapSymbol = randomAlly["Symbol"].ToCharArray()[0];
             switch (randomAlly["Type"])

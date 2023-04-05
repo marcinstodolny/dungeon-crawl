@@ -6,7 +6,7 @@ namespace RoguelikeGame.Entity.Interaction.Item.Consumable
     {
         public Potions(Square square) : base("", ' ', 0, square)
         {
-            var randomPotion = ItemsDbManager.GetItem("HPRestore", "Potions");
+            var randomPotion = DbManager.GetItem("HPRestore", "Potions");
             Name = randomPotion["Name"];
             MapSymbol = randomPotion["Symbol"].ToCharArray()[0];
             HPrestore = int.Parse(randomPotion["Stat"]);
