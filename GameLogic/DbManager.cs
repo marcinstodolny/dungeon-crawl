@@ -1,4 +1,5 @@
-﻿using System.Configuration;
+﻿using System.ComponentModel.Design;
+using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
 using System.Runtime.CompilerServices;
@@ -260,16 +261,30 @@ public class DbManager
                 {
                     for (int y = 0; y < dungeon.Height; y++)
                     {
-                        string? interactObjectType =
-                            dungeon.Grid[x, y].Interactive.GetType().ToString().Split(".", -1)[0];
+
+                        string? interactObjectTypeString;
+                        int? interactId;
+
+                        if (dungeon.Grid[x, y].Interactive == null)
+                        {
+                            interactObjectTypeString = null;
+                            interactId = null;
+                        }
+                        else
+                        {
+                            var interactObjectType = dungeon.Grid[x, y].Interactive.GetType();
+                            interactObjectTypeString = interactObjectType.ToString().Split(".").Last();
+                            interactId = dungeon.Grid[x, y].Interactive.Id;
+                        }
+                        
 
                         cmdInsert.Parameters.AddWithValue("@Coord_X", x);
                         cmdInsert.Parameters.AddWithValue("@Coord_Y", y);
                         cmdInsert.Parameters.AddWithValue("@Status", dungeon.Grid[x, y].Status);
                         cmdInsert.Parameters.AddWithValue("@Walkable", dungeon.Grid[x, y].Walkable);
                         cmdInsert.Parameters.AddWithValue("@Visible", dungeon.Grid[x, y].Visible);
-                        cmdInsert.Parameters.AddWithValue("@Interact_Type", interactObjectType);
-                        cmdInsert.Parameters.AddWithValue("@Interact_Id", dungeon.Grid[x, y].Interactive.Id);
+                        cmdInsert.Parameters.AddWithValue("@Interact_Type", interactObjectTypeString);
+                        cmdInsert.Parameters.AddWithValue("@Interact_Id", interactId);
 
                     }
                 }
