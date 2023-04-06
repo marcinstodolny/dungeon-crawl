@@ -9,7 +9,5 @@ namespace GameLogic.Entity.Abstract
         {
 
         }
-
-        public abstract void RemoveFromBoard();
     }
 }
