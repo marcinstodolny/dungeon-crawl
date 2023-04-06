@@ -17,6 +17,7 @@ namespace GameLogic.Entity.Interaction.Character
             Name = randomAlly["Name"];
             MapSymbol = randomAlly["Symbol"].ToCharArray()[0];
             Message = randomAlly["Message"];
+            Id = int.Parse(randomAlly["Id"]);
             switch (randomAlly["Type"])
             {
                 case "Health":
