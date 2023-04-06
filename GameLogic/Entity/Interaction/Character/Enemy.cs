@@ -16,6 +16,7 @@ namespace GameLogic.Entity.Interaction.Character
             MapSymbol = randomEnemy["Symbol"].ToCharArray()[0];
             Damage = int.Parse(randomEnemy["Damage"]);
             Health = int.Parse(randomEnemy["Health"]);
+            Id = int.Parse(randomEnemy["Id"]);
         }
 
         public static void PlaceCreature(Dungeon dungeon, Room room)
