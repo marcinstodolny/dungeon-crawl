@@ -71,8 +71,8 @@ CREATE TABLE [dbo].[Enemies]
 
 CREATE TABLE [dbo].[SAVE_Player] (
     [Id] INT NOT NULL PRIMARY KEY IDENTITY, 
-    [Coord.X] INT NULL,
-    [Coord.Y] INT NULL,
+    [Coord_X] INT NULL,
+    [Coord_Y] INT NULL,
     [Armor]  INT NULL,
     [HP] INT NULL,
     [Damage]  INT NULL,
@@ -90,27 +90,27 @@ CREATE TABLE [dbo].[SAVE_Room] (
 CREATE TABLE [dbo].[SAVE_RoomCorners] (
     [Id] INT NOT NULL PRIMARY KEY IDENTITY, 
     [Room_id] INT NULL,
-    [Coord.X] INT NULL,
-    [Coord.Y] INT NULL,
+    [Coord_X] INT NULL,
+    [Coord_Y] INT NULL,
 );
 CREATE TABLE [dbo].[SAVE_Doors] (
     [Id] INT NOT NULL PRIMARY KEY IDENTITY, 
     [Room_id] INT NULL,
-    [Coord.X] INT NULL,
-    [Coord.Y] INT NULL,
+    [Coord_X] INT NULL,
+    [Coord_Y] INT NULL,
     [Opened] BIT NULL,
 );
 CREATE TABLE [dbo].[SAVE_MapItems] (
     [Id] INT NOT NULL PRIMARY KEY IDENTITY, 
     [Item_Id] INT NULL,
-    [Coord.X] INT NULL,
-    [Coord.Y] INT NULL,
+    [Coord_X] INT NULL,
+    [Coord_Y] INT NULL,
 );
 CREATE TABLE [dbo].[SAVE_Monsters] (
     [Id] INT NOT NULL PRIMARY KEY IDENTITY, 
     [Monster_Id] INT NULL,
-    [Coord.X] INT NULL,
-    [Coord.Y] INT NULL,
+    [Coord_X] INT NULL,
+    [Coord_Y] INT NULL,
 );
 
 CREATE TABLE [dbo].[SAVE_Inventory] (
