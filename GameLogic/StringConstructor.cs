@@ -11,7 +11,7 @@ namespace GameLogic
         public static string DungeonViewportToString(Dungeon dungeon, Player player)
         {
             int viewportWidth = 140;
-            int viewportHeight = 32;
+            int viewportHeight = 24;
 
             int startX = player.Square.Position.X - (viewportWidth / 2);
             int startY = player.Square.Position.Y - (viewportHeight / 2);
@@ -50,11 +50,11 @@ namespace GameLogic
             return sb.ToString();
         }
 
-        public static string EntityMessage(Player player)
+        public static string ItemMessage(Player player)
         {
             if (player.Square.Interactive != null && player.Square.Interactive.GetType().BaseType!.BaseType == typeof(Item))
             {
-                return $"Here is an {player.Square.Interactive.Name}, press E to pick up\n";
+                return $"\nHere's {player.Square.Interactive.Name}, press E to pick up\n";
             }
             else
             {

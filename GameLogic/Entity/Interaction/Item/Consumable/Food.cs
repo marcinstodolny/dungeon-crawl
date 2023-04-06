@@ -26,7 +26,7 @@ namespace GameLogic.Entity.Interaction.Item.Consumable
         {
             player.Health += HPrestore;
             RemoveFromBoard();
-            return $"You have eat {Name}";
+            return $"\nYou ate {Name}";
         }
     }
 }

@@ -44,7 +44,7 @@ namespace GameLogic.Entity.Interaction.Character
             player.Damage += BonusDamage;
             player.Armor += BonusArmor;
             RemoveFromBoard();
-            return Message;
+            return "\n" + Message;
         }
     }
 }

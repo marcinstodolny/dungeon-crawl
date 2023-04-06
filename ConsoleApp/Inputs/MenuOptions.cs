@@ -3,7 +3,8 @@
     public enum MenuOptions
     {
         NewGame = 1,
-        HighScores,
-        Exit,
+        Continue = 2,
+        HighScores = 3,
+        Exit = 4,
     }
 }

@@ -1,6 +1,6 @@
 ﻿using GameLogic.DungeonManagement;
 using GameLogic;
-using static ConsoleApp.Outputs.Output;
+using ConsoleApp.Outputs;
 
 namespace ConsoleApp.Inputs
 {
@@ -29,7 +29,7 @@ namespace ConsoleApp.Inputs
                 }
                 else
                 {
-                    Display.PrintInvalidInputError();
+                    Output.PrintInvalidInputError();
                 }
             }
             return choice;
@@ -44,46 +44,6 @@ namespace ConsoleApp.Inputs
         public static ConsoleKeyInfo WaitForKeyPress()
         {
             return Console.ReadKey(true);
-        }
-
-        public static void GetPlayerMovement(Game game)
-        {
-            switch (Input.WaitForKeyPress().Key)
-            {
-                case ConsoleKey.A:
-                    game.PassPlayerDirection(Direction.West);
-                    break;
-                case ConsoleKey.W:
-                    game.PassPlayerDirection(Direction.North);
-                    break;
-                case ConsoleKey.S:
-                    game.PassPlayerDirection(Direction.South);
-                    break;
-                case ConsoleKey.D:
-                    game.PassPlayerDirection(Direction.East);
-                    break;
-                case ConsoleKey.E:
-                    game.PassPlayerDirection(Direction.None);
-                    Display.WaitMessage(); // TODO if interactable != null perform item.interact (after cast to item) and display returned message
-                    break;
-                case ConsoleKey.I:
-                    Display.ShowOnScreen(game.InventoryString());
-                    Display.WaitMessage();
-                    break;
-                case ConsoleKey.H:
-                    Display.DisplayHelp();
-                    Display.WaitMessage();
-                    break;
-                case ConsoleKey.M:
-                    Display.ShowOnScreen(Game.MapLegendString());
-                    Display.WaitMessage();
-                    break;
-                case ConsoleKey.Escape:
-                    game.GameIsOn = false;
-                    break;
-                default:
-                    break;
-            }
         }
     }
 }
