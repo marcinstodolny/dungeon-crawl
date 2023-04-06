@@ -8,7 +8,7 @@ namespace GameLogic.Entity.Interaction.Item.Consumable
     {
         public Potion(Square square) : base(square)
         {
-            var randomPotion = DbManager.GetItem("HPRestore", "Potions");
+            var randomPotion = DbManager.GetItem("HPRestore", "Potion");
             Name = randomPotion["Name"];
             MapSymbol = randomPotion["Symbol"].ToCharArray()[0];
             HPrestore = int.Parse(randomPotion["Stat"]);

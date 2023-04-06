@@ -8,7 +8,7 @@ namespace GameLogic.Entity.Interaction.Item.Useable
         public int Protection;
         public Armor(Square square) : base(square)
         {
-            var randomArmor = DbManager.GetItem("Armor", "Armors");
+            var randomArmor = DbManager.GetItem("Armor", "Armor");
             Name = randomArmor["Name"];
             MapSymbol = randomArmor["Symbol"].ToCharArray()[0];
             Protection = int.Parse(randomArmor["Stat"]);

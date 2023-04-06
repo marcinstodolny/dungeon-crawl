@@ -8,7 +8,7 @@ namespace GameLogic.Entity.Interaction.Item.Consumable
     {
         public Food(Square square) : base(square)
         {
-            var randomFood = DbManager.GetItem("HPRestore", "Foods");
+            var randomFood = DbManager.GetItem("HPRestore", "Food");
             Name = randomFood["Name"];
             MapSymbol = randomFood["Symbol"].ToCharArray()[0];
             HPrestore = int.Parse(randomFood["Stat"]);

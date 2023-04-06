@@ -9,7 +9,7 @@ namespace GameLogic.Entity.Interaction.Item.Useable
         public int Damage;
         public Weapon(Square square) : base(square)
         {
-            var randomWeapon = DbManager.GetItem("Attack", "Weapons");
+            var randomWeapon = DbManager.GetItem("Attack", "Weapon");
             Name = randomWeapon["Name"];
             MapSymbol = randomWeapon["Symbol"].ToCharArray()[0];
             Damage = int.Parse(randomWeapon["Stat"]);

@@ -34,9 +34,9 @@ public class DbManager
 
             var itemStatistic = table switch
             {
-                "Armors" => data.GetInt32("Armor").ToString(),
-                "Weapons" => data.GetInt32("Attack").ToString(),
-                "Potions" or "Foods" => data.GetInt32("HPRestore").ToString(),
+                "Armor" => data.GetInt32("Armor").ToString(),
+                "Weapon" => data.GetInt32("Attack").ToString(),
+                "Potion" or "Food" => data.GetInt32("HPRestore").ToString(),
                 _ => ""
             };
             var id = data.GetInt32("id").ToString();
@@ -60,7 +60,7 @@ public class DbManager
     public static Dictionary<string, string> GetEnemy()
     {
         const string getCommand =
-            $"SELECT TOP 1 id, TRIM(Name) as Name, Symbol, Health, Damage FROM Enemies ORDER BY NEWID()";
+            $"SELECT TOP 1 id, TRIM(Name) as Name, Symbol, Health, Damage FROM Enemy ORDER BY NEWID()";
             try
         {
             using var connection = new SqlConnection(ConnectionString);
@@ -97,7 +97,7 @@ public class DbManager
     public static Dictionary<string, string> GetAlly()
     {
         const string getCommand =
-            $"SELECT TOP 1 id, TRIM(Name) as Name, Symbol, TRIM(Message) as Message, Bonus, Type FROM Allies ORDER BY NEWID()";
+            $"SELECT TOP 1 id, TRIM(Name) as Name, Symbol, TRIM(Message) as Message, Bonus, Type FROM Ally ORDER BY NEWID()";
             try
         {
             using var connection = new SqlConnection(ConnectionString);
@@ -254,7 +254,6 @@ public class DbManager
         {
             using (var connection = new SqlConnection(ConnectionString))
             {
-
                 if (connection.State == ConnectionState.Closed)
                     connection.Open();
                 for (int x = 0; x < dungeon.Width; x++)
@@ -278,7 +277,6 @@ public class DbManager
                         }
                         int Walkable = dungeon.Grid[x, y].Walkable ? 1 : 0;
                         int Visible = dungeon.Grid[x, y].Visible ? 1 : 0;
-
                         string insertCommand =
                             @"INSERT INTO SAVE_Grid (Coord_X, Coord_Y, Status, Walkable, Visible, Interact_Type, Interact_Id)
                             VALUES (@Coord_X, @Coord_Y, @Status, @Walkable, @Visible, @Interact_Type, @Interact_Id);";
@@ -292,10 +290,8 @@ public class DbManager
                         cmdInsert.Parameters.AddWithValue("@Interact_Type", interactObjectTypeString);
                         cmdInsert.Parameters.AddWithValue("@Interact_Id", interactId);
                         cmdInsert.ExecuteNonQuery();
-
                     }
                 }
-
                 connection.Close();
             }
         }
