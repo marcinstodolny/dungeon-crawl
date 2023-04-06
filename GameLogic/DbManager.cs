@@ -265,13 +265,12 @@ public class DbManager
 
                         if (dungeon.Grid[x, y].Interactive == null)
                         {
-                            interactObjectTypeString = "null";
+                            interactObjectTypeString = "";
                             interactId = 0;
                         }
                         else
                         {
-                            var interactObjectType = dungeon.Grid[x, y].Interactive.GetType();
-                            interactObjectTypeString = interactObjectType.ToString().Split(".").Last();
+                            interactObjectTypeString = dungeon.Grid[x, y].Interactive.GetType().Name;
                             interactId = dungeon.Grid[x, y].Interactive.Id;
 
                         }
@@ -284,7 +283,7 @@ public class DbManager
 
                         cmdInsert.Parameters.AddWithValue("@Coord_X", x);
                         cmdInsert.Parameters.AddWithValue("@Coord_Y", y);
-                        cmdInsert.Parameters.AddWithValue("@Status", dungeon.Grid[x, y].Status);
+                        cmdInsert.Parameters.AddWithValue("@Status", Enum.GetName(dungeon.Grid[x, y].Status));
                         cmdInsert.Parameters.AddWithValue("@Walkable", Walkable);
                         cmdInsert.Parameters.AddWithValue("@Visible", Visible);
                         cmdInsert.Parameters.AddWithValue("@Interact_Type", interactObjectTypeString);
