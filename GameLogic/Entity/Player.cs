@@ -38,15 +38,15 @@ namespace GameLogic.Entity
                 if (nextSquare.Interactive != null
                     && nextSquare.Interactive.GetType().BaseType == typeof(Character))
                 {
-                    return ((Character)nextSquare.Interactive).ApproachCharacter(this); //TODO display returned message and wait
+                    return ((Character)nextSquare.Interactive).ApproachCharacter(this);
 
                 }
                 else if (newCoordinates.X == Square.Position.X
                     && newCoordinates.Y == Square.Position.Y
                     && nextSquare.Interactive != null
-                    && nextSquare.Interactive.GetType().BaseType == typeof(Item))
+                    && nextSquare.Interactive.GetType().BaseType!.BaseType == typeof(Item))
                 {
-                    return ((Item)nextSquare.Interactive).Interact(this); // TODO if interactable != null perform item.interact (after cast to item) and display returned message
+                    return ((Item)nextSquare.Interactive).Interact(this);
 
                 }
                 else if (nextSquare.Walkable)
@@ -79,6 +79,3 @@ namespace GameLogic.Entity
         }
     }
 }
-
-        //    Square.Status = PreviousSquare.Status; // todo fulls square instead of just status
-        //    Square.Status = SquareStatus.Player;  // todo updated previous square status as full square

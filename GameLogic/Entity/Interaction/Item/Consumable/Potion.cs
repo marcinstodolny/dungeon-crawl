@@ -28,7 +28,7 @@ namespace GameLogic.Entity.Interaction.Item.Consumable
             RemoveFromBoard();
             if (Name != "N,N-Dimethyltryptamine")
             {
-                return $"\nYou ate {Name}";
+                return $"You drink {Name}";
             }
             player.DMT = true;
             return $"\nEnjoy the Ride";

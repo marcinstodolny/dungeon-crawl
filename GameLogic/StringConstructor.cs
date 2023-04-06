@@ -30,7 +30,7 @@ namespace GameLogic
                         Square square = dungeon.Grid[x, y];
                         if (square.Visible)
                         {
-                            sb.Append(square.Interactive != null
+                            sb.Append(square.Interactive != null && square.Status != SquareStatus.Player
                                 ? new string($"{square.Interactive.MapSymbol}")
                                 : new string($"{(char)square.Status}"));
                         }

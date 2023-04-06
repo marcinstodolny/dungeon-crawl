@@ -27,7 +27,7 @@ namespace GameLogic.Entity.Interaction.Item.Useable
             AddToInventory(player);
             player.Armor += Protection;
             RemoveFromBoard();
-            return $"\nYou have picked up {Name}";
+            return $"You have picked up {Name}";
         }
     }
 }
