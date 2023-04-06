@@ -1,13 +1,12 @@
-﻿using Microsoft.Data.SqlClient;
-using RoguelikeGame.Entity.Abstract;
-using System.Configuration;
+﻿using System.Configuration;
 using System.Data;
+using System.Data.SqlClient;
 using System.Runtime.CompilerServices;
-using RoguelikeGame.Entity;
-using System.Numerics;
-using RoguelikeGame.DungeonManagement;
+using GameLogic.DungeonManagement;
+using GameLogic.Entity;
+using GameLogic.Entity.Abstract;
 
-namespace RoguelikeGame;
+namespace GameLogic;
 
 public class DbManager
 {
@@ -184,8 +183,8 @@ public class DbManager
                 var cmdInsert = new SqlCommand(insertCommand, connection);
                 if (connection.State == ConnectionState.Closed)
                     connection.Open();
-                cmdInsert.Parameters.AddWithValue("@Coord_X", player.PreviousSquare.X);
-                cmdInsert.Parameters.AddWithValue("@Coord_Y", player.PreviousSquare.Y);
+                cmdInsert.Parameters.AddWithValue("@Coord_X", player.Square.Position.X);
+                cmdInsert.Parameters.AddWithValue("@Coord_Y", player.Square.Position.Y);
                 cmdInsert.Parameters.AddWithValue("@Name", player.Name);
                 cmdInsert.Parameters.AddWithValue("@Armor", player.Armor);
                 cmdInsert.Parameters.AddWithValue("@HP", player.Health);
@@ -213,8 +212,8 @@ public class DbManager
                 var cmdInsert = new SqlCommand(updateCommand, connection);
                 if (connection.State == ConnectionState.Closed)
                     connection.Open();
-                cmdInsert.Parameters.AddWithValue("@Coord_X", player.PreviousSquare.X);
-                cmdInsert.Parameters.AddWithValue("@Coord_Y", player.PreviousSquare.Y);
+                cmdInsert.Parameters.AddWithValue("@Coord_X", player.Square.Position.X);
+                cmdInsert.Parameters.AddWithValue("@Coord_Y", player.Square.Position.Y);
                 connection.Close();
             }
         }
