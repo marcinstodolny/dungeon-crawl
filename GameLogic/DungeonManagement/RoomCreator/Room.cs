@@ -90,9 +90,7 @@ namespace GameLogic.DungeonManagement.RoomCreator
             for (int i = doorPositions.Count - 1; i > 0; i--)
             {
                 int j = random.Next(i + 1);
-                Coordinates temp = doorPositions[i];
-                doorPositions[i] = doorPositions[j];
-                doorPositions[j] = temp;
+                (doorPositions[i], doorPositions[j]) = (doorPositions[j], doorPositions[i]);
             }
 
             // Choose a random number of doors between 1 and 4, or the maximum available positions
