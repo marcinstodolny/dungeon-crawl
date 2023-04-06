@@ -12,10 +12,10 @@ public class DbManager
     {
         var getCommand = table == "Keys"
             ?
-            $"SELECT TOP 1 id, Name, Symbol " +
+            $"SELECT TOP 1 id, TRIM(Name) as Name, Symbol " +
             $"FROM {table} ORDER BY NEWID()"
             :
-            $"SELECT TOP 1 id, Name, Symbol, {statistic} " +
+            $"SELECT TOP 1 id, TRIM(Name) as Name, Symbol, {statistic} " +
             $"FROM {table} ORDER BY NEWID()";
         try
         {
@@ -36,7 +36,7 @@ public class DbManager
                 _ => ""
             };
             var id = data.GetInt32("id").ToString();
-            var itemName = data.GetString("Name").Split(';')[0];
+            var itemName = data.GetString("Name");
             var itemSymbol = data.GetString("Symbol");
             connection.Close();
             return new Dictionary<string, string>()
@@ -55,7 +55,7 @@ public class DbManager
 
     public static Dictionary<string, string> GetEnemy()
     {
-        const string getCommand = $"SELECT TOP 1 Name, Symbol, Health, Damage FROM Enemies ORDER BY NEWID()";
+        const string getCommand = $"SELECT TOP 1 TRIM(Name) as Name, Symbol, Health, Damage FROM Enemies ORDER BY NEWID()";
         try
         {
             using var connection = new SqlConnection(ConnectionString);
@@ -67,7 +67,7 @@ public class DbManager
             {
                 return new Dictionary<string, string>();
             }
-            var itemName = data.GetString("Name").Split(';')[0];
+            var itemName = data.GetString("Name");
             var itemSymbol = data.GetString("Symbol");
             var health = data.GetInt32("Health").ToString();
             var damage = data.GetInt32("Damage").ToString();
@@ -88,7 +88,8 @@ public class DbManager
 
     public static Dictionary<string, string> GetAlly()
     {
-        const string getCommand = $"SELECT TOP 1 Name, Symbol, Message, Bonus, Type FROM Allies ORDER BY NEWID()";
+        const string getCommand =
+            $"SELECT TOP 1 TRIM(Name) as Name, Symbol, TRIM(Message) as Message, Bonus, Type FROM Allies ORDER BY NEWID()";
         try
         {
             using var connection = new SqlConnection(ConnectionString);
@@ -100,27 +101,29 @@ public class DbManager
             {
                 return new Dictionary<string, string>();
             }
-            var itemName = data.GetString("Name").Split(';')[0];
+
+            var itemName = data.GetString("Name");
             var itemSymbol = data.GetString("Symbol");
-            var message = data.GetString("Message").Split(';')[0];
+            var message = data.GetString("Message");
             var bonus = data.GetInt32("Bonus").ToString();
-            var type = data.GetString("Type").Split(';')[0];
+            var type = data.GetString("Type");
             connection.Close();
             return new Dictionary<string, string>()
             {
-                {"Name", itemName},
-                {"Symbol", itemSymbol},
-                {"Message", message},
-                {"Bonus", bonus},
-                {"Type", type}
+                { "Name", itemName },
+                { "Symbol", itemSymbol },
+                { "Message", message },
+                { "Bonus", bonus },
+                { "Type", type }
             };
         }
         catch (SqlException e)
         {
             throw new RuntimeWrappedException(e);
         }
+    }
 
-        //public static Dictionary<string, string> AddItemToDatabase()
+    //public static Dictionary<string, string> AddItemToDatabase()
         //{
         //    throw new NotImplementedException();
         //}
@@ -134,5 +137,4 @@ public class DbManager
         //{
         //    throw new NotImplementedException();
         //}
-    }
 }
