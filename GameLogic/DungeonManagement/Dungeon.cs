@@ -106,13 +106,13 @@ namespace GameLogic.DungeonManagement
                         Armor.PlaceItem(this, room);
                         break;
                     case 2:
-                        Weapons.PlaceItem(this, room);
+                        Weapon.PlaceItem(this, room);
                         break;
                     case 3:
                         Food.PlaceItem(this, room);
                         break;
                     case 4:
-                        Potions.PlaceItem(this, room);
+                        Potion.PlaceItem(this, room);
                         break;
                         //case 5:
                         //Key.PlaceItem(this, newRoom);

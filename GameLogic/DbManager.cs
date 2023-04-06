@@ -345,16 +345,15 @@ public class DbManager
                 {
                     for (int y = 0; y < dungeon.Width; y++)
                     {
-                        
-                        
+                        string? interactObjectType = dungeon.Grid[x, y].Interactive.GetType().ToString().Split(".", -1);
                         
                         cmdInsert.Parameters.AddWithValue("@Coord_X", x);
                         cmdInsert.Parameters.AddWithValue("@Coord_Y", y);
                         cmdInsert.Parameters.AddWithValue("@Status", dungeon.Grid[x,y].Status);
                         cmdInsert.Parameters.AddWithValue("@Walkable", dungeon.Grid[x, y].Walkable);
                         cmdInsert.Parameters.AddWithValue("@Visible", dungeon.Grid[x, y].Visible);
-                        cmdInsert.Parameters.AddWithValue("@Interact_Type", dungeon.Grid[x, y].Interactive.Name);
-                        cmdInsert.Parameters.AddWithValue("@Interact_Id", dungeon.Grid[x, y]);
+                        cmdInsert.Parameters.AddWithValue("@Interact_Type", interactObjectType);
+                        cmdInsert.Parameters.AddWithValue("@Interact_Id", dungeon.Grid[x, y].Interactive.Id);
 
                     }
                 }
@@ -369,5 +368,11 @@ public class DbManager
 
     }
 
-}
+    public static void GetObjectType(Dungeon dungeon)
+    {
+        int? interact_id = null;
+        string interactTable = dungeon.Grid[x, y].Interactive.GetType().ToString().Split(".", -1);
+        const string getCommand = $"SELECT id FROM {interactTable} WHERE Name = {dungeon.Grid[x, y].Interactive.Name}";
+
+    }
     

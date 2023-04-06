@@ -4,9 +4,9 @@ using GameLogic.DungeonManagement.SquareCreator;
 
 namespace GameLogic.Entity.Interaction.Item.Consumable
 {
-    public class Potions : Abstract.Consumable
+    public class Potion : Abstract.Consumable
     {
-        public Potions(Square square) : base(square)
+        public Potion(Square square) : base(square)
         {
             var randomPotion = DbManager.GetItem("HPRestore", "Potions");
             Name = randomPotion["Name"];
@@ -17,7 +17,7 @@ namespace GameLogic.Entity.Interaction.Item.Consumable
         public static void PlaceItem(Dungeon dungeon, Room room)
         {
             Coordinates coordinates = RandomGenerator.FindRandomPlacement(dungeon, room);
-            var item = new Potions(dungeon.Grid[coordinates.X, coordinates.Y]);
+            var item = new Potion(dungeon.Grid[coordinates.X, coordinates.Y]);
             dungeon.Grid[coordinates.X, coordinates.Y].Interactive = item;
         }
 

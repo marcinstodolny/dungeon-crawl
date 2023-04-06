@@ -4,29 +4,26 @@ using GameLogic.DungeonManagement.SquareCreator;
 
 namespace GameLogic.Entity.Interaction.Item.Useable
 {
-    public class Weapons : Abstract.Useable
+    public class Keys : Abstract.Useable
     {
-        public int Damage;
-        public Weapons(Square square) : base(square)
+        public Keys(Square square) : base(square)
         {
-            var randomWeapon = DbManager.GetItem("Attack", "Weapons");
-            Name = randomWeapon["Name"];
-            MapSymbol = randomWeapon["Symbol"].ToCharArray()[0];
-            Damage = int.Parse(randomWeapon["Stat"]);
-            Id = int.Parse(randomWeapon["Id"]);
+            var randomKey = DbManager.GetItem("", "Keys");
+            Name = randomKey["Name"];
+            MapSymbol = randomKey["Symbol"].ToCharArray()[0];
+            Id = int.Parse(randomKey["Id"]);
         }
 
         public static void PlaceItem(Dungeon dungeon, Room room)
         {
             Coordinates coordinates = RandomGenerator.FindRandomPlacement(dungeon, room);
-            var item = new Weapons(dungeon.Grid[coordinates.X, coordinates.Y]);
+            var item = new Keys(dungeon.Grid[coordinates.X, coordinates.Y]);
             dungeon.Grid[coordinates.X, coordinates.Y].Interactive = item;
         }
 
         public override string Interact(Player player)
         {
             AddToInventory(player);
-            player.Damage += Damage;
             RemoveFromBoard();
             return $"You have picked up {Name}";
         }

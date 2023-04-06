@@ -1,10 +1,10 @@
-DROP TABLE IF EXISTS Armors
-DROP TABLE IF EXISTS Foods
+DROP TABLE IF EXISTS Armor
+DROP TABLE IF EXISTS Food
 DROP TABLE IF EXISTS Keys
-DROP TABLE IF EXISTS Potions
-DROP TABLE IF EXISTS Weapons
-DROP TABLE IF EXISTS Allies
-DROP TABLE IF EXISTS Enemies
+DROP TABLE IF EXISTS Potion
+DROP TABLE IF EXISTS Weapon
+DROP TABLE IF EXISTS Ally
+DROP TABLE IF EXISTS Enemy
 
 DROP TABLE IF EXISTS SAVE_Player
 DROP TABLE IF EXISTS SAVE_Grid
@@ -12,14 +12,14 @@ DROP TABLE IF EXISTS SAVE_Inventory
 
 
 
-CREATE TABLE [dbo].[Armors] (
+CREATE TABLE [dbo].[Armor] (
     [Id] INT NOT NULL PRIMARY KEY IDENTITY, 
     [Name]   NCHAR (50) NULL,
     [Symbol] NCHAR (10) NULL,
     [Armor]  INT        NULL
 );
 
-CREATE TABLE [dbo].[Foods] (
+CREATE TABLE [dbo].[Food] (
     [Id] INT NOT NULL PRIMARY KEY IDENTITY, 
     [Name]    NCHAR (50) NULL,
     [Symbol]  NCHAR (10) NULL,
@@ -33,21 +33,21 @@ CREATE TABLE [dbo].[Keys] (
 );
 
 
-CREATE TABLE [dbo].[Potions] (
+CREATE TABLE [dbo].[Potion] (
     [Id] INT NOT NULL PRIMARY KEY IDENTITY, 
     [Name]    NCHAR (50) NULL,
     [Symbol]  NCHAR (10) NULL,
     [HPRestore] INT        NULL
 );
 
-CREATE TABLE [dbo].[Weapons] (
+CREATE TABLE [dbo].[Weapon] (
     [Id] INT NOT NULL PRIMARY KEY IDENTITY, 
     [Name]   NCHAR (50) NULL,
     [Symbol] NCHAR (10) NULL,
     [Attack] INT        NULL,
 );
 
-CREATE TABLE [dbo].[Allies]
+CREATE TABLE [dbo].[Ally]
 (
 	[Id] INT NOT NULL PRIMARY KEY IDENTITY, 
     [Name] NCHAR(50) NULL,
@@ -57,7 +57,7 @@ CREATE TABLE [dbo].[Allies]
     [Type] NCHAR(10) NULL 
 );
 
-CREATE TABLE [dbo].[Enemies]
+CREATE TABLE [dbo].[Enemy]
 (
 	[Id] INT NOT NULL PRIMARY KEY IDENTITY, 
     [Name] NCHAR(50) NULL,
@@ -96,7 +96,7 @@ CREATE TABLE [dbo].[SAVE_Inventory] (
 );
 
 
-INSERT INTO dbo.Armors (Name, Symbol, Armor)
+INSERT INTO dbo.Armor (Name, Symbol, Armor)
 VALUES ('Gambeson', '$', 2),
 ('Boiled leather', '$', 4),
 ('Shell armor', '$', 6),
@@ -107,7 +107,7 @@ VALUES ('Gambeson', '$', 2),
 ('Brigandine armor', '$', 14),
 ('Plate armor', '$', 16)
 
-INSERT INTO dbo.Weapons (Name, Symbol, Attack)
+INSERT INTO dbo.Weapon (Name, Symbol, Attack)
 VALUES ('Ultimate weapon - stick with a poo at the en', '$', 500),
 ('Slightly rusted pan', '$', 2),
 ('Club (Welcome to the club)', '$', 3),
@@ -118,14 +118,14 @@ VALUES ('Ultimate weapon - stick with a poo at the en', '$', 500),
 ('Hammer time', '$', 8),
 ('Claymore', '$', 9)
 
-INSERT INTO dbo.Potions (Name, Symbol, HPRestore)
+INSERT INTO dbo.Potion (Name, Symbol, HPRestore)
 VALUES ('Tears of your enemies', '$', 10),
 ('Blood of your enemies', '$', 15),
 ('Gin & Tonic', '$', 5),
 ('Dimetylotryptamina', 'D', 100),
 ('Dungeon water', '$', 1)
 
-INSERT INTO dbo.Foods (Name, Symbol, HPRestore)
+INSERT INTO dbo.Food (Name, Symbol, HPRestore)
 VALUES ('Dungeon chicken wings', '$', 10),
 ('Perfectly good steak found on the floor', '$', 20),
 ('Apple (an apple a day, keeps the doctor away)', '$', 2),
@@ -137,11 +137,11 @@ VALUES ('Key', '$'),
 ('Diamond key', '$'),
 ('Golden key', '$')
 
-INSERT INTO dbo.Enemies (Name, Symbol, Damage, Health)
+INSERT INTO dbo.Enemy (Name, Symbol, Damage, Health)
 VALUES ('Demon', 'E', 7, 20),
 ('Wolf', 'E', 8, 10)
 
-INSERT INTO dbo.Allies (Name, Symbol, Message, Bonus, Type)
+INSERT INTO dbo.Ally (Name, Symbol, Message, Bonus, Type)
 VALUES ('Merlin', 'W', 'Welcome to my house, I am merlin the wizard that will boost your health
 You gained 20 bonus health', 20, 'Health'),
 ('David', 'W', 'Welcome to my house, I am David long time ago I was a warrior and now I can show you how to deal more damage to enemies
