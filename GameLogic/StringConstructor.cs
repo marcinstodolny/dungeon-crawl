@@ -11,7 +11,7 @@ namespace GameLogic
         public static string DungeonViewportToString(Dungeon dungeon, Player player)
         {
             int viewportWidth = 140;
-            int viewportHeight = 24;
+            int viewportHeight = 30;
 
             int startX = player.Square.Position.X - (viewportWidth / 2);
             int startY = player.Square.Position.Y - (viewportHeight / 2);
