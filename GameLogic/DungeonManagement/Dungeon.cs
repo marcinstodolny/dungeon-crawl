@@ -27,84 +27,53 @@ namespace GameLogic.DungeonManagement
             {
                 for (int y = 0; y < Height; y++)
                 {
-                    Grid[x, y] = new Square(new Coordinates(x, y), SquareStatus.Empty, false);
+                    Grid[x, y] = new Square(new Coordinates(x, y), SquareStatus.Empty, true);
                 }
             }
 
             GenerateRooms();
-            ConnectRooms();
         }
+
+        private List<Cell> CreateCells(int cellWidth, int cellHeight)
+        {
+            List<Cell> cells = new();
+            int numCellsX = Width / cellWidth;
+            int numCellsY = Height / cellHeight;
+
+            for (int x = 0; x < numCellsX; x++)
+            {
+                for (int y = 0; y < numCellsY; y++)
+                {
+                    cells.Add(new Cell(x * cellWidth, y * cellHeight, cellWidth, cellHeight));
+                }
+            }
+
+            return cells;
+        }
+
+
 
         private void GenerateRooms()
         {
-            Random random = new();
+            int cellWidth = Width / 12;
+            int cellHeight = Height / 12;
+            List<Cell> cells = CreateCells(cellWidth, cellHeight);
 
-            bool canPlaceMoreRooms = true;
-            while (canPlaceMoreRooms)
+            foreach (Cell cell in cells)
             {
-                int roomWidth = random.Next(6, (Width / 4) + 1);
-                int roomHeight = random.Next(6, (Height / 4) + 1);
-                int roomX = random.Next(1, Width - roomWidth - 1);
-                int roomY = random.Next(1, Height - roomHeight - 1);
-                int numberOfCreatures = random.Next((roomWidth * roomHeight / 40), (roomWidth * roomHeight / 10));
-                int numberOfItems = random.Next((roomWidth * roomHeight / 40), (roomWidth * roomHeight / 10));
+                int roomX = cell.X + RandomGenerator.NextInt(cell.Width / 4) + 3;
+                int roomY = cell.Y + RandomGenerator.NextInt(cell.Height / 4) + 3;
+                int roomWidth = RandomGenerator.NextInt(cell.Width / 2 - 4) + cell.Width / 2 - 4;
+                int roomHeight = RandomGenerator.NextInt(cell.Height / 2 - 4) + cell.Height / 2 - 4;
+                //int numberOfCreatures = RandomGenerator.NextInt((roomWidth * roomHeight) / 50);
+                //int numberOfItems = RandomGenerator.NextInt((roomWidth * roomHeight) / 50);
 
                 Room newRoom = new(roomX, roomY, roomWidth, roomHeight);
-
-                if (CanPlaceRoom(newRoom))
-                {
-                    newRoom.Draw(Grid);
-                    Rooms.Add(newRoom);
-                    PlaceCreaturesInRoom(numberOfCreatures, newRoom);
-                    PlaceItemsInRoom(numberOfItems, newRoom);
-                }
-                else
-                {
-                    canPlaceMoreRooms = false;
-                }
+                newRoom.Draw(Grid);
+                Rooms.Add(newRoom);
+                //PlaceCreaturesInRoom(numberOfCreatures, newRoom);
+                //PlaceItemsInRoom(numberOfItems, newRoom);
             }
-        }
-
-        private bool CanPlaceRoom(Room newRoom)
-        {
-            foreach (Room existingRoom in Rooms)
-            {
-                if (RoomsOverlap(newRoom, existingRoom) || !HasEnoughSpaceBetweenRooms(newRoom, existingRoom))
-                {
-                    return false;
-                }
-            }
-
-            return true;
-        }
-
-        private bool RoomsOverlap(Room room1, Room room2)
-        {
-            return room1.X < room2.X + room2.Width &&
-                   room1.X + room1.Width > room2.X &&
-                   room1.Y < room2.Y + room2.Height &&
-                   room1.Y + room1.Height > room2.Y;
-        }
-
-        private bool HasEnoughSpaceBetweenRooms(Room room1, Room room2)
-        {
-            return Math.Abs(room1.X - room2.X) > 3 && Math.Abs(room1.Y - room2.Y) > 3;
-        }
-
-        private void ConnectRooms()
-        {
-            for (int i = 0; i < Rooms.Count - 1; i++)
-            {
-                Room currentRoom = Rooms[i];
-                Room nextRoom = Rooms[i + 1];
-
-                ConnectTwoRooms(currentRoom, nextRoom);
-            }
-        }
-
-        private void ConnectTwoRooms(Room room1, Room room2)
-        {
-            
         }
 
         private void PlaceCreaturesInRoom(int numberOfCreatures, Room room)

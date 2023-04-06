@@ -19,12 +19,15 @@ public class Game
     public List<Score> HighScores;
 
 
-    public Game() {
+    public Game()
+    {
         GameIsOn = true;
-        Dungeon = new Dungeon(32, 140);
+        Dungeon = new Dungeon(220, 360);
     }
-    public void InitializePlayer(string name) {
+    public void InitializePlayer(string name)
+    {
         Player = PlayerPlacement(name);
+        Player.RevealSquares(Dungeon);
     }
 
     public Player PlayerPlacement(string name)
@@ -36,7 +39,7 @@ public class Game
 
     public string ScreenString()
     {
-        return StringConstructor.DungeonToString(Dungeon) + StringConstructor.UserStatsToString(Player) 
+        return StringConstructor.DungeonViewportToString(Dungeon, Player) + StringConstructor.UserStatsToString(Player)
             + StringConstructor.PressHForHelp() + StringConstructor.EntityMessage(Player);
     }
 
