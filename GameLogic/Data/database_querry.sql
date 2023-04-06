@@ -160,7 +160,7 @@ VALUES ('Key', '$'),
 ('Diamond key', '$'),
 ('Golden key', '$')
 
-INSERT INTO dbo.Enemies (Name, Symbol, Health, Damage)
+INSERT INTO dbo.Enemies (Name, Symbol, Damage, Health)
 VALUES ('Demon', 'E', 7, 20),
 ('Wolf', 'E', 8, 10)
 

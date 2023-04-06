@@ -12,7 +12,7 @@ namespace GameLogic
             int randX = Random.Next(room.X + 1, room.X + room.Width - 1);
             int randY = Random.Next(room.Y + 1, room.Y + room.Height - 1);
 
-            while (dungeon.Grid[randX, randY].Status != SquareStatus.Floor)
+            while (dungeon.Grid[randX, randY].Status != SquareStatus.Floor && dungeon.Grid[randX, randY].Interactive != null)
             {
                 randX = Random.Next(room.X + 1, room.X + room.Width - 1);
                 randY = Random.Next(room.Y + 1, room.Y + room.Height - 1);

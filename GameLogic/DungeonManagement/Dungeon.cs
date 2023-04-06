@@ -65,14 +65,14 @@ namespace GameLogic.DungeonManagement
                 int roomY = cell.Y + RandomGenerator.NextInt(cell.Height / 4) + 3;
                 int roomWidth = RandomGenerator.NextInt(cell.Width / 2 - 4) + cell.Width / 2 - 4;
                 int roomHeight = RandomGenerator.NextInt(cell.Height / 2 - 4) + cell.Height / 2 - 4;
-                //int numberOfCreatures = RandomGenerator.NextInt((roomWidth * roomHeight) / 50);
-                //int numberOfItems = RandomGenerator.NextInt((roomWidth * roomHeight) / 50);
+                int numberOfCreatures = RandomGenerator.NextInt((roomWidth * roomHeight) / 25);
+                int numberOfItems = RandomGenerator.NextInt((roomWidth * roomHeight) / 25);
 
                 Room newRoom = new(roomX, roomY, roomWidth, roomHeight);
                 newRoom.Draw(Grid);
                 Rooms.Add(newRoom);
-                //PlaceCreaturesInRoom(numberOfCreatures, newRoom);
-                //PlaceItemsInRoom(numberOfItems, newRoom);
+                PlaceCreaturesInRoom(numberOfCreatures, newRoom);
+                PlaceItemsInRoom(numberOfItems, newRoom);
             }
         }
 

@@ -30,15 +30,15 @@ namespace GameLogic.Entity
 
         public void TryToMove(Coordinates newCoordinates, Dungeon dungeon)
         {
-            if (newCoordinates.X > 0
-                && newCoordinates.Y > 0
-                && newCoordinates.X < dungeon.Width
+            if (newCoordinates is { X: > 0, Y: > 0 } 
+                && newCoordinates.X < dungeon.Width 
                 && newCoordinates.Y < dungeon.Height)
             {
                 Square nextSquare = dungeon.Grid[newCoordinates.X, newCoordinates.Y];
-                if (newCoordinates.X == Square.Position.X && newCoordinates.Y == Square.Position.Y)
+                if (nextSquare.Interactive != null 
+                    && nextSquare.Interactive.GetType().BaseType == typeof(Character))
                 {
-                    //pickup item
+                    ((Character)nextSquare.Interactive).ApproachCharacter(this); //TODO display returned message and wait
 
                 }
                 else if (nextSquare.Walkable)
