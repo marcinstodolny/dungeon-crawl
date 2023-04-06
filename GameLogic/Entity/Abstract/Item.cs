@@ -9,4 +9,9 @@ public abstract class Item : Interactive
 
     }
     public abstract string Interact(Player player);
+
+    public override void RemoveFromBoard()
+    {
+        Square.Interactive = null;
+    }
 }

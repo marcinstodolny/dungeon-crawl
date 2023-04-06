@@ -35,7 +35,7 @@ namespace GameLogic.Entity.Interaction.Character
         public static void PlaceCreature(Dungeon dungeon, Room room)
         {
             Coordinates coordinates = RandomGenerator.FindRandomPlacement(dungeon, room);
-            var ally = new Enemy(dungeon.Grid[coordinates.X, coordinates.Y]);
+            var ally = new Ally(dungeon.Grid[coordinates.X, coordinates.Y]);
             dungeon.Grid[coordinates.X, coordinates.Y].Interactive = ally;
         }
 

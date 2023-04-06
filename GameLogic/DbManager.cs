@@ -97,7 +97,7 @@ public class DbManager
     public static Dictionary<string, string> GetAlly()
     {
         const string getCommand =
-            $"SELECT TOP 1 id, TRIM(Name) as Name, Symbol, TRIM(Message) as Message, Bonus, Type FROM Ally ORDER BY NEWID()";
+            $"SELECT TOP 1 id, TRIM(Name) as Name, Symbol, TRIM(Message) as Message, Bonus, TRIM(Type) as Type FROM Ally ORDER BY NEWID()";
             try
         {
             using var connection = new SqlConnection(ConnectionString);

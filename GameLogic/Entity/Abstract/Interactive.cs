@@ -9,10 +9,7 @@ namespace GameLogic.Entity.Abstract
         {
 
         }
-        public void RemoveFromBoard()
-        {
-            Square.Interactive = null;
-            Square.Status = SquareStatus.Floor;
-        }
+
+        public abstract void RemoveFromBoard();
     }
 }

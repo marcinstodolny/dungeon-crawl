@@ -15,6 +15,11 @@ namespace GameLogic.Entity.Abstract
             Square.Interactive = this;
         }
         public abstract string ApproachCharacter(Player player);
+        public override void RemoveFromBoard()
+        {
+            Square.Interactive = null;
+            Square.Status = SquareStatus.Floor;
+        }
     }
 }
 
