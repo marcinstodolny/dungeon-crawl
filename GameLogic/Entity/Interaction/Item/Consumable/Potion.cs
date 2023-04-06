@@ -12,6 +12,7 @@ namespace GameLogic.Entity.Interaction.Item.Consumable
             Name = randomPotion["Name"];
             MapSymbol = randomPotion["Symbol"].ToCharArray()[0];
             HPrestore = int.Parse(randomPotion["Stat"]);
+            Id = int.Parse(randomPotion["Id"]);
         }
 
         public static void PlaceItem(Dungeon dungeon, Room room)

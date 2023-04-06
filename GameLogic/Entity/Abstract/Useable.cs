@@ -4,7 +4,6 @@ namespace GameLogic.Entity.Abstract
 {
     public abstract class Useable : Item
     {
-        public int Id;
         protected Useable(Square square) : base(square)
         {
         }

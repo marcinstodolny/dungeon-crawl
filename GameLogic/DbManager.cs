@@ -11,15 +11,14 @@ namespace GameLogic;
 public class DbManager
 {
     public static string ConnectionString => ConfigurationManager.AppSettings["connectionString"]!;
+
     public static Dictionary<string, string> GetItem(string statistic, string table)
     {
         var getCommand = table == "Keys"
-            ?
-            $"SELECT TOP 1 id, TRIM(Name) as Name, Symbol " +
-            $"FROM {table} ORDER BY NEWID()"
-            :
-            $"SELECT TOP 1 id, TRIM(Name) as Name, Symbol, {statistic} " +
-            $"FROM {table} ORDER BY NEWID()";
+            ? $"SELECT TOP 1 id, TRIM(Name) as Name, Symbol " +
+              $"FROM {table} ORDER BY NEWID()"
+            : $"SELECT TOP 1 id, TRIM(Name) as Name, Symbol, {statistic} " +
+              $"FROM {table} ORDER BY NEWID()";
         try
         {
             using var connection = new SqlConnection(ConnectionString);
@@ -31,6 +30,7 @@ public class DbManager
             {
                 return new Dictionary<string, string>();
             }
+
             var itemStatistic = table switch
             {
                 "Armors" => data.GetInt32("Armor").ToString(),
@@ -44,10 +44,10 @@ public class DbManager
             connection.Close();
             return new Dictionary<string, string>()
             {
-                {"Id", id},
-                {"Name", itemName},
-                {"Symbol", itemSymbol},
-                {"Stat", itemStatistic}
+                { "Id", id },
+                { "Name", itemName },
+                { "Symbol", itemSymbol },
+                { "Stat", itemStatistic }
             };
         }
         catch (SqlException e)
@@ -58,7 +58,8 @@ public class DbManager
 
     public static Dictionary<string, string> GetEnemy()
     {
-        const string getCommand = $"SELECT TOP 1 TRIM(Name) as Name, Symbol, Health, Damage FROM Enemies ORDER BY NEWID()";
+        const string getCommand =
+            $"SELECT TOP 1 id, TRIM(Name) as Name, Symbol, Health, Damage FROM Enemies ORDER BY NEWID()";
         try
         {
             using var connection = new SqlConnection(ConnectionString);
@@ -70,17 +71,20 @@ public class DbManager
             {
                 return new Dictionary<string, string>();
             }
+
             var itemName = data.GetString("Name");
             var itemSymbol = data.GetString("Symbol");
             var health = data.GetInt32("Health").ToString();
             var damage = data.GetInt32("Damage").ToString();
+            var id = data.GetInt32("Id").ToString();
             connection.Close();
             return new Dictionary<string, string>()
             {
-                {"Name", itemName},
-                {"Symbol", itemSymbol},
-                {"Health", health},
-                {"Damage", damage}
+                { "Id", id },
+                { "Name", itemName },
+                { "Symbol", itemSymbol },
+                { "Health", health },
+                { "Damage", damage }
             };
         }
         catch (SqlException e)
@@ -91,7 +95,8 @@ public class DbManager
 
     public static Dictionary<string, string> GetAlly()
     {
-        const string getCommand = $"SELECT TOP 1 TRIM(Name) as Name, Symbol, TRIM(Message) as Message, Bonus, Type FROM Allies ORDER BY NEWID()";
+        const string getCommand =
+            $"SELECT TOP 1 id, TRIM(Name) as Name, Symbol, TRIM(Message) as Message, Bonus, Type FROM Allies ORDER BY NEWID()";
         try
         {
             using var connection = new SqlConnection(ConnectionString);
@@ -109,9 +114,11 @@ public class DbManager
             var message = data.GetString("Message");
             var bonus = data.GetInt32("Bonus").ToString();
             var type = data.GetString("Type");
+            var id = data.GetInt32("Id").ToString();
             connection.Close();
             return new Dictionary<string, string>()
             {
+                { "Id", id },
                 { "Name", itemName },
                 { "Symbol", itemSymbol },
                 { "Message", message },
@@ -127,25 +134,25 @@ public class DbManager
 
     public static void ClearSavedProgressinDB()
     {
-            const string deleteCommand =
-                "TRUNCATE TABLE SAVE_Doors; TRUNCATE TABLE SAVE_Inventory; TRUNCATE TABLE SAVE_MapItems; TRUNCATE TABLE SAVE_Monsters; TRUNCATE TABLE SAVE_Player; TRUNCATE TABLE SAVE_Room; TRUNCATE TABLE SAVE_RoomCorners;";
-            try
+        const string deleteCommand =
+            "TRUNCATE TABLE SAVE_Doors; TRUNCATE TABLE SAVE_Inventory; TRUNCATE TABLE SAVE_MapItems; TRUNCATE TABLE SAVE_Monsters; TRUNCATE TABLE SAVE_Player; TRUNCATE TABLE SAVE_Room; TRUNCATE TABLE SAVE_RoomCorners;";
+        try
+        {
+            using (var connection = new SqlConnection(ConnectionString))
             {
-                using (var connection = new SqlConnection(ConnectionString))
-                {
-                    var cmd = new SqlCommand(deleteCommand, connection);
-                    if (connection.State == ConnectionState.Closed)
-                        connection.Open();
-                    cmd.ExecuteNonQuery();
-                    connection.Close();
-                }
+                var cmd = new SqlCommand(deleteCommand, connection);
+                if (connection.State == ConnectionState.Closed)
+                    connection.Open();
+                cmd.ExecuteNonQuery();
+                connection.Close();
             }
-            catch (SqlException e)
-            {
-                throw new RuntimeWrappedException(e);
-            }
+        }
+        catch (SqlException e)
+        {
+            throw new RuntimeWrappedException(e);
+        }
     }
-    
+
 
     public static void AddItemToDatabase(Useable item, string table)
     {
@@ -199,6 +206,7 @@ public class DbManager
             throw new RuntimeWrappedException(e);
         }
     }
+
     public static void UpdatePlayerCoordsInDB(Player player)
     {
         const string updateCommand = @"UPDATE SAVE_Player SET Coord_X = @Coord_X,
@@ -222,6 +230,7 @@ public class DbManager
             throw new RuntimeWrappedException(e);
         }
     }
+
     public static void UpdatePlayerArmorInDB(Player player)
     {
         const string updateCommand = @"UPDATE SAVE_Player SET Armor = @Armor,
@@ -243,6 +252,7 @@ public class DbManager
             throw new RuntimeWrappedException(e);
         }
     }
+
     public static void UpdatePlayerHPInDB(Player player)
     {
         const string updateCommand = @"UPDATE SAVE_Player SET HP = @HP,
@@ -264,6 +274,7 @@ public class DbManager
             throw new RuntimeWrappedException(e);
         }
     }
+
     public static void UpdatePlayerDamageInDB(Player player)
     {
         const string updateCommand = @"UPDATE SAVE_Player SET Damage = @Damage,
@@ -285,6 +296,7 @@ public class DbManager
             throw new RuntimeWrappedException(e);
         }
     }
+
     public static void UpdatePlayerAliveStatusInDB(Player player)
     {
         const string updateCommand = @"UPDATE SAVE_Player SET Alive = @Alive,
@@ -331,7 +343,8 @@ public class DbManager
 
     public static void CreateGridInDB(Dungeon dungeon)
     {
-        const string insertCommand = @"INSERT INTO SAVE_Player (Coord_X, Coord_Y, Status, Walkable, Visible, Interact_Type, Interact_Id)
+        const string insertCommand = 
+            @"INSERT INTO SAVE_Player (Coord_X, Coord_Y, Status, Walkable, Visible, Interact_Type, Interact_Id)
                             VALUES (@Coord_X, @Coord_Y, @Status, @Walkable, @Visible, @Interact_Type, @Interact_Id);";
         try
         {
@@ -345,11 +358,12 @@ public class DbManager
                 {
                     for (int y = 0; y < dungeon.Width; y++)
                     {
-                        string? interactObjectType = dungeon.Grid[x, y].Interactive.GetType().ToString().Split(".", -1);
-                        
+                        string? interactObjectType =
+                            dungeon.Grid[x, y].Interactive.GetType().ToString().Split(".", -1)[0];
+
                         cmdInsert.Parameters.AddWithValue("@Coord_X", x);
                         cmdInsert.Parameters.AddWithValue("@Coord_Y", y);
-                        cmdInsert.Parameters.AddWithValue("@Status", dungeon.Grid[x,y].Status);
+                        cmdInsert.Parameters.AddWithValue("@Status", dungeon.Grid[x, y].Status);
                         cmdInsert.Parameters.AddWithValue("@Walkable", dungeon.Grid[x, y].Walkable);
                         cmdInsert.Parameters.AddWithValue("@Visible", dungeon.Grid[x, y].Visible);
                         cmdInsert.Parameters.AddWithValue("@Interact_Type", interactObjectType);
@@ -357,7 +371,7 @@ public class DbManager
 
                     }
                 }
-                
+
                 connection.Close();
             }
         }
@@ -367,12 +381,5 @@ public class DbManager
         }
 
     }
-
-    public static void GetObjectType(Dungeon dungeon)
-    {
-        int? interact_id = null;
-        string interactTable = dungeon.Grid[x, y].Interactive.GetType().ToString().Split(".", -1);
-        const string getCommand = $"SELECT id FROM {interactTable} WHERE Name = {dungeon.Grid[x, y].Interactive.Name}";
-
-    }
+}
     
