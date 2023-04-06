@@ -330,10 +330,10 @@ public class DbManager
         }
     }
 
-    public static void CreateRoomInDB(int roomCornerNW, int roomCornerNE, int roomCornerSW, int roomCornerSE, bool visibility)
+    public static void CreateGridInDB(Dungeon dungeon)
     {
-        const string insertCommand = @"INSERT INTO SAVE_Rooms (Corner_NW_id, Corner_NE_id, Corner_SW_id, Corner_SE_id, Visibility)
-                            VALUES (@Corner_NW_id, @Corner_NE_id, @Corner_SW_id, @Corner_SE_id, @Visibility);";
+        const string insertCommand = @"INSERT INTO SAVE_Player (Coord_X, Coord_Y, Status, Walkable, Visible, Item_Type, Item_Id, Character_Type, Character_Id)
+                            VALUES (@Coord_X, @Coord_Y, @Status, @Walkable, @Visible, @Item_Type, @Item_Id, @Character_Type, @Character_Id);";
         try
         {
             using (var connection = new SqlConnection(ConnectionString))
@@ -342,11 +342,17 @@ public class DbManager
                 var cmdInsert = new SqlCommand(insertCommand, connection);
                 if (connection.State == ConnectionState.Closed)
                     connection.Open();
-                cmdInsert.Parameters.AddWithValue("@Corner_NW_id", roomCornerNW);
-                cmdInsert.Parameters.AddWithValue("@Corner_NE_id", roomCornerNE);
-                cmdInsert.Parameters.AddWithValue("@Corner_SW_id", roomCornerSW);
-                cmdInsert.Parameters.AddWithValue("@Corner_SE_id", roomCornerSE);
-                cmdInsert.Parameters.AddWithValue("@visibility", visibility);
+                for (int i = 0; i < dungeon.; i++)
+
+                cmdInsert.Parameters.AddWithValue("@Coord_X", player.PreviousSquare.X);
+                cmdInsert.Parameters.AddWithValue("@Coord_Y", player.PreviousSquare.Y);
+                cmdInsert.Parameters.AddWithValue("@Status", player.Name);
+                cmdInsert.Parameters.AddWithValue("@Walkable", player.Armor);
+                cmdInsert.Parameters.AddWithValue("@Visible", player.Health);
+                cmdInsert.Parameters.AddWithValue("@Item_Type", player.Damage);
+                cmdInsert.Parameters.AddWithValue("@Item_Id", player.Alive);
+                cmdInsert.Parameters.AddWithValue("@Character_Type", player.DMT);
+                cmdInsert.Parameters.AddWithValue("@Character_Id", player.DMT);
                 connection.Close();
             }
         }
@@ -354,47 +360,7 @@ public class DbManager
         {
             throw new RuntimeWrappedException(e);
         }
-    }
 
-    public static void CreateRoomInDB(Square roomCornerNW, Square roomCornerNE, Square roomCornerSW, Square roomCornerSE, bool visibility)
-    {
-        const string insertCommand = @"INSERT INTO SAVE_Rooms (Corner_NW_id, Corner_NE_id, Corner_SW_id, Corner_SE_id, Visibility)
-                            VALUES (@Corner_NW_id, @Corner_NE_id, @Corner_SW_id, @Corner_SE_id, @Visibility);";
-        const string insertRoomCoorners = @"INSERT INTO SAVE_RoomCorners (Room_id, Coord_X, Coord_Y)
-                            VALUES (@Room_id, @Coord_X, @Coord_Y);";
-        try
-        {
-            using (var connection = new SqlConnection(ConnectionString))
-            {
-
-                var cmdInsert = new SqlCommand(insertCommand, connection);
-                if (connection.State == ConnectionState.Closed)
-                    connection.Open();
-                cmdInsert.Parameters.AddWithValue("@Corner_NW_X", roomCornerNW);
-                cmdInsert.Parameters.AddWithValue("@Corner_NW_Y", roomCornerNW);
-                cmdInsert.Parameters.AddWithValue("@Corner_NE_id", roomCornerNE);
-                cmdInsert.Parameters.AddWithValue("@Corner_SW_id", roomCornerSW);
-                cmdInsert.Parameters.AddWithValue("@Corner_SE_id", roomCornerSE);
-                cmdInsert.Parameters.AddWithValue("@visibility", visibility);
-
-
-
-
-                var cmdInsertCoords = new SqlCommand(insertRoomCoorners, connection);
-                if (connection.State == ConnectionState.Closed)
-                    connection.Open();
-                cmdInsertCoords.Parameters.AddWithValue("@Room_id", roomCornerNW);
-                cmdInsertCoords.Parameters.AddWithValue("@Coord_X", roomCornerNW);
-                cmdInsertCoords.Parameters.AddWithValue("@Coord_Y", roomCornerNW);
-
-
-                connection.Close();
-            }
-        }
-        catch (SqlException e)
-        {
-            throw new RuntimeWrappedException(e);
-        }
     }
 
 }

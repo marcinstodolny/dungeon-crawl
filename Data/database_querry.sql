@@ -7,12 +7,9 @@ DROP TABLE IF EXISTS Allies
 DROP TABLE IF EXISTS Enemies
 
 DROP TABLE IF EXISTS SAVE_Player
-DROP TABLE IF EXISTS SAVE_Room
-DROP TABLE IF EXISTS SAVE_RoomCorners
-DROP TABLE IF EXISTS SAVE_Doors
-DROP TABLE IF EXISTS SAVE_MapItems
+DROP TABLE IF EXISTS SAVE_Grid
 DROP TABLE IF EXISTS SAVE_Inventory
-DROP TABLE IF EXISTS SAVE_Monsters
+
 
 
 CREATE TABLE [dbo].[Armors] (
@@ -78,40 +75,19 @@ CREATE TABLE [dbo].[SAVE_Player] (
     [HP] INT NULL,
     [Damage]  INT NULL,
     [Alive] BIT NULL,
-    [DMT] BIT NULL,
+    [DMT] BIT NULL
 );
-CREATE TABLE [dbo].[SAVE_Room] (
+CREATE TABLE [dbo].[SAVE_Grid] (
     [Id] INT NOT NULL PRIMARY KEY IDENTITY, 
-    [Corner_NW_id] INT NULL,
-    [Corner_NE_id] INT NULL,
-    [Corner_SW_id] INT NULL,
-    [Corner_SE_id] INT NULL,
-    [Visibility] BIT NULL,
-);
-CREATE TABLE [dbo].[SAVE_RoomCorners] (
-    [Id] INT NOT NULL PRIMARY KEY IDENTITY, 
-    [Room_id] INT NULL,
     [Coord_X] INT NULL,
     [Coord_Y] INT NULL,
-);
-CREATE TABLE [dbo].[SAVE_Doors] (
-    [Id] INT NOT NULL PRIMARY KEY IDENTITY, 
-    [Room_id] INT NULL,
-    [Coord_X] INT NULL,
-    [Coord_Y] INT NULL,
-    [Opened] BIT NULL,
-);
-CREATE TABLE [dbo].[SAVE_MapItems] (
-    [Id] INT NOT NULL PRIMARY KEY IDENTITY, 
+    [Status] NCHAR(50) NULL,
+    [Walkable] BIT NULL,
+    [Visible] BIT NULL,
+    [Item_Type] NCHAR(50) NULL,
     [Item_Id] INT NULL,
-    [Coord_X] INT NULL,
-    [Coord_Y] INT NULL,
-);
-CREATE TABLE [dbo].[SAVE_Monsters] (
-    [Id] INT NOT NULL PRIMARY KEY IDENTITY, 
-    [Monster_Id] INT NULL,
-    [Coord_X] INT NULL,
-    [Coord_Y] INT NULL,
+    [Character_Type] NCHAR(50) NULL,
+    [Character_Id] INT NULL
 );
 
 CREATE TABLE [dbo].[SAVE_Inventory] (
