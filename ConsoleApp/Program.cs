@@ -1,6 +1,7 @@
 ﻿using GameLogic;
 using ConsoleApp.Inputs;
 using static ConsoleApp.Outputs.Output;
+using GameLogic.DungeonManagement;
 
 namespace ConsoleApp
 {
@@ -45,6 +46,7 @@ namespace ConsoleApp
             string name = Input.GetUserInput();
             Game game = new();
             game.InitializePlayer(name);
+            DbManager.CreateGridInDB(game.Dungeon);
             while (game.GameIsOn && game.Player.Alive)
             {
                 GameLoop(game);
