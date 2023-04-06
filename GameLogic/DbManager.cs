@@ -1,9 +1,13 @@
-﻿using System.Configuration;
+﻿using Microsoft.Data.SqlClient;
+using RoguelikeGame.Entity.Abstract;
+using System.Configuration;
 using System.Data;
-using System.Data.SqlClient;
 using System.Runtime.CompilerServices;
+using RoguelikeGame.Entity;
+using System.Numerics;
+using RoguelikeGame.DungeonManagement;
 
-namespace GameLogic;
+namespace RoguelikeGame;
 
 public class DbManager
 {
@@ -88,8 +92,7 @@ public class DbManager
 
     public static Dictionary<string, string> GetAlly()
     {
-        const string getCommand =
-            $"SELECT TOP 1 TRIM(Name) as Name, Symbol, TRIM(Message) as Message, Bonus, Type FROM Allies ORDER BY NEWID()";
+        const string getCommand = $"SELECT TOP 1 TRIM(Name) as Name, Symbol, TRIM(Message) as Message, Bonus, Type FROM Allies ORDER BY NEWID()";
         try
         {
             using var connection = new SqlConnection(ConnectionString);
@@ -123,18 +126,242 @@ public class DbManager
         }
     }
 
-    //public static Dictionary<string, string> AddItemToDatabase()
-        //{
-        //    throw new NotImplementedException();
-        //}
+    public static void ClearSavedProgressinDB()
+    {
+            const string deleteCommand =
+                "TRUNCATE TABLE SAVE_Doors; TRUNCATE TABLE SAVE_Inventory; TRUNCATE TABLE SAVE_MapItems; TRUNCATE TABLE SAVE_Monsters; TRUNCATE TABLE SAVE_Player; TRUNCATE TABLE SAVE_Room; TRUNCATE TABLE SAVE_RoomCorners;";
+            try
+            {
+                using (var connection = new SqlConnection(ConnectionString))
+                {
+                    var cmd = new SqlCommand(deleteCommand, connection);
+                    if (connection.State == ConnectionState.Closed)
+                        connection.Open();
+                    cmd.ExecuteNonQuery();
+                    connection.Close();
+                }
+            }
+            catch (SqlException e)
+            {
+                throw new RuntimeWrappedException(e);
+            }
+    }
+    
 
-        //public static Dictionary<string, string> RemoveItemFromDatabase()
-        //{
-        //    throw new NotImplementedException();
-        //}
+    public static void AddItemToDatabase(Useable item, string table)
+    {
+        const string insertItemCommand = @"INSERT INTO SAVE_Inventory(Item_Type, Item_Id)
+                            VALUES (@Item_Type, @Item_Id);";
 
-        //public static Dictionary<string, string> LoadItemsFromSave()
-        //{
-        //    throw new NotImplementedException();
-        //}
+        try
+        {
+            using (var connection = new SqlConnection(ConnectionString))
+            {
+
+                var cmdInsert = new SqlCommand(insertItemCommand, connection);
+                if (connection.State == ConnectionState.Closed)
+                    connection.Open();
+                cmdInsert.Parameters.AddWithValue("@Item_Type", table);
+                cmdInsert.Parameters.AddWithValue("@Item_Id", item.Id);
+                connection.Close();
+            }
+        }
+        catch (SqlException e)
+        {
+            throw new RuntimeWrappedException(e);
+        }
+    }
+
+    public static void CreatePlayerInDB(Player player)
+    {
+        const string insertCommand = @"INSERT INTO SAVE_Player (Coord_X, Coord_Y, Name, Armor, HP, Damage, Alive, DMT)
+                            VALUES (@Coord_X, @Coord_Y, @Name, @Armor, @HP, @Damage, @Alive, @DMT);";
+        try
+        {
+            using (var connection = new SqlConnection(ConnectionString))
+            {
+
+                var cmdInsert = new SqlCommand(insertCommand, connection);
+                if (connection.State == ConnectionState.Closed)
+                    connection.Open();
+                cmdInsert.Parameters.AddWithValue("@Coord_X", player.PreviousSquare.X);
+                cmdInsert.Parameters.AddWithValue("@Coord_Y", player.PreviousSquare.Y);
+                cmdInsert.Parameters.AddWithValue("@Name", player.Name);
+                cmdInsert.Parameters.AddWithValue("@Armor", player.Armor);
+                cmdInsert.Parameters.AddWithValue("@HP", player.Health);
+                cmdInsert.Parameters.AddWithValue("@Damage", player.Damage);
+                cmdInsert.Parameters.AddWithValue("@Alive", player.Alive);
+                cmdInsert.Parameters.AddWithValue("@DMT", player.DMT);
+                connection.Close();
+            }
+        }
+        catch (SqlException e)
+        {
+            throw new RuntimeWrappedException(e);
+        }
+    }
+    public static void UpdatePlayerCoordsInDB(Player player)
+    {
+        const string updateCommand = @"UPDATE SAVE_Player SET Coord_X = @Coord_X,
+                Coord_Y = @Coord_Y
+                WHERE id = 1;";
+        try
+        {
+            using (var connection = new SqlConnection(ConnectionString))
+            {
+
+                var cmdInsert = new SqlCommand(updateCommand, connection);
+                if (connection.State == ConnectionState.Closed)
+                    connection.Open();
+                cmdInsert.Parameters.AddWithValue("@Coord_X", player.PreviousSquare.X);
+                cmdInsert.Parameters.AddWithValue("@Coord_Y", player.PreviousSquare.Y);
+                connection.Close();
+            }
+        }
+        catch (SqlException e)
+        {
+            throw new RuntimeWrappedException(e);
+        }
+    }
+    public static void UpdatePlayerArmorInDB(Player player)
+    {
+        const string updateCommand = @"UPDATE SAVE_Player SET Armor = @Armor,
+                WHERE id = 1;";
+        try
+        {
+            using (var connection = new SqlConnection(ConnectionString))
+            {
+
+                var cmdInsert = new SqlCommand(updateCommand, connection);
+                if (connection.State == ConnectionState.Closed)
+                    connection.Open();
+                cmdInsert.Parameters.AddWithValue("@Armor", player.Armor);
+                connection.Close();
+            }
+        }
+        catch (SqlException e)
+        {
+            throw new RuntimeWrappedException(e);
+        }
+    }
+    public static void UpdatePlayerHPInDB(Player player)
+    {
+        const string updateCommand = @"UPDATE SAVE_Player SET HP = @HP,
+                WHERE id = 1;";
+        try
+        {
+            using (var connection = new SqlConnection(ConnectionString))
+            {
+
+                var cmdInsert = new SqlCommand(updateCommand, connection);
+                if (connection.State == ConnectionState.Closed)
+                    connection.Open();
+                cmdInsert.Parameters.AddWithValue("@HP", player.Health);
+                connection.Close();
+            }
+        }
+        catch (SqlException e)
+        {
+            throw new RuntimeWrappedException(e);
+        }
+    }
+    public static void UpdatePlayerDamageInDB(Player player)
+    {
+        const string updateCommand = @"UPDATE SAVE_Player SET Damage = @Damage,
+                WHERE id = 1;";
+        try
+        {
+            using (var connection = new SqlConnection(ConnectionString))
+            {
+
+                var cmdInsert = new SqlCommand(updateCommand, connection);
+                if (connection.State == ConnectionState.Closed)
+                    connection.Open();
+                cmdInsert.Parameters.AddWithValue("@Damage", player.Damage);
+                connection.Close();
+            }
+        }
+        catch (SqlException e)
+        {
+            throw new RuntimeWrappedException(e);
+        }
+    }
+    public static void UpdatePlayerAliveStatusInDB(Player player)
+    {
+        const string updateCommand = @"UPDATE SAVE_Player SET Alive = @Alive,
+                WHERE id = 1;";
+        try
+        {
+            using (var connection = new SqlConnection(ConnectionString))
+            {
+
+                var cmdInsert = new SqlCommand(updateCommand, connection);
+                if (connection.State == ConnectionState.Closed)
+                    connection.Open();
+                cmdInsert.Parameters.AddWithValue("@Alive", player.Alive);
+                connection.Close();
+            }
+        }
+        catch (SqlException e)
+        {
+            throw new RuntimeWrappedException(e);
+        }
+    }
+
+    public static void UpdatePlayerDMTStatusInDB(Player player)
+    {
+        const string updateCommand = @"UPDATE SAVE_Player SET DMT = @DMT,
+                WHERE id = 1;";
+        try
+        {
+            using (var connection = new SqlConnection(ConnectionString))
+            {
+
+                var cmdInsert = new SqlCommand(updateCommand, connection);
+                if (connection.State == ConnectionState.Closed)
+                    connection.Open();
+                cmdInsert.Parameters.AddWithValue("@DMT", player.DMT);
+                connection.Close();
+            }
+        }
+        catch (SqlException e)
+        {
+            throw new RuntimeWrappedException(e);
+        }
+    }
+
+    public static void CreateGridInDB(Dungeon dungeon)
+    {
+        const string insertCommand = @"INSERT INTO SAVE_Player (Coord_X, Coord_Y, Status, Walkable, Visible, Item_Type, Item_Id, Character_Type, Character_Id)
+                            VALUES (@Coord_X, @Coord_Y, @Status, @Walkable, @Visible, @Item_Type, @Item_Id, @Character_Type, @Character_Id);";
+        try
+        {
+            using (var connection = new SqlConnection(ConnectionString))
+            {
+
+                var cmdInsert = new SqlCommand(insertCommand, connection);
+                if (connection.State == ConnectionState.Closed)
+                    connection.Open();
+                for (int i = 0; i < dungeon.; i++)
+
+                cmdInsert.Parameters.AddWithValue("@Coord_X", dungeon);
+                cmdInsert.Parameters.AddWithValue("@Coord_Y", dungeon);
+                cmdInsert.Parameters.AddWithValue("@Status", dungeon);
+                cmdInsert.Parameters.AddWithValue("@Walkable", dungeon);
+                cmdInsert.Parameters.AddWithValue("@Visible", dungeon);
+                cmdInsert.Parameters.AddWithValue("@Item_Type", dungeon);
+                cmdInsert.Parameters.AddWithValue("@Item_Id", dungeon);
+                cmdInsert.Parameters.AddWithValue("@Character_Type", dungeon);
+                cmdInsert.Parameters.AddWithValue("@Character_Id", dungeon);
+                connection.Close();
+            }
+        }
+        catch (SqlException e)
+        {
+            throw new RuntimeWrappedException(e);
+        }
+
+    }
+
 }
+    
