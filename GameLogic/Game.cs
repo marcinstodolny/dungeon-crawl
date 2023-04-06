@@ -37,10 +37,10 @@ public class Game
         return new Player(name, Dungeon.Grid[coordinates.X, coordinates.Y]);
     }
 
-    public string ScreenString()
+    public string ScreenViewportToString()
     {
         return StringConstructor.DungeonViewportToString(Dungeon, Player) + StringConstructor.UserStatsToString(Player)
-            + StringConstructor.PressHForHelp() + StringConstructor.EntityMessage(Player);
+            + StringConstructor.PressHForHelp() + StringConstructor.ItemMessage(Player);
     }
 
     public static string MapLegendString()
@@ -53,9 +53,9 @@ public class Game
         return StringConstructor.InventoryString(Player);
     }
 
-    public void PassPlayerDirection(Direction direction)
+    public string PassPlayerDirection(Direction direction)
     {
-        Player.TryToMove(Coordinates.FromDirection(direction, Player), Dungeon);
+        return Player.TryToMove(Coordinates.FromDirection(direction, Player), Dungeon);
     }
 
     public static bool TestConnection()

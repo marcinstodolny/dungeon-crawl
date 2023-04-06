@@ -122,7 +122,7 @@ INSERT INTO dbo.Potion (Name, Symbol, HPRestore)
 VALUES ('Tears of your enemies', '$', 10),
 ('Blood of your enemies', '$', 15),
 ('Gin & Tonic', '$', 5),
-('Dimetylotryptamina', 'D', 100),
+('N,N-Dimethyltryptamine', 'D', 100),
 ('Dungeon water', '$', 1)
 
 INSERT INTO dbo.Food (Name, Symbol, HPRestore)
