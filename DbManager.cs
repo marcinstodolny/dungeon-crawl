@@ -174,8 +174,8 @@ public class DbManager
 
     public static void CreatePlayerInDB(Player player)
     {
-        const string insertCommand = @"INSERT INTO SAVE_Player (Coord_X, Coord_Y, Armor, HP, Damage, Alive, DMT)
-                            VALUES (@Coord_X, @Coord_Y, @Armor, @HP, @Damage, @Alive, @DMT);";
+        const string insertCommand = @"INSERT INTO SAVE_Player (Coord_X, Coord_Y, Name, Armor, HP, Damage, Alive, DMT)
+                            VALUES (@Coord_X, @Coord_Y, @Name, @Armor, @HP, @Damage, @Alive, @DMT);";
         try
         {
             using (var connection = new SqlConnection(ConnectionString))
@@ -186,6 +186,7 @@ public class DbManager
                     connection.Open();
                 cmdInsert.Parameters.AddWithValue("@Coord_X", player.PreviousSquare.X);
                 cmdInsert.Parameters.AddWithValue("@Coord_Y", player.PreviousSquare.Y);
+                cmdInsert.Parameters.AddWithValue("@Name", player.Name);
                 cmdInsert.Parameters.AddWithValue("@Armor", player.Armor);
                 cmdInsert.Parameters.AddWithValue("@HP", player.Health);
                 cmdInsert.Parameters.AddWithValue("@Damage", player.Damage);

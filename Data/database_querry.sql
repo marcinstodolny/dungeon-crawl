@@ -71,6 +71,7 @@ CREATE TABLE [dbo].[Enemies]
 
 CREATE TABLE [dbo].[SAVE_Player] (
     [Id] INT NOT NULL PRIMARY KEY IDENTITY, 
+    [Name] NCHAR(50) NULL,
     [Coord_X] INT NULL,
     [Coord_Y] INT NULL,
     [Armor]  INT NULL,
