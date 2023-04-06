@@ -60,7 +60,7 @@ public class DbManager
     {
         const string getCommand =
             $"SELECT TOP 1 id, TRIM(Name) as Name, Symbol, Health, Damage FROM Enemies ORDER BY NEWID()";
-        try
+            try
         {
             using var connection = new SqlConnection(ConnectionString);
             if (connection.State == ConnectionState.Closed)
@@ -97,7 +97,7 @@ public class DbManager
     {
         const string getCommand =
             $"SELECT TOP 1 id, TRIM(Name) as Name, Symbol, TRIM(Message) as Message, Bonus, Type FROM Allies ORDER BY NEWID()";
-        try
+            try
         {
             using var connection = new SqlConnection(ConnectionString);
             if (connection.State == ConnectionState.Closed)
@@ -343,8 +343,8 @@ public class DbManager
 
     public static void CreateGridInDB(Dungeon dungeon)
     {
-        const string insertCommand = 
-            @"INSERT INTO SAVE_Player (Coord_X, Coord_Y, Status, Walkable, Visible, Interact_Type, Interact_Id)
+        const string insertCommand =
+            @"INSERT INTO SAVE_Grid (Coord_X, Coord_Y, Status, Walkable, Visible, Interact_Type, Interact_Id)
                             VALUES (@Coord_X, @Coord_Y, @Status, @Walkable, @Visible, @Interact_Type, @Interact_Id);";
         try
         {
