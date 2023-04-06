@@ -2,6 +2,7 @@
 using GameLogic.DungeonManagement;
 using GameLogic;
 
+
 namespace ConsoleApp.Inputs
 {
     internal class MovementInput
@@ -49,6 +50,12 @@ namespace ConsoleApp.Inputs
                 case ConsoleKey.M:
                     Output.ShowOnScreen(Game.MapLegendString());
                     Output.WaitMessage();
+                    break;
+                case ConsoleKey.F5:
+                    DbManager.ClearSavedProgressinDB();
+                    DbManager.CreatePlayerInDB(game.Player);
+                    DbManager.AddItemsToDatabase(game.Player);
+                    DbManager.CreateGridInDB(game.Dungeon);
                     break;
                 case ConsoleKey.Escape:
                     game.GameIsOn = false;

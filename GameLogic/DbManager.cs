@@ -155,22 +155,23 @@ public class DbManager
     }
 
 
-    public static void AddItemsToDatabase(Useable item, string table)
+    public static void AddItemsToDatabase(Player player)
     {
-        const string insertItemCommand = @"INSERT INTO SAVE_Inventory(Item_Name, Item_Count)
-                            VALUES (@Item_Name, @Item_Count);";
-
         try
         {
             using (var connection = new SqlConnection(ConnectionString))
             {
-
-                var cmdInsert = new SqlCommand(insertItemCommand, connection);
-                if (connection.State == ConnectionState.Closed)
-                    connection.Open();
-                cmdInsert.Parameters.AddWithValue("@Item_Type", table);
-                cmdInsert.Parameters.AddWithValue("@Item_Id", item.Id);
-                cmdInsert.ExecuteNonQuery();
+                foreach (KeyValuePair<Useable, int> item in player.Inventory)
+                {
+                    string insertItemCommand = @"INSERT INTO SAVE_Inventory(Item_Name, Item_Count)
+                            VALUES (@Item_Name, @Item_Count);";
+                    var cmdInsert = new SqlCommand(insertItemCommand, connection);
+                    if (connection.State == ConnectionState.Closed)
+                        connection.Open();
+                    cmdInsert.Parameters.AddWithValue("@Item_Name", item.Key);
+                    cmdInsert.Parameters.AddWithValue("@Item_Count", item.Value);
+                    cmdInsert.ExecuteNonQuery();
+                }
                 connection.Close();
             }
         }
