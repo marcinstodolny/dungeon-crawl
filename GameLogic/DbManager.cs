@@ -168,8 +168,6 @@ public class DbManager
                     var cmdInsert = new SqlCommand(insertItemCommand, connection);
                     if (connection.State == ConnectionState.Closed)
                         connection.Open();
-                    Console.WriteLine(item.Key.Name);
-                    Console.WriteLine(item.Value);
                     cmdInsert.Parameters.AddWithValue("@Item_Name", item.Key.Name);
                     cmdInsert.Parameters.AddWithValue("@Item_Count", item.Value);
                     cmdInsert.ExecuteNonQuery();
