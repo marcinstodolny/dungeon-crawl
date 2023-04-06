@@ -13,6 +13,8 @@ using System.Data.SqlClient;
 using System.Configuration;
 using GameLogic.DungeonManagement.RoomCreator;
 using GameLogic.Entity;
+using GameLogic.Entity.Interaction.Item.Useable;
+using System.Reflection;
 
 namespace GameLogic;
 
@@ -271,30 +273,32 @@ public class DbManager
         }
 
     }
-    public static void LoadPlayerfromDB(Player player, Square[,] Grid)
+
+    public static void LoadPlayerfromDB(Player player, Dungeon dungeon)
     {
         try
         {
             using (var connection = new SqlConnection(ConnectionString))
             {
-                    string getCommand = "SELECT Name, Coord_X, Coord_Y, Armor, HP, Damage, Alive, DMT FROM SAVE_Player where id = 1;";
-                    var cmdGet = new SqlCommand(getCommand, connection);
-                    if (connection.State == ConnectionState.Closed)
-                        connection.Open();
-                    var reader = cmdGet.ExecuteReader();
-                    while (reader.Read())
-                    { 
-                        string name = reader["name"] as string;
-                        int playerCoorX = (int)reader["Coord_X"];
-                        int playerCoorY = (int)reader["Coord_Y"];
-                        int armor = (int)reader["Armor"];
-                        int health = (int)reader["HP"];
-                        int damage = (int)reader["Damage"];
-                        new Player(name, Grid[playerCoorX, playerCoorY], health, armor, damage);
-                        player.DMT = (bool)reader["DMT"];
+                string getCommand =
+                    "SELECT Name, Coord_X, Coord_Y, Armor, HP, Damage, Alive, DMT FROM SAVE_Player where id = 1;";
+                var cmdGet = new SqlCommand(getCommand, connection);
+                if (connection.State == ConnectionState.Closed)
+                    connection.Open();
+                var reader = cmdGet.ExecuteReader();
+                while (reader.Read())
+                {
+                    string name = reader["name"] as string;
+                    int playerCoorX = (int)reader["Coord_X"];
+                    int playerCoorY = (int)reader["Coord_Y"];
+                    int armor = (int)reader["Armor"];
+                    int health = (int)reader["HP"];
+                    int damage = (int)reader["Damage"];
+                    new Player(name, dungeon.Grid[playerCoorX, playerCoorY], health, armor, damage);
+                    player.DMT = (bool)reader["DMT"];
                 }
 
-                    connection.Close();
+                connection.Close();
             }
         }
         catch (SqlException e)
@@ -302,5 +306,87 @@ public class DbManager
             throw new RuntimeWrappedException(e);
         }
     }
-}
+
+    public static void LoadInventoryfromDB(Player player)
+    {
+        try
+        {
+            using (var connection = new SqlConnection(ConnectionString))
+            {
+                string getCommand = "SELECT Item_Name, Item_Count FROM SAVE_Inventory;";
+                var cmdGet = new SqlCommand(getCommand, connection);
+                if (connection.State == ConnectionState.Closed)
+                    connection.Open();
+                var reader = cmdGet.ExecuteReader();
+                while (reader.Read())
+                {
+                     // Please skip this part, it's a late-night-workaround (not actual solution) ;)
+                    string item_name = reader["Item_Name"] as string;
+                    int item_Count = (int)reader["Item_Count"];
+                    Coordinates position = new Coordinates(300,300);
+                    Square fakeSquare = new Square(position, SquareStatus.Empty, false, false);
+                    Useable dummyItem = new Keys(fakeSquare);
+                    dummyItem.Name = item_name;
+                    player.Inventory[dummyItem] = item_Count;
+
+                }
+
+                connection.Close();
+            }
+        }
+        catch (SqlException e)
+        {
+            throw new RuntimeWrappedException(e);
+        }
+    }
+
+    //public static void LoadGridfromDB(Dungeon dungeon)
+    //{
+    //    try
+    //    {
+    //        using (var connection = new SqlConnection(ConnectionString))
+    //        {
+    //            string getCommand =
+    //                "SELECT Coord_X, Coord_Y, Status, Walkable, Visible, Interact_Type, Interact_Id FROM SAVE_Grid;";
+    //            var cmdGet = new SqlCommand(getCommand, connection);
+    //            if (connection.State == ConnectionState.Closed)
+    //                connection.Open();
+    //            var reader = cmdGet.ExecuteReader();
+    //            while (reader.Read())
+    //            {
+    //                for (int x = 0; x < dungeon.Width; x++)
+    //                {
+    //                    for (int y = 0; y < dungeon.Height; y++)
+    //                    {
+    //                        string status = reader["Status"] as string;
+    //                        string interactiveObject = reader["Interact_Type"] as string;
+    //                        Square square = new Square(x, y);
+    //                        dungeon.Grid[x, y].Status = (SquareStatus)Enum.Parse(typeof(SquareStatus), status);
+    //                        dungeon.Grid[x, y].Walkable = (bool)reader["Walkable"];
+    //                        dungeon.Grid[x, y].Visible = (bool)reader["Visible"];
+    //                        if (interactiveObject == "")
+    //                        {
+    //                            dungeon.Grid[x, y].Interactive = null;
+    //                        }
+    //                        else
+    //                        {
+    //                            dungeon.Grid[x, y].Interactive = 
+    //                        }
+                            
+    //                    }
+    //                }
+
+    //                connection.Close();
+    //            }
+    //        }
+    //    }
+    //    catch (SqlException e)
+    //    {
+    //        throw new RuntimeWrappedException(e);
+    //    }
+    }
+
+
+
+
     
