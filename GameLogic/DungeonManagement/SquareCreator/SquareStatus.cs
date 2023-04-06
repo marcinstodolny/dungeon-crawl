@@ -11,7 +11,7 @@
         CornerNE = '╗',
         CornerSW = '╚',
         Door = '╬',
-        Hallway = '▒',
+        Hallway = '█',
         Stairway = '≣',
         Player = '☺',
         Item = '$',

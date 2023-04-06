@@ -14,6 +14,7 @@ namespace GameLogic.Entity
         public int Armor { get; set; }
         public int Health { get; set; }
         public int Damage { get; set; }
+        public int ViewRange = 7;
         public bool Alive => Health > 0;
 
         public bool DMT = false;
@@ -34,20 +35,45 @@ namespace GameLogic.Entity
 
         public void TryToMove(Coordinates newCoordinates, Dungeon dungeon)
         {
-            if (newCoordinates.X == Square.Position.X && newCoordinates.Y == Square.Position.Y)
+            if (newCoordinates.X > 0 
+                &&  newCoordinates.Y > 0
+                && newCoordinates.X < dungeon.Width
+                && newCoordinates.Y < dungeon.Height)
             {
+                Square nextSquare = dungeon.Grid[newCoordinates.X, newCoordinates.Y];
+                if (newCoordinates.X == Square.Position.X && newCoordinates.Y == Square.Position.Y)
+                {
 
-            }
-            else if (dungeon.Grid[newCoordinates.X, newCoordinates.Y].Walkable)
-            {
-                Square.Status = PreviousSquareStatus;
-                Square = dungeon.Grid[newCoordinates.X, newCoordinates.Y];
-                PreviousSquareStatus = Square.Status;
-                Square.Status = SquareStatus.Player;
+                }
+                else if (nextSquare.Walkable)
+                {
+                    if (nextSquare.Status != SquareStatus.Empty && nextSquare.Status != SquareStatus.Hallway)
+                    {
+                        RevealSquares(dungeon);
+                    }
+                    Square.Status = PreviousSquareStatus;
+                    Square = dungeon.Grid[newCoordinates.X, newCoordinates.Y];
+                    PreviousSquareStatus = Square.Status;
+                    Square.Status = SquareStatus.Player;
+                }
             }
         }
 
-
+        public void RevealSquares(Dungeon dungeon)
+        {
+            for (int y = Square.Position.Y - ViewRange + 1; y < Square.Position.Y + ViewRange; y++)
+            {
+                for (int x = Square.Position.X - ViewRange + 1; x < Square.Position.X + ViewRange; x++)
+                {
+                    if (x > 0 && y > 0 && x < dungeon.Width && y < dungeon.Height)
+                    {
+                        dungeon.Grid[x, y].Visible = true;
+                    }
+                }
+            }
+        }
+    }
+}
 
         //private Square CheckForCollision(Square newSquare)
         //{
@@ -151,5 +177,3 @@ namespace GameLogic.Entity
 
         //    return newSquare;
         //}
-    }
-}

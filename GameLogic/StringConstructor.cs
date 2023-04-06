@@ -8,22 +8,48 @@ namespace GameLogic
 {
     public class StringConstructor
     {
-        public static string DungeonToString(Dungeon dungeon)
+        public static string DungeonViewportToString(Dungeon dungeon, Player player)
         {
-            StringBuilder sbReturn = new();
+            int viewportWidth = 140;
+            int viewportHeight = 32;
 
-            for (int y = 0; y < dungeon.Dimensions.Y; y++)
+            int startX = player.Square.Position.X - (viewportWidth / 2);
+            int startY = player.Square.Position.Y - (viewportHeight / 2);
+
+            int endX = startX + viewportWidth;
+            int endY = startY + viewportHeight;
+
+            StringBuilder sb = new();
+
+            for (int y = startY; y < endY; y++)
             {
-                for (int x = 0; x < dungeon.Dimensions.X; x++)
+                for (int x = startX; x < endX; x++)
                 {
-                    sbReturn.Append(dungeon.Grid[x, y].Interactive != null
-                        ? new string($"{dungeon.Grid[x, y].Interactive!.MapSymbol}")
-                        : new string($"{(char)dungeon.Grid[x, y].Status}"));
+                    if (x >= 0 && x < dungeon.Width && y >= 0 && y < dungeon.Height)
+                    {
+                        Square square = dungeon.Grid[x, y];
+                        if (square.Visible)
+                        {
+                            sb.Append(square.Interactive != null
+                                ? new string($"{square.Interactive.MapSymbol}")
+                                : new string($"{(char)square.Status}"));
+                        }
+                        else
+                        {
+                            sb.Append(' ');
+                        }
+                        
+                    }
+                    else
+                    {
+                        sb.Append(' ');
+                    }
                 }
-                sbReturn.Append('\n');
+                sb.Append('\n');
             }
-            return sbReturn.ToString();
+            return sb.ToString();
         }
+
         public static string EntityMessage(Player player)
         {
             if (player.Square.Interactive != null && player.Square.Interactive.GetType().BaseType!.BaseType == typeof(Item))
