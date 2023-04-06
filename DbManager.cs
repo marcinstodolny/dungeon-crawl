@@ -4,6 +4,8 @@ using System.Configuration;
 using System.Data;
 using System.Runtime.CompilerServices;
 using RoguelikeGame.Entity;
+using System.Numerics;
+using RoguelikeGame.DungeonManagement;
 
 namespace RoguelikeGame;
 
@@ -199,7 +201,7 @@ public class DbManager
     }
     public static void UpdatePlayerCoordsInDB(Player player)
     {
-        const string insertCommand = @"UPDATE SAVE_Player SET Coord_X = @Coord_X,
+        const string updateCommand = @"UPDATE SAVE_Player SET Coord_X = @Coord_X,
                 Coord_Y = @Coord_Y
                 WHERE id = 1;";
         try
@@ -207,7 +209,7 @@ public class DbManager
             using (var connection = new SqlConnection(ConnectionString))
             {
 
-                var cmdInsert = new SqlCommand(insertCommand, connection);
+                var cmdInsert = new SqlCommand(updateCommand, connection);
                 if (connection.State == ConnectionState.Closed)
                     connection.Open();
                 cmdInsert.Parameters.AddWithValue("@Coord_X", player.PreviousSquare.X);
@@ -222,14 +224,14 @@ public class DbManager
     }
     public static void UpdatePlayerArmorInDB(Player player)
     {
-        const string insertCommand = @"UPDATE SAVE_Player SET Armor = @Armor,
+        const string updateCommand = @"UPDATE SAVE_Player SET Armor = @Armor,
                 WHERE id = 1;";
         try
         {
             using (var connection = new SqlConnection(ConnectionString))
             {
 
-                var cmdInsert = new SqlCommand(insertCommand, connection);
+                var cmdInsert = new SqlCommand(updateCommand, connection);
                 if (connection.State == ConnectionState.Closed)
                     connection.Open();
                 cmdInsert.Parameters.AddWithValue("@Armor", player.Armor);
@@ -243,14 +245,14 @@ public class DbManager
     }
     public static void UpdatePlayerHPInDB(Player player)
     {
-        const string insertCommand = @"UPDATE SAVE_Player SET HP = @HP,
+        const string updateCommand = @"UPDATE SAVE_Player SET HP = @HP,
                 WHERE id = 1;";
         try
         {
             using (var connection = new SqlConnection(ConnectionString))
             {
 
-                var cmdInsert = new SqlCommand(insertCommand, connection);
+                var cmdInsert = new SqlCommand(updateCommand, connection);
                 if (connection.State == ConnectionState.Closed)
                     connection.Open();
                 cmdInsert.Parameters.AddWithValue("@HP", player.Health);
@@ -264,14 +266,14 @@ public class DbManager
     }
     public static void UpdatePlayerDamageInDB(Player player)
     {
-        const string insertCommand = @"UPDATE SAVE_Player SET Damage = @Damage,
+        const string updateCommand = @"UPDATE SAVE_Player SET Damage = @Damage,
                 WHERE id = 1;";
         try
         {
             using (var connection = new SqlConnection(ConnectionString))
             {
 
-                var cmdInsert = new SqlCommand(insertCommand, connection);
+                var cmdInsert = new SqlCommand(updateCommand, connection);
                 if (connection.State == ConnectionState.Closed)
                     connection.Open();
                 cmdInsert.Parameters.AddWithValue("@Damage", player.Damage);
@@ -285,14 +287,14 @@ public class DbManager
     }
     public static void UpdatePlayerAliveStatusInDB(Player player)
     {
-        const string insertCommand = @"UPDATE SAVE_Player SET Alive = @Alive,
+        const string updateCommand = @"UPDATE SAVE_Player SET Alive = @Alive,
                 WHERE id = 1;";
         try
         {
             using (var connection = new SqlConnection(ConnectionString))
             {
 
-                var cmdInsert = new SqlCommand(insertCommand, connection);
+                var cmdInsert = new SqlCommand(updateCommand, connection);
                 if (connection.State == ConnectionState.Closed)
                     connection.Open();
                 cmdInsert.Parameters.AddWithValue("@Alive", player.Alive);
@@ -307,8 +309,30 @@ public class DbManager
 
     public static void UpdatePlayerDMTStatusInDB(Player player)
     {
-        const string insertCommand = @"UPDATE SAVE_Player SET DMT = @DMT,
+        const string updateCommand = @"UPDATE SAVE_Player SET DMT = @DMT,
                 WHERE id = 1;";
+        try
+        {
+            using (var connection = new SqlConnection(ConnectionString))
+            {
+
+                var cmdInsert = new SqlCommand(updateCommand, connection);
+                if (connection.State == ConnectionState.Closed)
+                    connection.Open();
+                cmdInsert.Parameters.AddWithValue("@DMT", player.DMT);
+                connection.Close();
+            }
+        }
+        catch (SqlException e)
+        {
+            throw new RuntimeWrappedException(e);
+        }
+    }
+
+    public static void CreateRoomInDB(int roomCornerNW, int roomCornerNE, int roomCornerSW, int roomCornerSE, bool visibility)
+    {
+        const string insertCommand = @"INSERT INTO SAVE_Rooms (Corner_NW_id, Corner_NE_id, Corner_SW_id, Corner_SE_id, Visibility)
+                            VALUES (@Corner_NW_id, @Corner_NE_id, @Corner_SW_id, @Corner_SE_id, @Visibility);";
         try
         {
             using (var connection = new SqlConnection(ConnectionString))
@@ -317,7 +341,52 @@ public class DbManager
                 var cmdInsert = new SqlCommand(insertCommand, connection);
                 if (connection.State == ConnectionState.Closed)
                     connection.Open();
-                cmdInsert.Parameters.AddWithValue("@DMT", player.DMT);
+                cmdInsert.Parameters.AddWithValue("@Corner_NW_id", roomCornerNW);
+                cmdInsert.Parameters.AddWithValue("@Corner_NE_id", roomCornerNE);
+                cmdInsert.Parameters.AddWithValue("@Corner_SW_id", roomCornerSW);
+                cmdInsert.Parameters.AddWithValue("@Corner_SE_id", roomCornerSE);
+                cmdInsert.Parameters.AddWithValue("@visibility", visibility);
+                connection.Close();
+            }
+        }
+        catch (SqlException e)
+        {
+            throw new RuntimeWrappedException(e);
+        }
+    }
+
+    public static void CreateRoomInDB(Square roomCornerNW, Square roomCornerNE, Square roomCornerSW, Square roomCornerSE, bool visibility)
+    {
+        const string insertCommand = @"INSERT INTO SAVE_Rooms (Corner_NW_id, Corner_NE_id, Corner_SW_id, Corner_SE_id, Visibility)
+                            VALUES (@Corner_NW_id, @Corner_NE_id, @Corner_SW_id, @Corner_SE_id, @Visibility);";
+        const string insertRoomCoorners = @"INSERT INTO SAVE_RoomCorners (Room_id, Coord_X, Coord_Y)
+                            VALUES (@Room_id, @Coord_X, @Coord_Y);";
+        try
+        {
+            using (var connection = new SqlConnection(ConnectionString))
+            {
+
+                var cmdInsert = new SqlCommand(insertCommand, connection);
+                if (connection.State == ConnectionState.Closed)
+                    connection.Open();
+                cmdInsert.Parameters.AddWithValue("@Corner_NW_X", roomCornerNW);
+                cmdInsert.Parameters.AddWithValue("@Corner_NW_Y", roomCornerNW);
+                cmdInsert.Parameters.AddWithValue("@Corner_NE_id", roomCornerNE);
+                cmdInsert.Parameters.AddWithValue("@Corner_SW_id", roomCornerSW);
+                cmdInsert.Parameters.AddWithValue("@Corner_SE_id", roomCornerSE);
+                cmdInsert.Parameters.AddWithValue("@visibility", visibility);
+
+
+
+
+                var cmdInsertCoords = new SqlCommand(insertRoomCoorners, connection);
+                if (connection.State == ConnectionState.Closed)
+                    connection.Open();
+                cmdInsertCoords.Parameters.AddWithValue("@Room_id", roomCornerNW);
+                cmdInsertCoords.Parameters.AddWithValue("@Coord_X", roomCornerNW);
+                cmdInsertCoords.Parameters.AddWithValue("@Coord_Y", roomCornerNW);
+
+
                 connection.Close();
             }
         }
