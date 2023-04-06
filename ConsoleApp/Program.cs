@@ -33,7 +33,7 @@ namespace ConsoleApp
                         break;
                 }
                 Display.PressAnyKey();
-                Input.WaitForInput();
+                Input.WaitForKeyPress();
                 Display.Clear();
             }
         }

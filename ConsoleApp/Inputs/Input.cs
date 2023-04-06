@@ -64,7 +64,7 @@ namespace ConsoleApp.Inputs
                     break;
                 case ConsoleKey.E:
                     game.PassPlayerDirection(Direction.None);
-                    Display.WaitMessage();
+                    Display.WaitMessage(); // TODO if interactable != null perform item.interact (after cast to item) and display returned message
                     break;
                 case ConsoleKey.I:
                     Display.ShowOnScreen(game.InventoryString());
