@@ -124,10 +124,10 @@ public class DbManager
         }
     }
 
-    public static void ResetSavedProgress()
+    public static void ClearSavedProgressinDB()
     {
             const string deleteCommand =
-                "TRUNCATE TABLE SAVE_Doors, SAVE_Inventory, SAVE_MapItems, SAVE_Monsters, SAVE_Player, SAVE_Room, SAVE_RoomCorners";
+                "TRUNCATE TABLE SAVE_Doors; TRUNCATE TABLE SAVE_Inventory; TRUNCATE TABLE SAVE_MapItems; TRUNCATE TABLE SAVE_Monsters; TRUNCATE TABLE SAVE_Player; TRUNCATE TABLE SAVE_Room; TRUNCATE TABLE SAVE_RoomCorners;";
             try
             {
                 using (var connection = new SqlConnection(ConnectionString))
@@ -148,7 +148,7 @@ public class DbManager
 
     public static void AddItemToDatabase(Useable item, string table)
     {
-        const string insertItemCommand = @"INSERT INTO SAVE_Inventory (Item_Type, Item_Id)
+        const string insertItemCommand = @"INSERT INTO SAVE_Inventory(Item_Type, Item_Id)
                             VALUES (@Item_Type, @Item_Id);";
 
         try
@@ -173,7 +173,7 @@ public class DbManager
     public static void CreatePlayerInDB(Player player)
     {
         const string insertCommand = @"INSERT INTO SAVE_Player (Coord_X, Coord_Y, Armor, HP, Damage, Alive, DMT)
-                            VALUES (@Coord.X, @Coord.Y, @Armor, @HP, @Damage, @Alive, @DMT);";
+                            VALUES (@Coord_X, @Coord_Y, @Armor, @HP, @Damage, @Alive, @DMT);";
         try
         {
             using (var connection = new SqlConnection(ConnectionString))
@@ -197,8 +197,135 @@ public class DbManager
             throw new RuntimeWrappedException(e);
         }
     }
+    public static void UpdatePlayerCoordsInDB(Player player)
+    {
+        const string insertCommand = @"UPDATE SAVE_Player SET Coord_X = @Coord_X,
+                Coord_Y = @Coord_Y
+                WHERE id = 1;";
+        try
+        {
+            using (var connection = new SqlConnection(ConnectionString))
+            {
 
+                var cmdInsert = new SqlCommand(insertCommand, connection);
+                if (connection.State == ConnectionState.Closed)
+                    connection.Open();
+                cmdInsert.Parameters.AddWithValue("@Coord_X", player.PreviousSquare.X);
+                cmdInsert.Parameters.AddWithValue("@Coord_Y", player.PreviousSquare.Y);
+                connection.Close();
+            }
+        }
+        catch (SqlException e)
+        {
+            throw new RuntimeWrappedException(e);
+        }
+    }
+    public static void UpdatePlayerArmorInDB(Player player)
+    {
+        const string insertCommand = @"UPDATE SAVE_Player SET Armor = @Armor,
+                WHERE id = 1;";
+        try
+        {
+            using (var connection = new SqlConnection(ConnectionString))
+            {
 
+                var cmdInsert = new SqlCommand(insertCommand, connection);
+                if (connection.State == ConnectionState.Closed)
+                    connection.Open();
+                cmdInsert.Parameters.AddWithValue("@Armor", player.Armor);
+                connection.Close();
+            }
+        }
+        catch (SqlException e)
+        {
+            throw new RuntimeWrappedException(e);
+        }
+    }
+    public static void UpdatePlayerHPInDB(Player player)
+    {
+        const string insertCommand = @"UPDATE SAVE_Player SET HP = @HP,
+                WHERE id = 1;";
+        try
+        {
+            using (var connection = new SqlConnection(ConnectionString))
+            {
+
+                var cmdInsert = new SqlCommand(insertCommand, connection);
+                if (connection.State == ConnectionState.Closed)
+                    connection.Open();
+                cmdInsert.Parameters.AddWithValue("@HP", player.Health);
+                connection.Close();
+            }
+        }
+        catch (SqlException e)
+        {
+            throw new RuntimeWrappedException(e);
+        }
+    }
+    public static void UpdatePlayerDamageInDB(Player player)
+    {
+        const string insertCommand = @"UPDATE SAVE_Player SET Damage = @Damage,
+                WHERE id = 1;";
+        try
+        {
+            using (var connection = new SqlConnection(ConnectionString))
+            {
+
+                var cmdInsert = new SqlCommand(insertCommand, connection);
+                if (connection.State == ConnectionState.Closed)
+                    connection.Open();
+                cmdInsert.Parameters.AddWithValue("@Damage", player.Damage);
+                connection.Close();
+            }
+        }
+        catch (SqlException e)
+        {
+            throw new RuntimeWrappedException(e);
+        }
+    }
+    public static void UpdatePlayerAliveStatusInDB(Player player)
+    {
+        const string insertCommand = @"UPDATE SAVE_Player SET Alive = @Alive,
+                WHERE id = 1;";
+        try
+        {
+            using (var connection = new SqlConnection(ConnectionString))
+            {
+
+                var cmdInsert = new SqlCommand(insertCommand, connection);
+                if (connection.State == ConnectionState.Closed)
+                    connection.Open();
+                cmdInsert.Parameters.AddWithValue("@Alive", player.Alive);
+                connection.Close();
+            }
+        }
+        catch (SqlException e)
+        {
+            throw new RuntimeWrappedException(e);
+        }
+    }
+
+    public static void UpdatePlayerDMTStatusInDB(Player player)
+    {
+        const string insertCommand = @"UPDATE SAVE_Player SET DMT = @DMT,
+                WHERE id = 1;";
+        try
+        {
+            using (var connection = new SqlConnection(ConnectionString))
+            {
+
+                var cmdInsert = new SqlCommand(insertCommand, connection);
+                if (connection.State == ConnectionState.Closed)
+                    connection.Open();
+                cmdInsert.Parameters.AddWithValue("@DMT", player.DMT);
+                connection.Close();
+            }
+        }
+        catch (SqlException e)
+        {
+            throw new RuntimeWrappedException(e);
+        }
+    }
 
 }
     
