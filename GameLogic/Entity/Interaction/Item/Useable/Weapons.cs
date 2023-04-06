@@ -28,7 +28,7 @@ namespace GameLogic.Entity.Interaction.Item.Useable
             AddToInventory(player);
             player.Damage += Damage;
             RemoveFromBoard();
-            return $"You have picked up {Name}";
+            return $"\nYou have picked up {Name}";
         }
     }
 }

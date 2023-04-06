@@ -1,6 +1,7 @@
 ﻿using GameLogic.DungeonManagement;
 using GameLogic.DungeonManagement.SquareCreator;
 using GameLogic.Entity.Abstract;
+using System.Numerics;
 
 namespace GameLogic.Entity
 {
@@ -28,7 +29,7 @@ namespace GameLogic.Entity
             PreviousSquareStatus = SquareStatus.Floor;
         }
 
-        public void TryToMove(Coordinates newCoordinates, Dungeon dungeon)
+        public string TryToMove(Coordinates newCoordinates, Dungeon dungeon)
         {
             if (newCoordinates is { X: > 0, Y: > 0 } 
                 && newCoordinates.X < dungeon.Width 
@@ -38,7 +39,15 @@ namespace GameLogic.Entity
                 if (nextSquare.Interactive != null 
                     && nextSquare.Interactive.GetType().BaseType == typeof(Character))
                 {
-                    ((Character)nextSquare.Interactive).ApproachCharacter(this); //TODO display returned message and wait
+                    return ((Character)nextSquare.Interactive).ApproachCharacter(this); //TODO display returned message and wait
+
+                }
+                else if (newCoordinates.X == Square.Position.X 
+                    && newCoordinates.Y == Square.Position.Y
+                    && nextSquare.Interactive != null
+                    && nextSquare.Interactive.GetType().BaseType == typeof(Item))
+                {
+                    return ((Item)nextSquare.Interactive).Interact(this); // TODO if interactable != null perform item.interact (after cast to item) and display returned message
 
                 }
                 else if (nextSquare.Walkable)
@@ -53,6 +62,7 @@ namespace GameLogic.Entity
                     Square.Status = SquareStatus.Player;
                 }
             }
+            return "\n";
         }
         public void RevealSquares(Dungeon dungeon)
         {

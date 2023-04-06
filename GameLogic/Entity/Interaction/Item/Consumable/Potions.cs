@@ -25,12 +25,12 @@ namespace GameLogic.Entity.Interaction.Item.Consumable
         {
             player.Health += HPrestore;
             RemoveFromBoard();
-            if (Name != "Dimetylotryptamina")
+            if (Name != "N,N-Dimethyltryptamine")
             {
-                return $"You have eat {Name}";
+                return $"\nYou ate {Name}";
             }
             player.DMT = true;
-            return $"Enjoy the Ride";
+            return $"\nEnjoy the Ride";
         }
     }
 }

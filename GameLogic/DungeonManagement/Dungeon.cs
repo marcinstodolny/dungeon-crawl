@@ -55,6 +55,7 @@ namespace GameLogic.DungeonManagement
 
         private void GenerateRooms()
         {
+            Random random = new();
             int cellWidth = Width / 12;
             int cellHeight = Height / 12;
             List<Cell> cells = CreateCells(cellWidth, cellHeight);
@@ -65,8 +66,8 @@ namespace GameLogic.DungeonManagement
                 int roomY = cell.Y + RandomGenerator.NextInt(cell.Height / 4) + 3;
                 int roomWidth = RandomGenerator.NextInt(cell.Width / 2 - 4) + cell.Width / 2 - 4;
                 int roomHeight = RandomGenerator.NextInt(cell.Height / 2 - 4) + cell.Height / 2 - 4;
-                int numberOfCreatures = RandomGenerator.NextInt((roomWidth * roomHeight) / 25);
-                int numberOfItems = RandomGenerator.NextInt((roomWidth * roomHeight) / 25);
+                int numberOfCreatures = random.Next(roomWidth * roomHeight / 100 + 1, roomWidth * roomHeight / 25);
+                int numberOfItems = random.Next(roomWidth * roomHeight / 100 + 1, roomWidth * roomHeight / 25);
 
                 Room newRoom = new(roomX, roomY, roomWidth, roomHeight);
                 newRoom.Draw(Grid);

@@ -33,12 +33,12 @@ namespace GameLogic.Entity.Interaction.Character
                 if (Damage - player.Armor <= 0)
                 {
                     return $"You have dealt {player.Damage} to enemy\n" +
-                           $"Enemy have missed";
+                           $"\nEnemy have missed";
                 }
                 player.Health -= Damage - player.Armor;
                 return !player.Alive ? "Game Over\nYou have been slain"
                     : $"You have dealt {player.Damage} to enemy\n" +
-                      $"Enemy have dealt {Damage - player.Armor} to you";
+                      $"\nEnemy have dealt {Damage - player.Armor} to you";
             }
             RemoveFromBoard();
             return $"You successfully defeated {Name}";

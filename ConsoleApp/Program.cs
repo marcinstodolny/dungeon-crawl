@@ -1,6 +1,6 @@
 ﻿using GameLogic;
 using ConsoleApp.Inputs;
-using static ConsoleApp.Outputs.Output;
+using ConsoleApp.Outputs;
 
 namespace ConsoleApp
 {
@@ -9,11 +9,11 @@ namespace ConsoleApp
         public static void Main()
         {
             Console.OutputEncoding = System.Text.Encoding.Unicode;
-            ushort optionsCount = 3;
+            ushort optionsCount = 4;
             bool exit = false;
             while (!exit)
             {
-                Display.PrintMainMenu();
+                Output.PrintMainMenu();
                 ushort choice = Input.GetChoice(optionsCount);
 
                 switch ((MenuOptions)choice)
@@ -21,27 +21,29 @@ namespace ConsoleApp
                     case MenuOptions.NewGame:
                         SetupGame();
                         break;
+                    case MenuOptions.Continue:
+                        ContinueGame();
+                        break;
                     case MenuOptions.HighScores:
-                        Display.PrintHighScores();
+                        ShowHighScores();
                         break;
                     case MenuOptions.Exit:
-                        Display.PrintExitGame();
+                        Output.PrintExitGame();
                         exit = true;
                         break;
                     default:
-                        Display.PrintInvalidInputError();
+                        Output.PrintInvalidInputError();
                         break;
                 }
-                Display.PressAnyKey();
-                Input.WaitForKeyPress();
-                Display.Clear();
+                Output.PressAnyKey();
+                Output.Clear();
             }
         }
 
         private static void SetupGame()
         {
-            Display.Clear();
-            Display.AskForName();
+            Output.Clear();
+            Output.AskForName();
             string name = Input.GetUserInput();
             Game game = new();
             game.InitializePlayer(name);
@@ -53,9 +55,18 @@ namespace ConsoleApp
 
         private static void GameLoop(Game game)
         {
-            Display.Clear();
-            Display.ShowOnScreen(game.ScreenString());
-            Input.GetPlayerMovement(game);
+            Output.ShowOnScreen(game.ScreenViewportToString());
+            MovementInput.GetPlayerMovement(game);
+        }
+
+        private static void ContinueGame()
+        {
+            Output.NotImplementedException();
+        }
+
+        private static void ShowHighScores()
+        {
+            Output.NotImplementedException();
         }
     }
 }
