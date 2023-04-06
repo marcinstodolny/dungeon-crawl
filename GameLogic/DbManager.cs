@@ -2,10 +2,17 @@
 using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
+using System.Numerics;
 using System.Runtime.CompilerServices;
 using GameLogic.DungeonManagement;
+using GameLogic.DungeonManagement.SquareCreator;
 using GameLogic.Entity;
 using GameLogic.Entity.Abstract;
+using GameLogic.DungeonManagement;
+using System.Data.SqlClient;
+using System.Configuration;
+using GameLogic.DungeonManagement.RoomCreator;
+using GameLogic.Entity;
 
 namespace GameLogic;
 
@@ -264,6 +271,36 @@ public class DbManager
         }
 
     }
+    public static void LoadPlayerfromDB(Player player, Square[,] Grid)
+    {
+        try
+        {
+            using (var connection = new SqlConnection(ConnectionString))
+            {
+                    string getCommand = "SELECT Name, Coord_X, Coord_Y, Armor, HP, Damage, Alive, DMT FROM SAVE_Player where id = 1;";
+                    var cmdGet = new SqlCommand(getCommand, connection);
+                    if (connection.State == ConnectionState.Closed)
+                        connection.Open();
+                    var reader = cmdGet.ExecuteReader();
+                    while (reader.Read())
+                    { 
+                        string name = reader["name"] as string;
+                        int playerCoorX = (int)reader["Coord_X"];
+                        int playerCoorY = (int)reader["Coord_Y"];
+                        int armor = (int)reader["Armor"];
+                        int health = (int)reader["HP"];
+                        int damage = (int)reader["Damage"];
+                        new Player(name, Grid[playerCoorX, playerCoorY], health, armor, damage);
+                        player.DMT = (bool)reader["DMT"];
+                }
 
+                    connection.Close();
+            }
+        }
+        catch (SqlException e)
+        {
+            throw new RuntimeWrappedException(e);
+        }
+    }
 }
     
