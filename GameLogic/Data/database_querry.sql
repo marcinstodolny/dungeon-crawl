@@ -84,10 +84,9 @@ CREATE TABLE [dbo].[SAVE_Grid] (
     [Status] NCHAR(50) NULL,
     [Walkable] BIT NULL,
     [Visible] BIT NULL,
-    [Item_Type] NCHAR(50) NULL,
-    [Item_Id] INT NULL,
-    [Character_Type] NCHAR(50) NULL,
-    [Character_Id] INT NULL
+    [Interact_Type] NCHAR(50) NULL,
+    [Interact_Id] INT NULL,
+
 );
 
 CREATE TABLE [dbo].[SAVE_Inventory] (

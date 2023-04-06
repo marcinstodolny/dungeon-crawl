@@ -331,8 +331,8 @@ public class DbManager
 
     public static void CreateGridInDB(Dungeon dungeon)
     {
-        const string insertCommand = @"INSERT INTO SAVE_Player (Coord_X, Coord_Y, Status, Walkable, Visible, Item_Type, Item_Id, Character_Type, Character_Id)
-                            VALUES (@Coord_X, @Coord_Y, @Status, @Walkable, @Visible, @Item_Type, @Item_Id, @Character_Type, @Character_Id);";
+        const string insertCommand = @"INSERT INTO SAVE_Player (Coord_X, Coord_Y, Status, Walkable, Visible, Interact_Type, Interact_Id)
+                            VALUES (@Coord_X, @Coord_Y, @Status, @Walkable, @Visible, @Interact_Type, @Interact_Id);";
         try
         {
             using (var connection = new SqlConnection(ConnectionString))
@@ -341,17 +341,24 @@ public class DbManager
                 var cmdInsert = new SqlCommand(insertCommand, connection);
                 if (connection.State == ConnectionState.Closed)
                     connection.Open();
-                for (int i = 0; i < dungeon.; i++)
+                for (int x = 0; x < dungeon.Width; x++)
+                {
+                    for (int y = 0; y < dungeon.Width; y++)
+                    {
+                        
+                        
+                        
+                        cmdInsert.Parameters.AddWithValue("@Coord_X", x);
+                        cmdInsert.Parameters.AddWithValue("@Coord_Y", y);
+                        cmdInsert.Parameters.AddWithValue("@Status", dungeon.Grid[x,y].Status);
+                        cmdInsert.Parameters.AddWithValue("@Walkable", dungeon.Grid[x, y].Walkable);
+                        cmdInsert.Parameters.AddWithValue("@Visible", dungeon.Grid[x, y].Visible);
+                        cmdInsert.Parameters.AddWithValue("@Interact_Type", dungeon.Grid[x, y].Interactive.Name);
+                        cmdInsert.Parameters.AddWithValue("@Interact_Id", dungeon.Grid[x, y]);
 
-                cmdInsert.Parameters.AddWithValue("@Coord_X", dungeon);
-                cmdInsert.Parameters.AddWithValue("@Coord_Y", dungeon);
-                cmdInsert.Parameters.AddWithValue("@Status", dungeon);
-                cmdInsert.Parameters.AddWithValue("@Walkable", dungeon);
-                cmdInsert.Parameters.AddWithValue("@Visible", dungeon);
-                cmdInsert.Parameters.AddWithValue("@Item_Type", dungeon);
-                cmdInsert.Parameters.AddWithValue("@Item_Id", dungeon);
-                cmdInsert.Parameters.AddWithValue("@Character_Type", dungeon);
-                cmdInsert.Parameters.AddWithValue("@Character_Id", dungeon);
+                    }
+                }
+                
                 connection.Close();
             }
         }
