@@ -163,12 +163,14 @@ public class DbManager
             {
                 foreach (KeyValuePair<Useable, int> item in player.Inventory)
                 {
-                    string insertItemCommand = @"INSERT INTO SAVE_Inventory(Item_Name, Item_Count)
+                    string insertItemCommand = @"INSERT INTO SAVE_Inventory (Item_Name, Item_Count)
                             VALUES (@Item_Name, @Item_Count);";
                     var cmdInsert = new SqlCommand(insertItemCommand, connection);
                     if (connection.State == ConnectionState.Closed)
                         connection.Open();
-                    cmdInsert.Parameters.AddWithValue("@Item_Name", item.Key);
+                    Console.WriteLine(item.Key.Name);
+                    Console.WriteLine(item.Value);
+                    cmdInsert.Parameters.AddWithValue("@Item_Name", item.Key.Name);
                     cmdInsert.Parameters.AddWithValue("@Item_Count", item.Value);
                     cmdInsert.ExecuteNonQuery();
                 }
