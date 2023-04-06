@@ -155,10 +155,10 @@ public class DbManager
     }
 
 
-    public static void AddItemToDatabase(Useable item, string table)
+    public static void AddItemsToDatabase(Useable item, string table)
     {
-        const string insertItemCommand = @"INSERT INTO SAVE_Inventory(Item_Type, Item_Id)
-                            VALUES (@Item_Type, @Item_Id);";
+        const string insertItemCommand = @"INSERT INTO SAVE_Inventory(Item_Name, Item_Count)
+                            VALUES (@Item_Name, @Item_Count);";
 
         try
         {
@@ -209,44 +209,7 @@ public class DbManager
             throw new RuntimeWrappedException(e);
         }
     }
-
-    public static void UpdatePlayerInDB(Player player)
-    {
-        const string updateCommand = @"UPDATE SAVE_Player SET Coord_X = @Coord_X,
-                Coord_Y = @Coord_Y,
-                Name = @Name,
-                Armor = @Armor,
-                HP = @HP,
-                Damage = @Damage,
-                Alive = @Alive,
-                DMT = @DMT
-                WHERE id = 1;";
-        try
-        {
-            using (var connection = new SqlConnection(ConnectionString))
-            {
-
-                var cmdInsert = new SqlCommand(updateCommand, connection);
-                if (connection.State == ConnectionState.Closed)
-                    connection.Open();
-                cmdInsert.Parameters.AddWithValue("@Coord_X", player.Square.Position.X);
-                cmdInsert.Parameters.AddWithValue("@Coord_Y", player.Square.Position.Y);
-                cmdInsert.Parameters.AddWithValue("@Name", player.Name);
-                cmdInsert.Parameters.AddWithValue("@Armor", player.Armor);
-                cmdInsert.Parameters.AddWithValue("@HP", player.Health);
-                cmdInsert.Parameters.AddWithValue("@Damage", player.Damage);
-                cmdInsert.Parameters.AddWithValue("@Alive", player.Alive);
-                cmdInsert.Parameters.AddWithValue("@DMT", player.DMT);
-                cmdInsert.ExecuteNonQuery();
-                connection.Close();
-            }
-        }
-        catch (SqlException e)
-        {
-            throw new RuntimeWrappedException(e);
-        }
-    }
-
+    
     public static void CreateGridInDB(Dungeon dungeon)
     {
 
@@ -301,50 +264,5 @@ public class DbManager
 
     }
 
-    public static void UpdateGridInDB(Dungeon dungeon)
-    {
-        const string insertCommand = @"UPDATE SAVE_Grid SET Status = @Status,
-                                                            Walkable = @Walkable,
-                                                            Visible = @Visible,
-                                                            Interact_Type = @Interact_Type,
-                                                            Interact_Id = @Interact_Id,
-                                                            WHERE Coord_X = @Coord_X
-                                                            AND Coord_Y = @Coord_Y;";
-        try
-        {
-            using (var connection = new SqlConnection(ConnectionString))
-            {
-
-                var cmdInsert = new SqlCommand(insertCommand, connection);
-                if (connection.State == ConnectionState.Closed)
-                    connection.Open();
-                for (int x = 0; x < dungeon.Width; x++)
-                {
-                    for (int y = 0; y < dungeon.Height; y++)
-                    {
-                        string? interactObjectType =
-                            dungeon.Grid[x, y].Interactive.GetType().ToString().Split(".", -1)[0];
-
-                        cmdInsert.Parameters.AddWithValue("@Coord_X", x);
-                        cmdInsert.Parameters.AddWithValue("@Coord_Y", y);
-                        cmdInsert.Parameters.AddWithValue("@Status", dungeon.Grid[x, y].Status);
-                        cmdInsert.Parameters.AddWithValue("@Walkable", dungeon.Grid[x, y].Walkable);
-                        cmdInsert.Parameters.AddWithValue("@Visible", dungeon.Grid[x, y].Visible);
-                        cmdInsert.Parameters.AddWithValue("@Interact_Type", interactObjectType);
-                        cmdInsert.Parameters.AddWithValue("@Interact_Id", dungeon.Grid[x, y].Interactive.Id);
-                        cmdInsert.ExecuteNonQuery();
-
-                    }
-                }
-
-                connection.Close();
-            }
-        }
-        catch (SqlException e)
-        {
-            throw new RuntimeWrappedException(e);
-        }
-
-    }
 }
     

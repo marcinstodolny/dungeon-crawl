@@ -91,8 +91,8 @@ CREATE TABLE [dbo].[SAVE_Grid] (
 
 CREATE TABLE [dbo].[SAVE_Inventory] (
     [Id] INT NOT NULL PRIMARY KEY IDENTITY, 
-    [Item_Type] NCHAR(10) NULL,
-    [Item_Id] INT NULL,
+    [Item_Name] NCHAR(10) NULL,
+    [Item_Count] INT NULL
 );
 
 
