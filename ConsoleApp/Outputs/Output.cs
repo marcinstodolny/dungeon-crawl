@@ -61,6 +61,15 @@ namespace ConsoleApp.Outputs
         {
             throw new NotImplementedException();
         }
-        
+
+        public static void SavingMessage()
+        {
+            Console.WriteLine("Saving (please wait).");
+        }
+        public static void SavedMessage()
+        {
+            Console.WriteLine("Progress saved.");
+            Thread.Sleep(2000);
+        }
     }
 }

@@ -52,10 +52,12 @@ namespace ConsoleApp.Inputs
                     Output.WaitMessage();
                     break;
                 case ConsoleKey.F5:
+                    Output.SavingMessage();
                     DbManager.ClearSavedProgressinDB();
                     DbManager.CreatePlayerInDB(game.Player);
                     DbManager.AddItemsToDatabase(game.Player);
                     DbManager.CreateGridInDB(game.Dungeon);
+                    Output.SavedMessage();
                     break;
                 case ConsoleKey.Escape:
                     game.GameIsOn = false;
