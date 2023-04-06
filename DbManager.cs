@@ -3,6 +3,7 @@ using RoguelikeGame.Entity.Abstract;
 using System.Configuration;
 using System.Data;
 using System.Runtime.CompilerServices;
+using RoguelikeGame.Entity;
 
 namespace RoguelikeGame;
 
@@ -147,8 +148,6 @@ public class DbManager
 
     public static void AddItemToDatabase(Useable item, string table)
     {
-        string getIdCommand = $"SELECT id FROM {table} WHERE Name LIKE {item.Name}%;";
-
         const string insertItemCommand = @"INSERT INTO SAVE_Inventory (Item_Type, Item_Id)
                             VALUES (@Item_Type, @Item_Id);";
 
@@ -171,14 +170,35 @@ public class DbManager
         }
     }
 
-    public static void RemoveItemFromDatabase()
+    public static void CreatePlayerInDB(Player player)
     {
-        throw new NotImplementedException();
+        const string insertCommand = @"INSERT INTO SAVE_Player (Coord.X, Coord.Y, Armor, HP, Damage, Alive, DMT)
+                            VALUES (@Coord.X, @Coord.Y, @Armor, @HP, @Damage, @Alive, @DMT);";
+        try
+        {
+            using (var connection = new SqlConnection(ConnectionString))
+            {
+
+                var cmdInsert = new SqlCommand(insertCommand, connection);
+                if (connection.State == ConnectionState.Closed)
+                    connection.Open();
+                cmdInsert.Parameters.AddWithValue("@Coord.X", player.PreviousSquare.X);
+                cmdInsert.Parameters.AddWithValue("@Coord.Y", player.PreviousSquare.Y);
+                cmdInsert.Parameters.AddWithValue("@Armor", player.Armor);
+                cmdInsert.Parameters.AddWithValue("@HP", player.Health);
+                cmdInsert.Parameters.AddWithValue("@Damage", player.Damage);
+                cmdInsert.Parameters.AddWithValue("@Alive", player.Alive);
+                cmdInsert.Parameters.AddWithValue("@DMT", player.DMT);
+                connection.Close();
+            }
+        }
+        catch (SqlException e)
+        {
+            throw new RuntimeWrappedException(e);
+        }
     }
 
-    public static void LoadItemsFromSave()
-    {
-        throw new NotImplementedException();
-    }
-    
+
+
 }
+    

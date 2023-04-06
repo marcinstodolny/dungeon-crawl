@@ -76,6 +76,7 @@ CREATE TABLE [dbo].[SAVE_Player] (
     [Armor]  INT NULL,
     [HP] INT NULL,
     [Damage]  INT NULL,
+    [Alive] BIT NULL,
     [DMT] BIT NULL,
 );
 CREATE TABLE [dbo].[SAVE_Room] (
