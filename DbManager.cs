@@ -342,17 +342,17 @@ public class DbManager
                 var cmdInsert = new SqlCommand(insertCommand, connection);
                 if (connection.State == ConnectionState.Closed)
                     connection.Open();
-                for (int i = 0; i < dungeon.; i++)
+                for (int i = 0; i < dungeon.Height; i++)
 
-                cmdInsert.Parameters.AddWithValue("@Coord_X", player.PreviousSquare.X);
-                cmdInsert.Parameters.AddWithValue("@Coord_Y", player.PreviousSquare.Y);
-                cmdInsert.Parameters.AddWithValue("@Status", player.Name);
-                cmdInsert.Parameters.AddWithValue("@Walkable", player.Armor);
-                cmdInsert.Parameters.AddWithValue("@Visible", player.Health);
-                cmdInsert.Parameters.AddWithValue("@Item_Type", player.Damage);
-                cmdInsert.Parameters.AddWithValue("@Item_Id", player.Alive);
-                cmdInsert.Parameters.AddWithValue("@Character_Type", player.DMT);
-                cmdInsert.Parameters.AddWithValue("@Character_Id", player.DMT);
+                cmdInsert.Parameters.AddWithValue("@Coord_X", dungeon);
+                cmdInsert.Parameters.AddWithValue("@Coord_Y", dungeon);
+                cmdInsert.Parameters.AddWithValue("@Status", dungeon);
+                cmdInsert.Parameters.AddWithValue("@Walkable", dungeon);
+                cmdInsert.Parameters.AddWithValue("@Visible", dungeon);
+                cmdInsert.Parameters.AddWithValue("@Item_Type", dungeon);
+                cmdInsert.Parameters.AddWithValue("@Item_Id", dungeon);
+                cmdInsert.Parameters.AddWithValue("@Character_Type", dungeon);
+                cmdInsert.Parameters.AddWithValue("@Character_Id", dungeon);
                 connection.Close();
             }
         }
