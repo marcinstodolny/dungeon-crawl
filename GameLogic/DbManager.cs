@@ -373,7 +373,7 @@ public class DbManager
                             }
                             else
                             {
-                                dungeon.Grid[x, y].Interactive = ItemToLoadFromDB(interactiveObject, interactiveID, square);
+                                dungeon.Grid[x, y].Interactive = MapEventToLoadToGRidFromDB(interactiveObject, interactiveID, square);
                             }
 
                         }
@@ -389,7 +389,7 @@ public class DbManager
         }
     }
 
-    public static Interactive ItemToLoadFromDB(string table, int eventId, Square square)
+    public static Interactive MapEventToLoadToGRidFromDB(string table, int eventId, Square square)
     {
         try
         {
