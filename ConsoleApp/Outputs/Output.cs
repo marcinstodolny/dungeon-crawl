@@ -71,5 +71,14 @@ namespace ConsoleApp.Outputs
             Console.WriteLine("Progress saved.");
             Thread.Sleep(2000);
         }
+        public static void LoadingMessage()
+        {
+            Console.WriteLine("Loading (please wait).");
+        }
+        public static void LoadedMessage()
+        {
+            Console.WriteLine("Progress loaded.");
+            Thread.Sleep(2000);
+        }
     }
 }

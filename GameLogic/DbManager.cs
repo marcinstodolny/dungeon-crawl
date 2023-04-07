@@ -1,22 +1,14 @@
-﻿using System.ComponentModel.Design;
-using System.Configuration;
-using System.Data;
-using System.Data.SqlClient;
-using System.Numerics;
-using System.Runtime.CompilerServices;
-using GameLogic.DungeonManagement;
+﻿using GameLogic.DungeonManagement;
 using GameLogic.DungeonManagement.SquareCreator;
 using GameLogic.Entity;
 using GameLogic.Entity.Abstract;
-using GameLogic.DungeonManagement;
-using System.Data.SqlClient;
-using System.Configuration;
-using GameLogic.DungeonManagement.RoomCreator;
-using GameLogic.Entity;
-using GameLogic.Entity.Interaction.Item.Useable;
-using System.Reflection;
 using GameLogic.Entity.Interaction.Character;
 using GameLogic.Entity.Interaction.Item.Consumable;
+using GameLogic.Entity.Interaction.Item.Useable;
+using System.Configuration;
+using System.Data;
+using System.Data.SqlClient;
+using System.Runtime.CompilerServices;
 
 namespace GameLogic;
 
@@ -382,8 +374,9 @@ public class DbManager
                         }
                     }
 
-                    connection.Close();
+                    
                 }
+                connection.Close();
             }
         }
         catch (SqlException e)

@@ -59,6 +59,13 @@ namespace ConsoleApp.Inputs
                     DbManager.CreateGridInDB(game.Dungeon);
                     Output.SavedMessage();
                     break;
+                case ConsoleKey.F9:
+                    Output.LoadingMessage();
+                    DbManager.LoadGridfromDB(game.Dungeon);
+                    DbManager.LoadPlayerfromDB(game.Player, game.Dungeon);
+                    DbManager.LoadInventoryfromDB(game.Player);
+                    Output.LoadedMessage();
+                    break;
                 case ConsoleKey.Escape:
                     game.GameIsOn = false;
                     break;

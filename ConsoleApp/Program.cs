@@ -61,7 +61,16 @@ namespace ConsoleApp
 
         private static void ContinueGame()
         {
-            Output.NotImplementedException();
+            Game game = new();
+            Output.LoadingMessage();
+            DbManager.LoadGridfromDB(game.Dungeon);
+            DbManager.LoadPlayerfromDB(game.Player, game.Dungeon);
+            DbManager.LoadInventoryfromDB(game.Player);
+            Output.LoadedMessage();
+            while (game.GameIsOn && game.Player.Alive)
+            {
+                GameLoop(game);
+            }
         }
 
         private static void ShowHighScores()
