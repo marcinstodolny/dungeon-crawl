@@ -9,6 +9,8 @@ using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
 using System.Runtime.CompilerServices;
+using Microsoft.IdentityModel.Tokens;
+using System.Drawing;
 
 namespace GameLogic;
 
@@ -227,35 +229,41 @@ public class DbManager
                 {
                     for (int y = 0; y < dungeon.Height; y++)
                     {
-                        string? interactObjectTypeString;
-                        int? interactId;
-
-                        if (dungeon.Grid[x, y].Interactive == null)
+                        if (dungeon.Grid[x, y].Status != SquareStatus.Empty)
                         {
-                            interactObjectTypeString = "";
-                            interactId = 0;
-                        }
-                        else
-                        {
-                            interactObjectTypeString = dungeon.Grid[x, y].Interactive.GetType().Name;
-                            interactId = dungeon.Grid[x, y].Interactive.Id;
 
-                        }
-                        int Walkable = dungeon.Grid[x, y].Walkable ? 1 : 0;
-                        int Visible = dungeon.Grid[x, y].Visible ? 1 : 0;
-                        string insertCommand =
-                            @"INSERT INTO SAVE_Grid (Coord_X, Coord_Y, Status, Walkable, Visible, Interact_Type, Interact_Id)
+
+                            string? interactObjectTypeString;
+                            int? interactId;
+
+                            if (dungeon.Grid[x, y].Interactive == null)
+                            {
+                                interactObjectTypeString = "";
+                                interactId = 0;
+                            }
+                            else
+                            {
+                                interactObjectTypeString = dungeon.Grid[x, y].Interactive.GetType().Name;
+                                interactId = dungeon.Grid[x, y].Interactive.Id;
+
+                            }
+
+                            int Walkable = dungeon.Grid[x, y].Walkable ? 1 : 0;
+                            int Visible = dungeon.Grid[x, y].Visible ? 1 : 0;
+                            string insertCommand =
+                                @"INSERT INTO SAVE_Grid (Coord_X, Coord_Y, Status, Walkable, Visible, Interact_Type, Interact_Id)
                             VALUES (@Coord_X, @Coord_Y, @Status, @Walkable, @Visible, @Interact_Type, @Interact_Id);";
-                        var cmdInsert = new SqlCommand(insertCommand, connection);
+                            var cmdInsert = new SqlCommand(insertCommand, connection);
 
-                        cmdInsert.Parameters.AddWithValue("@Coord_X", x);
-                        cmdInsert.Parameters.AddWithValue("@Coord_Y", y);
-                        cmdInsert.Parameters.AddWithValue("@Status", Enum.GetName(dungeon.Grid[x, y].Status));
-                        cmdInsert.Parameters.AddWithValue("@Walkable", Walkable);
-                        cmdInsert.Parameters.AddWithValue("@Visible", Visible);
-                        cmdInsert.Parameters.AddWithValue("@Interact_Type", interactObjectTypeString);
-                        cmdInsert.Parameters.AddWithValue("@Interact_Id", interactId);
-                        cmdInsert.ExecuteNonQuery();
+                            cmdInsert.Parameters.AddWithValue("@Coord_X", x);
+                            cmdInsert.Parameters.AddWithValue("@Coord_Y", y);
+                            cmdInsert.Parameters.AddWithValue("@Status", Enum.GetName(dungeon.Grid[x, y].Status));
+                            cmdInsert.Parameters.AddWithValue("@Walkable", Walkable);
+                            cmdInsert.Parameters.AddWithValue("@Visible", Visible);
+                            cmdInsert.Parameters.AddWithValue("@Interact_Type", interactObjectTypeString);
+                            cmdInsert.Parameters.AddWithValue("@Interact_Id", interactId);
+                            cmdInsert.ExecuteNonQuery();
+                        }
                     }
                 }
                 connection.Close();
@@ -268,7 +276,7 @@ public class DbManager
 
     }
 
-    public static void LoadPlayerfromDB(Player player, Dungeon dungeon)
+    public static void LoadPlayerfromDB(Game game)
     {
         try
         {
@@ -280,17 +288,15 @@ public class DbManager
                 if (connection.State == ConnectionState.Closed)
                     connection.Open();
                 var reader = cmdGet.ExecuteReader();
-                while (reader.Read())
-                {
-                    string name = reader["name"] as string;
-                    int playerCoorX = (int)reader["Coord_X"];
-                    int playerCoorY = (int)reader["Coord_Y"];
-                    int armor = (int)reader["Armor"];
-                    int health = (int)reader["HP"];
-                    int damage = (int)reader["Damage"];
-                    new Player(name, dungeon.Grid[playerCoorX, playerCoorY], health, armor, damage);
-                    player.DMT = (bool)reader["DMT"];
-                }
+                reader.Read();
+                string name = reader["name"] as string;
+                int playerCoorX = (int)reader["Coord_X"];
+                int playerCoorY = (int)reader["Coord_Y"];
+                int armor = (int)reader["Armor"];
+                int health = (int)reader["HP"];
+                int damage = (int)reader["Damage"];
+                game.Player = new Player(name, game.Dungeon.Grid[playerCoorX, playerCoorY], health, armor, damage);
+                game.Player.DMT = (bool)reader["DMT"];
 
                 connection.Close();
             }
@@ -307,7 +313,7 @@ public class DbManager
         {
             using (var connection = new SqlConnection(ConnectionString))
             {
-                string getCommand = "SELECT Item_Name, Item_Count FROM SAVE_Inventory;";
+                string getCommand = "SELECT TRIM(Item_Name) as Item_Name, Item_Count FROM SAVE_Inventory;";
                 var cmdGet = new SqlCommand(getCommand, connection);
                 if (connection.State == ConnectionState.Closed)
                     connection.Open();
@@ -334,52 +340,51 @@ public class DbManager
         }
     }
 
-    public static void LoadGridfromDB(Dungeon dungeon)
+    public static void LoadGridfromDB(Game game)
     {
         try
         {
             using (var connection = new SqlConnection(ConnectionString))
             {
                 string getCommand =
-                    "SELECT Coord_X, Coord_Y, Status, Walkable, Visible, Interact_Type, Interact_Id FROM SAVE_Grid;";
+                    "SELECT Coord_X, Coord_Y, TRIM(Status) as Status, Walkable, Visible, TRIM(Interact_Type) as Interact_Type, Interact_Id FROM SAVE_Grid";
                 var cmdGet = new SqlCommand(getCommand, connection);
+                string lenghtCommand = "SELECT COUNT(*) as length FROM SAVE_Grid";
+                var cmdLength = new SqlCommand(lenghtCommand, connection);
+                if (connection.State == ConnectionState.Closed)
+                    connection.Open();
+                var dataLength = cmdLength.ExecuteReader();
+                dataLength.Read();
+                var length = dataLength["length"];
+                connection.Close();
                 if (connection.State == ConnectionState.Closed)
                     connection.Open();
                 var reader = cmdGet.ExecuteReader();
-                while (reader.Read())
-                {
-                    for (int x = 0; x < dungeon.Width; x++)
-                    {
-                        for (int y = 0; y < dungeon.Height; y++)
-                        {
-                            //int x = (int)reader["Coord_X"];
-                            //int y = (int)reader["Coord_Y"];
-                            string statusString = reader["Status"] as string;
-                            string interactiveObject = reader["Interact_Type"] as string;
-                            int interactiveID = (int)reader["Interact_Id"];
-                            Coordinates position = new Coordinates(x,y);
-                            var status = (SquareStatus)Enum.Parse(typeof(SquareStatus), statusString);
-                            var walkable = (bool)reader["Walkable"];
-                            var visible = (bool)reader["Visible"];
-                            Square square = new Square(position, status, walkable, visible);
-                            if (interactiveObject == "")
-                            {
-                                dungeon.Grid[x, y].Interactive = null;
-                            }
-                            else
-                            {
-                                dungeon.Grid[x, y].Interactive = MapEventToLoadToGRidFromDB(interactiveObject, interactiveID, square);
-                            }
-                            //Console.WriteLine("Loaded x: " + x + " Loaded y: " + y);
-                        }
-
-                        //Console.ReadLine();
-                        
-                    }
-                    connection.Close();
-
-                }
+                var i = 1;
                 
+                while (i <= (int)length)
+                {
+                    reader.Read();
+                    int x = reader.GetInt32("Coord_X");
+                    int y = reader.GetInt32("Coord_Y");
+                    string statusString = reader.GetString("Status");
+                    string interactiveObject = reader.GetString("Interact_Type");
+                    int interactiveID = reader.GetInt32("Interact_Id");
+                    Coordinates position = new Coordinates(x, y);
+                    var status = (SquareStatus)Enum.Parse(typeof(SquareStatus), statusString);
+                    var walkable = reader.GetBoolean("Walkable");
+                    var visible = reader.GetBoolean("Visible");
+                    Square square = new Square(position, status, walkable, visible);
+                    if (square.Status == SquareStatus.Player)
+                    {
+                        game.Player.Square.Status = game.Player.PreviousSquareStatus;
+                        game.Player.Square = square;
+                    }
+                    game.Dungeon.Grid[x, y].Interactive = MapEventToLoadToGRidFromDB(interactiveObject, interactiveID, square);
+                    i += 1;
+                }
+                connection.Close();
+
             }
         }
         catch (SqlException e)
@@ -392,7 +397,6 @@ public class DbManager
     {
         using (var connection = new SqlConnection(ConnectionString))
         {
-
             switch (table)
             {
                 case "Ally":
@@ -402,24 +406,24 @@ public class DbManager
                     if (connection.State == ConnectionState.Closed)
                         connection.Open();
                     var readerAllay = cmdAllayGet.ExecuteReader();
-                    while (readerAllay.Read())
+                    readerAllay.Read();
+                    Ally ally = new Ally(square)
                     {
-                        Ally ally = new Ally(square);
-                        ally.Name = (string)readerAllay["Name"];
-                        ally.MapSymbol = (char)readerAllay["Symbol"];
-                        ally.Message = (string)readerAllay["Name"];
-                        if ((string)readerAllay["Type"] == "Health")
-                        {
-                            ally.BonusHealth = (int)readerAllay["Bonus"];
-                        } 
-                        else if ((string)readerAllay["Type"] == "Damage")
-                        {
-                            ally.BonusDamage = (int)readerAllay["Bonus"];
-                        }
-                        connection.Close();
-                        return ally;
+                        Name = readerAllay.GetString("Name"),
+                        MapSymbol = readerAllay.GetString("Symbol").ToCharArray()[0],
+                        Message = readerAllay.GetString("Message")
+                    };
+                    if ((string)readerAllay["Type"] == "Health")
+                    {
+                        ally.BonusHealth = readerAllay.GetInt32("Bonus");
+                    } 
+                    else if (readerAllay.GetString("Type") == "Damage")
+                    {
+                        ally.BonusDamage = readerAllay.GetInt32("Bonus");
                     }
-                    break;
+                    connection.Close();
+                    return ally;
+
                 case "Enemy":
                     string getEnemyCommand =
                         $"SELECT Name, Symbol, Health, Damage FROM Enemy WHERE id = {eventId};";
@@ -427,17 +431,15 @@ public class DbManager
                     if (connection.State == ConnectionState.Closed)
                         connection.Open();
                     var readerEnemy = cmdEnemyGet.ExecuteReader();
-                    while (readerEnemy.Read())
-                    {
-                        Enemy enemy = new Enemy(square);
-                        enemy.Name = (string)readerEnemy["Name"];
-                        enemy.MapSymbol = (char)readerEnemy["Symbol"];
-                        enemy.Health = (int)readerEnemy["Health"];
-                        enemy.Damage = (int)readerEnemy["Damage"];
-                        connection.Close();
-                        return enemy;
-                    }
-                    break;
+                    readerEnemy.Read();
+                    Enemy enemy = new Enemy(square);
+                    enemy.Name = readerEnemy.GetString("Name");
+                    enemy.MapSymbol = readerEnemy.GetString("Symbol").ToCharArray()[0];
+                    enemy.Health = readerEnemy.GetInt32("Health");
+                    enemy.Damage = readerEnemy.GetInt32("Damage");
+                    connection.Close();
+                    return enemy;
+                    
                 case "Armor":
                     string getArmorCommand =
                         $"SELECT Name, Symbol, Armor FROM Armor WHERE id = {eventId};";
@@ -445,16 +447,15 @@ public class DbManager
                     if (connection.State == ConnectionState.Closed)
                         connection.Open();
                     var readerArmor = cmdArmorGet.ExecuteReader();
-                    while (readerArmor.Read())
-                    {
-                        Armor armor = new Armor(square);
-                        armor.Name = (string)readerArmor["Name"];
-                        armor.MapSymbol = (char)readerArmor["Symbol"];
-                        armor.Protection = (int)readerArmor["Armor"];
-                        connection.Close();
-                        return armor;
-                    }
-                    break;
+                    readerArmor.Read();
+
+                    Armor armor = new Armor(square);
+                    armor.Name = (string)readerArmor["Name"];
+                    armor.MapSymbol = readerArmor.GetString("Symbol").ToCharArray()[0];
+                    armor.Protection = (int)readerArmor["Armor"];
+                    connection.Close();
+                    return armor;
+
                 case "Food":
                     string getFoodCommand =
                         $"SELECT Name, Symbol, HPrestore FROM Food WHERE id = {eventId};";
@@ -462,16 +463,15 @@ public class DbManager
                     if (connection.State == ConnectionState.Closed)
                         connection.Open();
                     var readerFood = cmdFoodGet.ExecuteReader();
-                    while (readerFood.Read())
-                    {
-                        Food food = new Food(square);
-                        food.Name = (string)readerFood["Name"];
-                        food.MapSymbol = (char)readerFood["Symbol"];
-                        food.HPrestore = (int)readerFood["HPrestore"];
-                        connection.Close();
-                        return food;
-                    }
-                    break;
+                    readerFood.Read();
+
+                    Food food = new Food(square);
+                    food.Name = (string)readerFood["Name"];
+                    food.MapSymbol = (readerFood.GetString("Symbol").ToCharArray()[0]);
+                    food.HPrestore = (int)readerFood["HPrestore"];
+                    connection.Close();
+                    return food;
+
                 case "Keys":
                     string getKeysCommand =
                         $"SELECT Name, Symbol FROM Keys WHERE id = {eventId};";
@@ -479,15 +479,14 @@ public class DbManager
                     if (connection.State == ConnectionState.Closed)
                         connection.Open();
                     var readerKeys = cmdKeysGet.ExecuteReader();
-                    while (readerKeys.Read())
-                    {
-                        Keys keys = new Keys(square);
-                        keys.Name = (string)readerKeys["Name"];
-                        keys.MapSymbol = (char)readerKeys["Symbol"];
-                        connection.Close();
-                        return keys;
-                    }
-                    break;
+                    readerKeys.Read();
+
+                    Keys keys = new Keys(square);
+                    keys.Name = (string)readerKeys["Name"];
+                    keys.MapSymbol = readerKeys.GetString("Symbol").ToCharArray()[0];
+                    connection.Close();
+                    return keys;
+
                 case "Potion":
                     string getPotionCommand =
                         $"SELECT Name, Symbol, HPrestore FROM Potion WHERE id = {eventId};";
@@ -495,16 +494,14 @@ public class DbManager
                     if (connection.State == ConnectionState.Closed)
                         connection.Open();
                     var readerPotion = cmdPotionGet.ExecuteReader();
-                    while (readerPotion.Read())
-                    {
-                        Potion potion = new Potion(square);
-                        potion.Name = (string)readerPotion["Name"];
-                        potion.MapSymbol = (char)readerPotion["Symbol"];
-                        potion.HPrestore = (int)readerPotion["HPrestore"];
-                        connection.Close();
-                        return potion;
-                    }
-                    break;
+                    readerPotion.Read();
+                    Potion potion = new Potion(square);
+                    potion.Name = (string)readerPotion["Name"];
+                    potion.MapSymbol = readerPotion.GetString("Symbol").ToCharArray()[0];
+                    potion.HPrestore = (int)readerPotion["HPrestore"];
+                    connection.Close();
+                    return potion;
+                    
                 case "Weapon":
                     string getWeaponCommand =
                         $"SELECT Name, Symbol, Attack FROM Weapon WHERE id = {eventId};";
@@ -512,17 +509,13 @@ public class DbManager
                     if (connection.State == ConnectionState.Closed)
                         connection.Open();
                     var readerWeapon = cmdWeaponGet.ExecuteReader();
-                    while (readerWeapon.Read())
-                    {
-                        Weapon weapon = new Weapon(square);
-                        weapon.Name = (string)readerWeapon["Name"];
-                        weapon.MapSymbol = (char)readerWeapon["Symbol"];
-                        weapon.Damage = (int)readerWeapon["Attack"];
-                        connection.Close();
-                        return weapon;
-                    }
-                    break;
-                
+                    readerWeapon.Read();
+                    Weapon weapon = new Weapon(square);
+                    weapon.Name = (string)readerWeapon["Name"];
+                    weapon.MapSymbol = readerWeapon.GetString("Symbol").ToCharArray()[0];
+                    weapon.Damage = (int)readerWeapon["Attack"];
+                    connection.Close();
+                    return weapon;
             }
         }
 

@@ -61,8 +61,8 @@ namespace ConsoleApp.Inputs
                     break;
                 case ConsoleKey.F9:
                     Output.LoadingMessage();
-                    DbManager.LoadGridfromDB(game.Dungeon);
-                    DbManager.LoadPlayerfromDB(game.Player, game.Dungeon);
+                    DbManager.LoadGridfromDB(game);
+                    DbManager.LoadPlayerfromDB(game);
                     DbManager.LoadInventoryfromDB(game.Player);
                     Output.LoadedMessage();
                     break;
