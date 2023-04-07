@@ -1,6 +1,7 @@
 ﻿using GameLogic;
 using ConsoleApp.Inputs;
 using ConsoleApp.Outputs;
+using GameLogic.Entity;
 
 namespace ConsoleApp
 {
@@ -63,9 +64,12 @@ namespace ConsoleApp
         {
             Game game = new();
             Output.LoadingMessage();
-            DbManager.LoadGridfromDB(game.Dungeon);
-            DbManager.LoadPlayerfromDB(game.Player, game.Dungeon);
             DbManager.LoadInventoryfromDB(game.Player);
+            Console.WriteLine("Inventory loaded");
+            DbManager.LoadPlayerfromDB(game.Player, game.Dungeon);
+            Console.WriteLine("Player loaded");
+            DbManager.LoadGridfromDB(game.Dungeon);
+            Console.WriteLine("Map loaded");
             Output.LoadedMessage();
             while (game.GameIsOn && game.Player.Alive)
             {

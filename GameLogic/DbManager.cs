@@ -319,7 +319,7 @@ public class DbManager
                     int item_Count = (int)reader["Item_Count"];
                     Coordinates position = new Coordinates(300,300);
                     Square fakeSquare = new Square(position, SquareStatus.Empty, false, false);
-                    Useable dummyItem = new Keys(fakeSquare);
+                    Useable dummyItem = new Weapon(fakeSquare);
                     dummyItem.Name = item_name;
                     player.Inventory[dummyItem] = item_Count;
 
@@ -348,12 +348,12 @@ public class DbManager
                 var reader = cmdGet.ExecuteReader();
                 while (reader.Read())
                 {
-                    for (int i = 0; i < dungeon.Width; i++)
+                    for (int x = 0; x < dungeon.Width; x++)
                     {
-                        for (int j = 0; j < dungeon.Height; j++)
+                        for (int y = 0; y < dungeon.Height; y++)
                         {
-                            int x = (int)reader["Coord_X"];
-                            int y = (int)reader["Coord_Y"];
+                            //int x = (int)reader["Coord_X"];
+                            //int y = (int)reader["Coord_Y"];
                             string statusString = reader["Status"] as string;
                             string interactiveObject = reader["Interact_Type"] as string;
                             int interactiveID = (int)reader["Interact_Id"];
@@ -370,13 +370,16 @@ public class DbManager
                             {
                                 dungeon.Grid[x, y].Interactive = MapEventToLoadToGRidFromDB(interactiveObject, interactiveID, square);
                             }
-
+                            //Console.WriteLine("Loaded x: " + x + " Loaded y: " + y);
                         }
-                    }
 
-                    
+                        //Console.ReadLine();
+                        
+                    }
+                    connection.Close();
+
                 }
-                connection.Close();
+                
             }
         }
         catch (SqlException e)
