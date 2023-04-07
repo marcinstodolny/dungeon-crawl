@@ -356,17 +356,20 @@ public class DbManager
                 var reader = cmdGet.ExecuteReader();
                 while (reader.Read())
                 {
-                    for (int x = 0; x < dungeon.Width; x++)
+                    for (int i = 0; i < dungeon.Width; i++)
                     {
-                        for (int y = 0; y < dungeon.Height; y++)
+                        for (int j = 0; j < dungeon.Height; j++)
                         {
-                            string status = reader["Status"] as string;
+                            int x = (int)reader["Coord_X"];
+                            int y = (int)reader["Coord_Y"];
+                            string statusString = reader["Status"] as string;
                             string interactiveObject = reader["Interact_Type"] as string;
                             int interactiveID = (int)reader["Interact_Id"];
-                            Square square = new Square(x, y);
-                            dungeon.Grid[x, y].Status = (SquareStatus)Enum.Parse(typeof(SquareStatus), status);
-                            dungeon.Grid[x, y].Walkable = (bool)reader["Walkable"];
-                            dungeon.Grid[x, y].Visible = (bool)reader["Visible"];
+                            Coordinates position = new Coordinates(x,y);
+                            var status = (SquareStatus)Enum.Parse(typeof(SquareStatus), statusString);
+                            var walkable = (bool)reader["Walkable"];
+                            var visible = (bool)reader["Visible"];
+                            Square square = new Square(position, status, walkable, visible);
                             if (interactiveObject == "")
                             {
                                 dungeon.Grid[x, y].Interactive = null;
@@ -391,137 +394,143 @@ public class DbManager
 
     public static Interactive MapEventToLoadToGRidFromDB(string table, int eventId, Square square)
     {
-        try
+        using (var connection = new SqlConnection(ConnectionString))
         {
-            using (var connection = new SqlConnection(ConnectionString))
-            {
 
-                switch (table)
-                {
-                    case "Ally":
-                        string getCommand =
-                            $"SELECT Name, Symbol, Message, Bonus, Type FROM Ally WHERE id = {eventId};";
-                        var cmdGet = new SqlCommand(getCommand, connection);
-                        if (connection.State == ConnectionState.Closed)
-                            connection.Open();
-                        var reader = cmdGet.ExecuteReader();
-                        while (reader.Read())
+            switch (table)
+            {
+                case "Ally":
+                    string getAllayCommand =
+                        $"SELECT Name, Symbol, Message, Bonus, Type FROM Ally WHERE id = {eventId};";
+                    var cmdAllayGet = new SqlCommand(getAllayCommand, connection);
+                    if (connection.State == ConnectionState.Closed)
+                        connection.Open();
+                    var readerAllay = cmdAllayGet.ExecuteReader();
+                    while (readerAllay.Read())
+                    {
+                        Ally ally = new Ally(square);
+                        ally.Name = (string)readerAllay["Name"];
+                        ally.MapSymbol = (char)readerAllay["Symbol"];
+                        ally.Message = (string)readerAllay["Name"];
+                        if ((string)readerAllay["Type"] == "Health")
                         {
-                            Ally ally = new Ally(square);
-                            ally.Name = (string)reader["Name"];
-                            ally.MapSymbol = (char)reader["Symbol"];
-                            ally.Message = (string)reader["Name"];
-                            if ((string)reader["Type"] == "Health")
-                            {
-                                ally.BonusHealth = (int)reader["Bonus"];
-                            } 
-                            else if ((string)reader["Type"] == "Damage")
-                            {
-                                ally.BonusDamage = (int)reader["Bonus"];
-                            }
-                            connection.Close();
-                            return ally;
-                        }
-                    case "Enemy":
-                        string getCommand =
-                            $"SELECT Name, Symbol, Health, Damage FROM Enemy WHERE id = {eventId};";
-                        var cmdGet = new SqlCommand(getCommand, connection);
-                        if (connection.State == ConnectionState.Closed)
-                            connection.Open();
-                        var reader = cmdGet.ExecuteReader();
-                        while (reader.Read())
+                            ally.BonusHealth = (int)readerAllay["Bonus"];
+                        } 
+                        else if ((string)readerAllay["Type"] == "Damage")
                         {
-                            Enemy enemy = new Enemy(square);
-                            enemy.Name = (string)reader["Name"];
-                            enemy.MapSymbol = (char)reader["Symbol"];
-                            enemy.Health = (int)reader["Health"];
-                            enemy.Damage = (int)reader["Damage"];
-                            connection.Close();
-                            return enemy;
+                            ally.BonusDamage = (int)readerAllay["Bonus"];
                         }
-                    case "Armor":
-                        string getCommand =
-                            $"SELECT Name, Symbol, Armor FROM Armor WHERE id = {eventId};";
-                        var cmdGet = new SqlCommand(getCommand, connection);
-                        if (connection.State == ConnectionState.Closed)
-                            connection.Open();
-                        var reader = cmdGet.ExecuteReader();
-                        while (reader.Read())
-                        {
-                            Armor armor = new Armor(square);
-                            armor.Name = (string)reader["Name"];
-                            armor.MapSymbol = (char)reader["Symbol"];
-                            armor.Protection = (int)reader["Armor"];
-                            connection.Close();
-                            return armor;
-                        }
-                    case "Food":
-                        string getCommand =
-                            $"SELECT Name, Symbol, HPrestore FROM Food WHERE id = {eventId};";
-                        var cmdGet = new SqlCommand(getCommand, connection);
-                        if (connection.State == ConnectionState.Closed)
-                            connection.Open();
-                        var reader = cmdGet.ExecuteReader();
-                        while (reader.Read())
-                        {
-                            Food food = new Food(square);
-                            food.Name = (string)reader["Name"];
-                            food.MapSymbol = (char)reader["Symbol"];
-                            food.HPrestore = (int)reader["HPrestore"];
-                            connection.Close();
-                            return food;
-                        }
-                    case "Keys":
-                        string getCommand =
-                            $"SELECT Name, Symbol FROM Keys WHERE id = {eventId};";
-                        var cmdGet = new SqlCommand(getCommand, connection);
-                        if (connection.State == ConnectionState.Closed)
-                            connection.Open();
-                        var reader = cmdGet.ExecuteReader();
-                        while (reader.Read())
-                        {
-                            Keys keys = new Keys();
-                            keys.Name = (string)reader["Name"];
-                            keys.MapSymbol = (char)reader["Symbol"];
-                            connection.Close();
-                            return keys;
-                        }
-                    case "Potion":
-                        string getCommand =
-                            $"SELECT Name, Symbol, HPrestore FROM Potion WHERE id = {eventId};";
-                        var cmdGet = new SqlCommand(getCommand, connection);
-                        if (connection.State == ConnectionState.Closed)
-                            connection.Open();
-                        var reader = cmdGet.ExecuteReader();
-                        while (reader.Read())
-                        {
-                            Potion potion = new Potion(square);
-                            potion.Name = (string)reader["Name"];
-                            potion.MapSymbol = (char)reader["Symbol"];
-                            potion.HPrestore = (int)reader["HPrestore"];
-                            connection.Close();
-                            return potion;
-                        }
-                    case "Weapon":
-                        string getCommand =
-                            $"SELECT Name, Symbol, Attack FROM Weapon WHERE id = {eventId};";
-                        var cmdGet = new SqlCommand(getCommand, connection);
-                        if (connection.State == ConnectionState.Closed)
-                            connection.Open();
-                        var reader = cmdGet.ExecuteReader();
-                        while (reader.Read())
-                        {
-                            Weapon weapon = new Weapon(square);
-                            weapon.Name = (string)reader["Name"];
-                            weapon.MapSymbol = (char)reader["Symbol"];
-                            weapon.Damage = (int)reader["Attack"];
-                            connection.Close();
-                            return weapon;
-                        }
-                        
-                }
+                        connection.Close();
+                        return ally;
+                    }
+                    break;
+                case "Enemy":
+                    string getEnemyCommand =
+                        $"SELECT Name, Symbol, Health, Damage FROM Enemy WHERE id = {eventId};";
+                    var cmdEnemyGet = new SqlCommand(getEnemyCommand, connection);
+                    if (connection.State == ConnectionState.Closed)
+                        connection.Open();
+                    var readerEnemy = cmdEnemyGet.ExecuteReader();
+                    while (readerEnemy.Read())
+                    {
+                        Enemy enemy = new Enemy(square);
+                        enemy.Name = (string)readerEnemy["Name"];
+                        enemy.MapSymbol = (char)readerEnemy["Symbol"];
+                        enemy.Health = (int)readerEnemy["Health"];
+                        enemy.Damage = (int)readerEnemy["Damage"];
+                        connection.Close();
+                        return enemy;
+                    }
+                    break;
+                case "Armor":
+                    string getArmorCommand =
+                        $"SELECT Name, Symbol, Armor FROM Armor WHERE id = {eventId};";
+                    var cmdArmorGet = new SqlCommand(getArmorCommand, connection);
+                    if (connection.State == ConnectionState.Closed)
+                        connection.Open();
+                    var readerArmor = cmdArmorGet.ExecuteReader();
+                    while (readerArmor.Read())
+                    {
+                        Armor armor = new Armor(square);
+                        armor.Name = (string)readerArmor["Name"];
+                        armor.MapSymbol = (char)readerArmor["Symbol"];
+                        armor.Protection = (int)readerArmor["Armor"];
+                        connection.Close();
+                        return armor;
+                    }
+                    break;
+                case "Food":
+                    string getFoodCommand =
+                        $"SELECT Name, Symbol, HPrestore FROM Food WHERE id = {eventId};";
+                    var cmdFoodGet = new SqlCommand(getFoodCommand, connection);
+                    if (connection.State == ConnectionState.Closed)
+                        connection.Open();
+                    var readerFood = cmdFoodGet.ExecuteReader();
+                    while (readerFood.Read())
+                    {
+                        Food food = new Food(square);
+                        food.Name = (string)readerFood["Name"];
+                        food.MapSymbol = (char)readerFood["Symbol"];
+                        food.HPrestore = (int)readerFood["HPrestore"];
+                        connection.Close();
+                        return food;
+                    }
+                    break;
+                case "Keys":
+                    string getKeysCommand =
+                        $"SELECT Name, Symbol FROM Keys WHERE id = {eventId};";
+                    var cmdKeysGet = new SqlCommand(getKeysCommand, connection);
+                    if (connection.State == ConnectionState.Closed)
+                        connection.Open();
+                    var readerKeys = cmdKeysGet.ExecuteReader();
+                    while (readerKeys.Read())
+                    {
+                        Keys keys = new Keys(square);
+                        keys.Name = (string)readerKeys["Name"];
+                        keys.MapSymbol = (char)readerKeys["Symbol"];
+                        connection.Close();
+                        return keys;
+                    }
+                    break;
+                case "Potion":
+                    string getPotionCommand =
+                        $"SELECT Name, Symbol, HPrestore FROM Potion WHERE id = {eventId};";
+                    var cmdPotionGet = new SqlCommand(getPotionCommand, connection);
+                    if (connection.State == ConnectionState.Closed)
+                        connection.Open();
+                    var readerPotion = cmdPotionGet.ExecuteReader();
+                    while (readerPotion.Read())
+                    {
+                        Potion potion = new Potion(square);
+                        potion.Name = (string)readerPotion["Name"];
+                        potion.MapSymbol = (char)readerPotion["Symbol"];
+                        potion.HPrestore = (int)readerPotion["HPrestore"];
+                        connection.Close();
+                        return potion;
+                    }
+                    break;
+                case "Weapon":
+                    string getWeaponCommand =
+                        $"SELECT Name, Symbol, Attack FROM Weapon WHERE id = {eventId};";
+                    var cmdWeaponGet = new SqlCommand(getWeaponCommand, connection);
+                    if (connection.State == ConnectionState.Closed)
+                        connection.Open();
+                    var readerWeapon = cmdWeaponGet.ExecuteReader();
+                    while (readerWeapon.Read())
+                    {
+                        Weapon weapon = new Weapon(square);
+                        weapon.Name = (string)readerWeapon["Name"];
+                        weapon.MapSymbol = (char)readerWeapon["Symbol"];
+                        weapon.Damage = (int)readerWeapon["Attack"];
+                        connection.Close();
+                        return weapon;
+                    }
+                    break;
+                
             }
         }
+
+        return null;
     }
 }
 
