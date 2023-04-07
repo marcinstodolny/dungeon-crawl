@@ -37,10 +37,23 @@ public class Game
         return new Player(name, Dungeon.Grid[coordinates.X, coordinates.Y]);
     }
 
-    public string ScreenViewportToString()
+    public void LoadGame() {
+        DbManager.LoadGridfromDB(Dungeon);
+        DbManager.LoadPlayerfromDB(Player, Dungeon);
+        DbManager.LoadInventoryfromDB(Player);
+    }
+
+    public void SaveGame()
     {
-        return StringConstructor.DungeonViewportToString(Dungeon, Player) + StringConstructor.UserStatsToString(Player)
-            + StringConstructor.PressHForHelp() + StringConstructor.ItemMessage(Player);
+        DbManager.ClearSavedProgressinDB();
+        DbManager.CreatePlayerInDB(Player);
+        DbManager.AddItemsToDatabase(Player);
+        DbManager.CreateGridInDB(Dungeon);
+    }
+
+    public string PassPlayerDirection(Direction direction)
+    {
+        return Player.TryToMove(Coordinates.FromDirection(direction, Player), Dungeon);
     }
 
     public static string MapLegendString()
@@ -53,9 +66,10 @@ public class Game
         return StringConstructor.InventoryString(Player);
     }
 
-    public string PassPlayerDirection(Direction direction)
+    public string ScreenViewportToString()
     {
-        return Player.TryToMove(Coordinates.FromDirection(direction, Player), Dungeon);
+        return StringConstructor.DungeonViewportToString(Dungeon, Player) + StringConstructor.UserStatsToString(Player)
+            + StringConstructor.PressHForHelp() + StringConstructor.ItemMessage(Player);
     }
 
     public static bool TestConnection()

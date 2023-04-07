@@ -63,9 +63,7 @@ namespace ConsoleApp
         {
             Game game = new();
             Output.LoadingMessage();
-            DbManager.LoadGridfromDB(game.Dungeon);
-            DbManager.LoadPlayerfromDB(game.Player, game.Dungeon);
-            DbManager.LoadInventoryfromDB(game.Player);
+            game.LoadGame();
             Output.LoadedMessage();
             while (game.GameIsOn && game.Player.Alive)
             {

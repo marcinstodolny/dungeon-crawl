@@ -53,17 +53,12 @@ namespace ConsoleApp.Inputs
                     break;
                 case ConsoleKey.F5:
                     Output.SavingMessage();
-                    DbManager.ClearSavedProgressinDB();
-                    DbManager.CreatePlayerInDB(game.Player);
-                    DbManager.AddItemsToDatabase(game.Player);
-                    DbManager.CreateGridInDB(game.Dungeon);
+                    game.SaveGame();
                     Output.SavedMessage();
                     break;
                 case ConsoleKey.F9:
                     Output.LoadingMessage();
-                    DbManager.LoadGridfromDB(game.Dungeon);
-                    DbManager.LoadPlayerfromDB(game.Player, game.Dungeon);
-                    DbManager.LoadInventoryfromDB(game.Player);
+                    game.LoadGame();
                     Output.LoadedMessage();
                     break;
                 case ConsoleKey.Escape:
