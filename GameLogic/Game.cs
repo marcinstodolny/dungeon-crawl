@@ -58,18 +58,5 @@ public class Game
         return Player.TryToMove(Coordinates.FromDirection(direction, Player), Dungeon);
     }
 
-    public static bool TestConnection()
-    {
-        using var connection = new SqlConnection(ConnectionString);
-        try
-        {
-            connection.Open();
-            return true;
-        }
-        catch (Exception e)
-        {
-            return false;
-        }
-    }
 }
     

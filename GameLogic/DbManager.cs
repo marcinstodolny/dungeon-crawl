@@ -9,8 +9,6 @@ using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
 using System.Runtime.CompilerServices;
-using Microsoft.IdentityModel.Tokens;
-using System.Drawing;
 
 namespace GameLogic;
 
@@ -231,8 +229,6 @@ public class DbManager
                     {
                         if (dungeon.Grid[x, y].Status != SquareStatus.Empty)
                         {
-
-
                             string? interactObjectTypeString;
                             int? interactId;
 
@@ -349,22 +345,13 @@ public class DbManager
                 string getCommand =
                     "SELECT Coord_X, Coord_Y, TRIM(Status) as Status, Walkable, Visible, TRIM(Interact_Type) as Interact_Type, Interact_Id FROM SAVE_Grid";
                 var cmdGet = new SqlCommand(getCommand, connection);
-                string lenghtCommand = "SELECT COUNT(*) as length FROM SAVE_Grid";
-                var cmdLength = new SqlCommand(lenghtCommand, connection);
-                if (connection.State == ConnectionState.Closed)
-                    connection.Open();
-                var dataLength = cmdLength.ExecuteReader();
-                dataLength.Read();
-                var length = dataLength["length"];
                 connection.Close();
                 if (connection.State == ConnectionState.Closed)
                     connection.Open();
                 var reader = cmdGet.ExecuteReader();
-                var i = 1;
-                
-                while (i <= (int)length)
+
+                while (reader.Read())
                 {
-                    reader.Read();
                     int x = reader.GetInt32("Coord_X");
                     int y = reader.GetInt32("Coord_Y");
                     string statusString = reader.GetString("Status");
@@ -381,7 +368,6 @@ public class DbManager
                         game.Player.Square = square;
                     }
                     game.Dungeon.Grid[x, y].Interactive = MapEventToLoadToGRidFromDB(interactiveObject, interactiveID, square);
-                    i += 1;
                 }
                 connection.Close();
 

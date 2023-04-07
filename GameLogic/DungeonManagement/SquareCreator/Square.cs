@@ -9,7 +9,7 @@ namespace GameLogic.DungeonManagement.SquareCreator
         public bool Visible { get; set; }
         public bool Walkable { get; set; }
         public Entity.Abstract.Interactive? Interactive { get; set; } = null;
-        public Player? Player { get; set; } = null;
+        //public Player? Player { get; set; } = null; 
         public Square(Coordinates position, SquareStatus status, bool walkable, bool visible = true)
         {
             Position = position;
