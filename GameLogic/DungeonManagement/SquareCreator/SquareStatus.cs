@@ -16,6 +16,6 @@
         Player = '☺',
         Item = '$',
         Enemy = 'E',
-        Ally = 'A'
+        Ally = 'W'
     }
 }
