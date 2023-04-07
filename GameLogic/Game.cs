@@ -37,9 +37,9 @@ public class Game
         return new Player(name, Dungeon.Grid[coordinates.X, coordinates.Y]);
     }
 
-    public void LoadGame() {
-        DbManager.LoadGridfromDB(Dungeon);
-        DbManager.LoadPlayerfromDB(Player, Dungeon);
+    public void LoadGame(Game game) {
+        DbManager.LoadGridfromDB(game);
+        DbManager.LoadPlayerfromDB(game);
         DbManager.LoadInventoryfromDB(Player);
     }
 

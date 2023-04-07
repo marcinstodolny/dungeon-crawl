@@ -64,7 +64,7 @@ namespace ConsoleApp
         {
             Game game = new();
             Output.LoadingMessage();
-            game.LoadGame();
+            game.LoadGame(game);
             Output.LoadedMessage();
             while (game.GameIsOn && game.Player.Alive)
             {

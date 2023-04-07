@@ -58,7 +58,7 @@ namespace ConsoleApp.Inputs
                     break;
                 case ConsoleKey.F9:
                     Output.LoadingMessage();
-                    game.LoadGame();
+                    game.LoadGame(game);
                     Output.LoadedMessage();
                     break;
                 case ConsoleKey.Escape:
