@@ -19,7 +19,6 @@ namespace GameLogic.Entity
         public Player(string name, Square square, int health = 20, int armor = 5, int damage = 5) : base(square)
         {
             Name = name;
-            Square = square;
             square.Status = SquareStatus.Player;
             Armor = armor;
             Health = health;
