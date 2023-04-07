@@ -1,6 +1,7 @@
 ﻿using GameLogic;
 using ConsoleApp.Inputs;
 using ConsoleApp.Outputs;
+using GameLogic.Entity;
 
 namespace ConsoleApp
 {
