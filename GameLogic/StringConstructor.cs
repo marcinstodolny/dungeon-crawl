@@ -75,7 +75,7 @@ namespace GameLogic
         public static string MapLegendString()
         {
             return "\nMap Legend:\n" + $"{(char)SquareStatus.Player} : Player\n" + $"{(char)SquareStatus.Item} : Item\n" + $"{(char)SquareStatus.Enemy} : Enemy\n"
-                              + $"{(char)SquareStatus.Ally} : Wizard\n" + $"{(char)SquareStatus.WallHorizontal} : Wall\n" + $"{(char)SquareStatus.Door} : Door\n"
+                              + $"{(char)SquareStatus.Ally} : Ally\n" + $"{(char)SquareStatus.WallHorizontal} : Wall\n" + $"{(char)SquareStatus.Door} : Door\n"
                               + $"{(char)SquareStatus.Hallway} : Hallway\n";
         }
 
