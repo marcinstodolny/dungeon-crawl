@@ -15,6 +15,7 @@ using GameLogic.DungeonManagement.RoomCreator;
 using GameLogic.Entity;
 using GameLogic.Entity.Interaction.Item.Useable;
 using System.Reflection;
+using GameLogic.Entity.Interaction.Character;
 
 namespace GameLogic;
 
@@ -340,52 +341,110 @@ public class DbManager
         }
     }
 
-    //public static void LoadGridfromDB(Dungeon dungeon)
-    //{
-    //    try
-    //    {
-    //        using (var connection = new SqlConnection(ConnectionString))
-    //        {
-    //            string getCommand =
-    //                "SELECT Coord_X, Coord_Y, Status, Walkable, Visible, Interact_Type, Interact_Id FROM SAVE_Grid;";
-    //            var cmdGet = new SqlCommand(getCommand, connection);
-    //            if (connection.State == ConnectionState.Closed)
-    //                connection.Open();
-    //            var reader = cmdGet.ExecuteReader();
-    //            while (reader.Read())
-    //            {
-    //                for (int x = 0; x < dungeon.Width; x++)
-    //                {
-    //                    for (int y = 0; y < dungeon.Height; y++)
-    //                    {
-    //                        string status = reader["Status"] as string;
-    //                        string interactiveObject = reader["Interact_Type"] as string;
-    //                        Square square = new Square(x, y);
-    //                        dungeon.Grid[x, y].Status = (SquareStatus)Enum.Parse(typeof(SquareStatus), status);
-    //                        dungeon.Grid[x, y].Walkable = (bool)reader["Walkable"];
-    //                        dungeon.Grid[x, y].Visible = (bool)reader["Visible"];
-    //                        if (interactiveObject == "")
-    //                        {
-    //                            dungeon.Grid[x, y].Interactive = null;
-    //                        }
-    //                        else
-    //                        {
-    //                            dungeon.Grid[x, y].Interactive = 
-    //                        }
-                            
-    //                    }
-    //                }
+    public static void LoadGridfromDB(Dungeon dungeon)
+    {
+        try
+        {
+            using (var connection = new SqlConnection(ConnectionString))
+            {
+                string getCommand =
+                    "SELECT Coord_X, Coord_Y, Status, Walkable, Visible, Interact_Type, Interact_Id FROM SAVE_Grid;";
+                var cmdGet = new SqlCommand(getCommand, connection);
+                if (connection.State == ConnectionState.Closed)
+                    connection.Open();
+                var reader = cmdGet.ExecuteReader();
+                while (reader.Read())
+                {
+                    for (int x = 0; x < dungeon.Width; x++)
+                    {
+                        for (int y = 0; y < dungeon.Height; y++)
+                        {
+                            string status = reader["Status"] as string;
+                            string interactiveObject = reader["Interact_Type"] as string;
+                            int interactiveID = (int)reader["Interact_Id"];
+                            Square square = new Square(x, y);
+                            dungeon.Grid[x, y].Status = (SquareStatus)Enum.Parse(typeof(SquareStatus), status);
+                            dungeon.Grid[x, y].Walkable = (bool)reader["Walkable"];
+                            dungeon.Grid[x, y].Visible = (bool)reader["Visible"];
+                            if (interactiveObject == "")
+                            {
+                                dungeon.Grid[x, y].Interactive = null;
+                            }
+                            else
+                            {
+                                dungeon.Grid[x, y].Interactive = ItemToLoadFromDB(interactiveObject, interactiveID, square);
+                            }
 
-    //                connection.Close();
-    //            }
-    //        }
-    //    }
-    //    catch (SqlException e)
-    //    {
-    //        throw new RuntimeWrappedException(e);
-    //    }
+                        }
+                    }
+
+                    connection.Close();
+                }
+            }
+        }
+        catch (SqlException e)
+        {
+            throw new RuntimeWrappedException(e);
+        }
     }
 
+    public static Interactive ItemToLoadFromDB(string table, int eventId, Square square)
+    {
+        try
+        {
+            using (var connection = new SqlConnection(ConnectionString))
+            {
+
+                switch (table)
+                {
+                    case "Ally":
+                        string getCommand =
+                            $"SELECT Name, Symbol, Message, Bonus, Type FROM Ally WHERE id = {eventId};";
+                        var cmdGet = new SqlCommand(getCommand, connection);
+                        if (connection.State == ConnectionState.Closed)
+                            connection.Open();
+                        var reader = cmdGet.ExecuteReader();
+                        while (reader.Read())
+                        {
+                            Ally ally = new Ally(square);
+                            ally.Name = (string)reader["Name"];
+                            ally.MapSymbol = (char)reader["Symbol"];
+                            ally.Message = (string)reader["Name"];
+                            if ((string)reader["Type"] == "Health")
+                            {
+                                ally.BonusHealth = (int)reader["Bonus"]
+                            } 
+                            else if ((string)reader["Type"] == "Damage")
+                            {
+                                ally.BonusDamage = (int)reader["Bonus"]
+                            }
+                            
+                            return ally;
+                        }
+                    case "Enemy":
+                        string getCommand =
+                            $"SELECT Name, Symbol, Health, Damage FROM Enemy WHERE id = {eventId};";
+                        var cmdGet = new SqlCommand(getCommand, connection);
+                        if (connection.State == ConnectionState.Closed)
+                            connection.Open();
+                        var reader = cmdGet.ExecuteReader();
+                        while (reader.Read())
+                        {
+                            Enemy enemy = new Enemy(square);
+                            enemy.Name = (string)reader["Name"];
+                            enemy.MapSymbol = (char)reader["Symbol"];
+                            enemy.Health = (int)reader["Health"];
+                            enemy.Damage = (int)reader["Damage"];
+                            return enemy;
+                        }
+
+
+                        connection.Close();
+                }
+            }
+        }
+    }
+}
 
 
 
