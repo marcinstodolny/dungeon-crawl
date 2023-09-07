@@ -10,7 +10,6 @@ Dungeon Crawl is an exciting and challenging Roguelike game that combines elemen
 - [Getting Started](#getting-started)
 - [Gameplay](#gameplay)
 - [Saving Your Progress](#saving-your-progress)
-- [Sharing Your Adventure](#sharing-your-adventure)
 - [Changing the Game World](#changing-the-game-world)
 - [Team Members](#team-members)
 - [Tools and Platforms](#tools-and-platforms)
@@ -55,12 +54,6 @@ Dungeon Crawl faithfully captures the essence of classic Roguelike games:
 - **Saving to a Database:** Press `F5` to save your current game state, including the map, player position, inventory, and discovered maps, to a database. Look for the "Game saved" message in the corner of the screen.
 
 - **Export and Import:** Use `F10` to export your game state to a JSON file in the `exported_saves` folder. To import a saved game, press `F11`. If there's an issue with the import file, you'll see an "IMPORT ERROR!" message.
-
-## Sharing Your Adventure
-
-In the world of Dungeon Crawl, adventurers share their experiences:
-
-- **Game Sharing:** Connect with other players and share your in-game achievements and discoveries.
 
 ## Changing the Game World
 
