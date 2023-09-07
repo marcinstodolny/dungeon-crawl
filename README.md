@@ -53,7 +53,11 @@ Dungeon Crawl faithfully captures the essence of classic Roguelike games:
 
 - **Saving to a Database:** Press `F5` to save your current game state, including the map, player position, inventory, and discovered maps, to a database. Look for the "Game saved" message in the corner of the screen.
 
-- **Export and Import:** Use `F10` to export your game state to a JSON file in the `exported_saves` folder. To import a saved game, press `F11`. If there's an issue with the import file, you'll see an "IMPORT ERROR!" message.
+- **Loading Your Last Save:** Press `F9` to load your last saved game state from the database. Your adventure will continue from where you left off.
+
+## Sharing Your Adventure
+
+In the world of Dungeon Crawl, adventurers can connect and discuss their in-game achievements and discoveries with fellow players. Share your victories and strategies through chat groups, or other community platforms to celebrate your successes and exchange tips with others. The Dungeon Crawl community is here to celebrate your adventures!
 
 ## Changing the Game World
 
