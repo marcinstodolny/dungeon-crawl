@@ -74,7 +74,7 @@ With the ability to explore maps of different sizes and a player-tracking camera
 
 ## Tools and Platforms
 
-Dungeon Crawl was created using the following technologies:
+Dungeon Crawl was created using the following tools and platforms:
 
 ![C#](https://img.shields.io/badge/C%23-239120.svg?style=for-the-badge&logo=c-sharp&logoColor=white)
 ![Visual Studio](https://img.shields.io/badge/Visual%20Studio-5C2D91.svg?style=for-the-badge&logo=visual-studio&logoColor=white)
@@ -82,6 +82,7 @@ Dungeon Crawl was created using the following technologies:
 ![GitHub](https://img.shields.io/badge/GitHub-181717.svg?style=for-the-badge&logo=github&logoColor=white)
 ![Trello](https://img.shields.io/badge/Trello-0079BF.svg?style=for-the-badge&logo=trello&logoColor=white)
 
+These tools and platforms were instrumental in bringing this exciting game to life.
 
 ## Get Ready for Adventure!
 
