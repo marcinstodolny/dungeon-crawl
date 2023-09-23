@@ -1,8 +1,8 @@
-# Dungeon Crawl (Roguelike Game)
+# Dungeon Crawl (Console Roguelike Game)
 
 ## Introduction
 
-Dungeon Crawl is an exciting and challenging Roguelike game that combines elements of classic tabletop RPGs with modern gameplay mechanics. Explore intricate mazes, battle fierce monsters, and uncover hidden treasures in a tile-based world filled with danger and adventure.
+Dungeon Crawl is an exciting and challenging console Roguelike game that combines elements of classic tabletop RPGs with modern gameplay mechanics. Explore intricate mazes, battle fierce monsters, and uncover hidden treasures in a tile-based world filled with danger and adventure.
 
 ## Table of Contents
 
