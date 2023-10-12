@@ -7,6 +7,7 @@ Dungeon Crawl is an exciting and challenging console Roguelike game that combine
 ## Table of Contents
 
 - [Features](#features)
+- [Preview](#preview)
 - [Getting Started](#getting-started)
 - [Gameplay](#gameplay)
 - [Saving Your Progress](#saving-your-progress)
@@ -25,6 +26,10 @@ Dungeon Crawl offers a unique and immersive gaming experience with the following
 - **Player Development:** Grow your character's skills and abilities as you progress, customizing your playstyle with each new adventure.
 
 - **Randomly Generated Levels:** Enjoy endless replayability with procedurally generated levels, ensuring that no two playthroughs are the same.
+
+## Preview
+
+https://github.com/marcinstodolny/dungeon-crawl/assets/76453068/4f471a56-4836-4489-b220-0e081e277ef2
 
 ## Getting Started
 
